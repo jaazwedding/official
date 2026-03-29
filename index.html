@@ -17,54 +17,44 @@
             box-shadow: 0 0 50px 15px rgba(103, 151, 169, 0.25);
         }
 
-        /* --- Rich CSS Flower Shower --- */
+        /* --- HEAVY CSS FLOWER SHOWER --- */
         .flower-container {
             position: absolute;
             width: 100%;
-            height: 150%; /* Extended height for longer fall */
-            top: -20%;
+            height: 100%;
+            top: 0;
             left: 0;
             overflow: hidden;
             pointer-events: none;
-            z-index: 20;
+            z-index: 20; /* Between arches and poster */
         }
 
         .petal {
             position: absolute;
             background-color: #ffb7c5; /* Rose Pink */
             border-radius: 150% 0 150% 0;
-            opacity: 0;
-            animation: shower 10s linear infinite;
+            opacity: 0.8;
+            filter: drop-shadow(0 0 5px rgba(255,183,197,0.5));
+            animation: shower 8s linear infinite, swing 3s ease-in-out infinite;
         }
 
         @keyframes shower {
-            0% { transform: translateY(0) rotate(0deg) translateX(0); opacity: 0; }
-            10% { opacity: 0.8; }
-            90% { opacity: 0.8; }
-            100% { transform: translateY(120vh) rotate(720deg) translateX(50px); opacity: 0; }
+            0% { transform: translateY(-10%) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.9; }
+            90% { opacity: 0.9; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
         }
 
-        /* Create a dense shower with 20 petals of different sizes, positions, and timings */
-        .petal:nth-child(1) { left: 5%; width: 15px; height: 15px; animation-duration: 7s; animation-delay: 0s; }
-        .petal:nth-child(2) { left: 15%; width: 10px; height: 10px; animation-duration: 12s; animation-delay: 2s; }
-        .petal:nth-child(3) { left: 25%; width: 18px; height: 18px; animation-duration: 8s; animation-delay: 4s; }
-        .petal:nth-child(4) { left: 35%; width: 12px; height: 12px; animation-duration: 11s; animation-delay: 1s; }
-        .petal:nth-child(5) { left: 45%; width: 14px; height: 14px; animation-duration: 9s; animation-delay: 3s; }
-        .petal:nth-child(6) { left: 55%; width: 11px; height: 11px; animation-duration: 13s; animation-delay: 5s; }
-        .petal:nth-child(7) { left: 65%; width: 16px; height: 16px; animation-duration: 7s; animation-delay: 0.5s; }
-        .petal:nth-child(8) { left: 75%; width: 13px; height: 13px; animation-duration: 10s; animation-delay: 2.5s; }
-        .petal:nth-child(9) { left: 85%; width: 15px; height: 15px; animation-duration: 8s; animation-delay: 1.5s; }
-        .petal:nth-child(10) { left: 95%; width: 10px; height: 10px; animation-duration: 12s; animation-delay: 4.5s; }
-        .petal:nth-child(11) { left: 10%; width: 14px; height: 14px; animation-duration: 9s; animation-delay: 6s; }
-        .petal:nth-child(12) { left: 20%; width: 17px; height: 17px; animation-duration: 11s; animation-delay: 0.2s; }
-        .petal:nth-child(13) { left: 40%; width: 12px; height: 12px; animation-duration: 8.5s; animation-delay: 3.5s; }
-        .petal:nth-child(14) { left: 60%; width: 15px; height: 15px; animation-duration: 10.5s; animation-delay: 1.2s; }
-        .petal:nth-child(15) { left: 80%; width: 13px; height: 13px; animation-duration: 7.5s; animation-delay: 5.5s; }
-        .petal:nth-child(16) { left: 30%; width: 16px; height: 16px; animation-duration: 9.5s; animation-delay: 2.2s; }
-        .petal:nth-child(17) { left: 50%; width: 11px; height: 11px; animation-duration: 12.5s; animation-delay: 0.8s; }
-        .petal:nth-child(18) { left: 70%; width: 18px; height: 18px; animation-duration: 8.2s; animation-delay: 4.8s; }
-        .petal:nth-child(19) { left: 90%; width: 14px; height: 14px; animation-duration: 10s; animation-delay: 3.2s; }
-        .petal:nth-child(20) { left: 12%; width: 12px; height: 12px; animation-duration: 11.5s; animation-delay: 1.8s; }
+        @keyframes swing {
+            0%, 100% { margin-left: 0px; }
+            50% { margin-left: 40px; }
+        }
+
+        /* Generate 50 petals with varied positions and speeds */
+        /* (Using a loop-like CSS structure for density) */
+        .petal:nth-child(2n) { background-color: #fce4ec; width: 12px; height: 12px; } /* Lighter petals */
+        .petal:nth-child(3n) { width: 18px; height: 18px; animation-duration: 10s; } /* Bigger petals */
+        .petal:nth-child(4n) { animation-duration: 6s; } /* Fast petals */
     </style>
 </head>
 <body class="bg-[#d9e9f2] montserrat text-stone-700">
@@ -88,13 +78,8 @@
             
             <img src="images/arch-left.png" class="absolute left-10 md:left-20 lg:left-40 h-full opacity-60 pointer-events-none hidden sm:block z-10" alt="">
             
-            <div class="flower-container">
-                <div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div>
-                <div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div>
-                <div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div>
-                <div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div>
-                <div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div>
-            </div>
+            <div id="petal-container" class="flower-container">
+                </div>
 
             <div class="relative z-30 overflow-hidden rounded-[2rem] md:rounded-[4rem] h-full shadow-2xl halo-effect">
                 <img src="main page poster.png" class="h-full w-auto object-cover" alt="Couple">
@@ -104,7 +89,6 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6 relative z-50">
-            
             <div class="bg-white rounded-[2rem] p-8 text-center border border-stone-100 card-shadow">
                 <h3 class="font-semibold text-lg mb-4">The Big Day</h3>
                 <div id="countdown" class="text-5xl font-bold text-rose-300">00:00</div>
@@ -140,6 +124,30 @@
     </main>
 
     <script>
+        // 1. Generate 50 Petals Automatically
+        const container = document.getElementById('petal-container');
+        const petalCount = 50;
+
+        for (let i = 0; i < petalCount; i++) {
+            const petal = document.createElement('div');
+            petal.className = 'petal';
+            
+            // Randomize position, delay and duration
+            const left = Math.random() * 100;
+            const delay = Math.random() * 8;
+            const duration = 5 + Math.random() * 7;
+            const size = 10 + Math.random() * 10;
+
+            petal.style.left = left + '%';
+            petal.style.animationDelay = delay + 's';
+            petal.style.animationDuration = duration + 's';
+            petal.style.width = size + 'px';
+            petal.style.height = size + 'px';
+
+            container.appendChild(petal);
+        }
+
+        // 2. Countdown Logic
         const weddingDate = new Date("Oct 18, 2026 11:30:00").getTime();
         setInterval(function() {
             const now = new Date().getTime();
