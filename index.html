@@ -8,8 +8,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400;1,700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="jaaz logo.png">
     
-    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
-    
     <style>
         .playfair { font-family: 'Playfair Display', serif; }
         .montserrat { font-family: 'Montserrat', sans-serif; }
@@ -19,17 +17,41 @@
             box-shadow: 0 0 50px 15px rgba(103, 151, 169, 0.25);
         }
 
-        /* Particle container must be full screen or full section to be visible */
-        #tsparticles {
+        /* --- CSS Flower Shower --- */
+        .flower-container {
             position: absolute;
             width: 100%;
             height: 100%;
             top: 0;
             left: 0;
+            overflow: hidden;
             pointer-events: none;
+            z-index: 20; /* Between arches and poster */
         }
 
-        video { pointer-events: none; }
+        .petal {
+            position: absolute;
+            background-color: #ffb7c5; /* Rose Pink */
+            border-radius: 150% 0 150% 0;
+            opacity: 0.7;
+            animation: shower 10s linear infinite;
+        }
+
+        @keyframes shower {
+            0% { transform: translateY(-10%) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Create different petal sizes and speeds */
+        .petal:nth-child(1) { left: 10%; width: 15px; height: 15px; animation-duration: 7s; animation-delay: 0s; }
+        .petal:nth-child(2) { left: 30%; width: 10px; height: 10px; animation-duration: 9s; animation-delay: 2s; }
+        .petal:nth-child(3) { left: 50%; width: 18px; height: 18px; animation-duration: 6s; animation-delay: 4s; }
+        .petal:nth-child(4) { left: 70%; width: 12px; height: 12px; animation-duration: 8s; animation-delay: 1s; }
+        .petal:nth-child(5) { left: 90%; width: 14px; height: 14px; animation-duration: 10s; animation-delay: 3s; }
+        .petal:nth-child(6) { left: 20%; width: 11px; height: 11px; animation-duration: 7.5s; animation-delay: 5s; }
+        .petal:nth-child(7) { left: 80%; width: 16px; height: 16px; animation-duration: 8.5s; animation-delay: 0.5s; }
     </style>
 </head>
 <body class="bg-[#d9e9f2] montserrat text-stone-700">
@@ -53,7 +75,15 @@
             
             <img src="images/arch-left.png" class="absolute left-10 md:left-20 lg:left-40 h-full opacity-60 pointer-events-none hidden sm:block z-10" alt="">
             
-            <div id="tsparticles" class="z-20"></div>
+            <div class="flower-container">
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+            </div>
 
             <div class="relative z-30 overflow-hidden rounded-[2rem] md:rounded-[4rem] h-full shadow-2xl halo-effect">
                 <img src="main page poster.png" class="h-full w-auto object-cover" alt="Couple">
@@ -108,34 +138,6 @@
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             document.getElementById("countdown").innerHTML = distance < 0 ? "00:00" : days + ":" + hours;
         }, 1000);
-
-        // RESTORED & FIXED: Petal Shower Logic
-        const scalar = 2;
-        const rosePetal = confetti.shapeFromText({ text: '🌸', scalar });
-
-        const defaults = {
-            spread: 360,
-            ticks: 150,
-            gravity: 0.5,
-            decay: 0.94,
-            startVelocity: 15,
-            shapes: [rosePetal],
-            scalar
-        };
-
-        function shootPetals() {
-            confetti({
-                ...defaults,
-                particleCount: 2,
-                origin: { y: 0.2, x: Math.random() } // Starts from top area
-            });
-        }
-
-        // Initialize shower when page loads
-        window.onload = function() {
-            // Shoots petals every 800ms for a continuous "showering" effect
-            setInterval(shootPetals, 800);
-        };
     </script>
 </body>
 </html>
