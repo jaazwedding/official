@@ -14,11 +14,11 @@
         .card-shadow { box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.05); }
 
         .halo-effect {
-            box-shadow: 0 0 60px 20px rgba(103, 151, 169, 0.3);
+            box-shadow: 0 0 50px 15px rgba(103, 151, 169, 0.25);
         }
 
-        /* --- 3D HEAVY FLOWER SHOWER --- */
-        .flower-layer {
+        /* --- HEAVY CSS FLOWER SHOWER --- */
+        .flower-container {
             position: absolute;
             width: 100%;
             height: 100%;
@@ -26,32 +26,28 @@
             left: 0;
             overflow: hidden;
             pointer-events: none;
+            z-index: 20; 
         }
-
-        /* Layer behind the image */
-        .layer-back { z-index: 15; }
-        /* Layer in front of the image */
-        .layer-front { z-index: 35; }
 
         .petal {
             position: absolute;
-            background-color: #ffb7c5; /* Rose Pink */
+            background-color: #ffb7c5; 
             border-radius: 150% 0 150% 0;
-            opacity: 0.85;
-            filter: drop-shadow(0 0 3px rgba(255,183,197,0.6));
-            animation: shower 7s linear infinite, swing 4s ease-in-out infinite;
+            opacity: 0.8;
+            filter: drop-shadow(0 0 5px rgba(255,183,197,0.5));
+            animation: shower 8s linear infinite, swing 3s ease-in-out infinite;
         }
 
         @keyframes shower {
-            0% { transform: translateY(-15%) rotate(0deg); opacity: 0; }
-            15% { opacity: 0.9; }
-            85% { opacity: 0.9; }
-            100% { transform: translateY(115vh) rotate(720deg); opacity: 0; }
+            0% { transform: translateY(-10%) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.9; }
+            90% { opacity: 0.9; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
         }
 
         @keyframes swing {
             0%, 100% { margin-left: 0px; }
-            50% { margin-left: 60px; }
+            50% { margin-left: 40px; }
         }
     </style>
 </head>
@@ -75,17 +71,14 @@
 
         <div class="relative flex justify-center items-end my-10 h-80 md:h-[500px]">
             
-            <img src="images/arch-left.png" class="absolute left-0 md:left-20 h-4/5 opacity-80 pointer-events-none z-10" alt="">
+            <img src="images/arch-left.png" class="absolute left-0 md:left-20 h-4/5 opacity-80 pointer-events-none z-0" alt="">
             
-            <div id="layer-back" class="flower-layer layer-back"></div>
+            <div id="petal-container" class="flower-container">
+                </div>
 
-            <div class="relative z-30 h-full">
-                <img src="images/couple-cartoon.png" class="h-full w-auto drop-shadow-xl" alt="Couple">
-            </div>
-
-            <div id="layer-front" class="flower-layer layer-front"></div>
-
-            <img src="images/arch-right.png" class="absolute right-0 md:right-20 h-4/5 opacity-80 scale-x-[-1] pointer-events-none z-10" alt="">
+            <img src="main page poster.png" class="relative z-10 h-full w-auto drop-shadow-xl" alt="Couple">
+            
+            <img src="images/arch-right.png" class="absolute right-0 md:right-20 h-4/5 opacity-80 scale-x-[-1] pointer-events-none z-0" alt="">
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6 relative z-50">
@@ -124,32 +117,26 @@
     </main>
 
     <script>
-        function createPetals(containerId, count) {
-            const container = document.getElementById(containerId);
-            for (let i = 0; i < count; i++) {
-                const petal = document.createElement('div');
-                petal.className = 'petal';
-                
-                const left = Math.random() * 100;
-                const delay = Math.random() * 10;
-                const duration = 6 + Math.random() * 6;
-                const size = 12 + Math.random() * 10;
+        // Generate Petals
+        const container = document.getElementById('petal-container');
+        const petalCount = 60; // Increased for better visibility
 
-                petal.style.left = left + '%';
-                petal.style.animationDelay = delay + 's';
-                petal.style.animationDuration = duration + 's';
-                petal.style.width = size + 'px';
-                petal.style.height = size + 'px';
-
-                if (Math.random() > 0.5) petal.style.backgroundColor = '#fce4ec';
-
-                container.appendChild(petal);
-            }
+        for (let i = 0; i < petalCount; i++) {
+            const petal = document.createElement('div');
+            petal.className = 'petal';
+            const left = Math.random() * 100;
+            const delay = Math.random() * 8;
+            const duration = 5 + Math.random() * 7;
+            const size = 10 + Math.random() * 10;
+            petal.style.left = left + '%';
+            petal.style.animationDelay = delay + 's';
+            petal.style.animationDuration = duration + 's';
+            petal.style.width = size + 'px';
+            petal.style.height = size + 'px';
+            container.appendChild(petal);
         }
 
-        createPetals('layer-back', 50);
-        createPetals('layer-front', 50);
-
+        // Countdown Logic
         const weddingDate = new Date("Oct 18, 2026 11:30:00").getTime();
         setInterval(function() {
             const now = new Date().getTime();
