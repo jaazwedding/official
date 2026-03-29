@@ -17,10 +17,10 @@
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.4);
-            border-radius: 2.5rem;
+            border-radius: 2rem;
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             width: 100%;
-            max-width: 360px;
+            max-width: 340px; /* Slightly tighter for mobile elegance */
         }
 
         /* Selection Overlay */
@@ -30,53 +30,47 @@
             backdrop-filter: blur(20px);
             z-index: 100;
             display: flex; align-items: center; justify-content: center;
+            padding: 20px;
         }
 
-        /* THE POPUP BOX */
+        /* THE POPUP BOX - Scaled for Mobile */
         .choice-card {
             background: white;
-            padding: 3rem 2rem;
-            border-radius: 3.5rem;
+            padding: 2.5rem 1.5rem;
+            border-radius: 2.5rem;
             text-align: center;
             box-shadow: 0 40px 100px rgba(0,0,0,0.12);
-            max-width: 480px;
-            width: 90%;
+            max-width: 420px;
+            width: 100%;
             border: 1px solid rgba(255, 255, 255, 0.8);
-            position: relative; /* Needed for absolute positioning of close button */
+            position: relative;
         }
 
-        /* Cancel Button Style */
         .close-btn {
             position: absolute;
-            top: 1.5rem;
-            right: 1.5rem;
+            top: 1rem;
+            right: 1rem;
             background: #f3f4f6;
-            width: 35px;
-            height: 35px;
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
+            font-size: 1rem;
             color: #9ca3af;
-            transition: all 0.2s ease;
             cursor: pointer;
-        }
-        .close-btn:hover {
-            background: #fee2e2;
-            color: #ef4444;
-            transform: rotate(90deg);
         }
 
         .side-btn {
-            width: 100%; padding: 1.1rem; margin: 0.5rem 0;
-            border-radius: 1.2rem; font-weight: 600; text-transform: uppercase;
-            letter-spacing: 0.15em; transition: all 0.3s ease;
+            width: 100%; padding: 1rem; margin: 0.5rem 0;
+            border-radius: 1rem; font-weight: 600; text-transform: uppercase;
+            letter-spacing: 0.1em; transition: all 0.3s ease;
+            font-size: 11px;
         }
         .btn-groom { background: #164e63; color: white; }
         .btn-bride { background: #f9a8d4; color: white; }
-        .side-btn:hover { transform: scale(1.03); filter: brightness(1.1); }
-
+        
         /* FIXED FLOWER SHOWER */
         .flower-container { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 10; }
         .petal { 
@@ -91,48 +85,43 @@
         }
     </style>
 </head>
-<body class="montserrat text-stone-700 min-h-screen relative bg-[#d9e9f2]">
+<body class="montserrat text-stone-700 min-h-screen relative bg-[#d9e9f2] overflow-x-hidden">
 
     <div id="petal-container" class="flower-container"></div>
 
     <div id="selection-overlay">
         <div class="choice-card">
-            
             <a href="index.html" class="close-btn" title="Back to Home">✕</a>
-
-            <img src="jaaz logo (3).png" class="w-32 h-32 md:w-40 md:h-40 mx-auto mb-2 object-contain" alt="JAAZ Logo">
-            
-            <h1 class="playfair text-3xl md:text-4xl font-bold text-stone-800 leading-tight">Jawad & Shabhistha</h1>
-            
-            <p class="playfair italic text-xl text-stone-500 mt-1 mb-6">Welcome</p>
-            
-            <p class="text-stone-400 text-[9px] uppercase font-semibold tracking-[0.4em] mb-8">Choose your side to see contacts</p>
-            
-            <div class="space-y-4 max-w-[280px] mx-auto">
-                <button onclick="showContacts('groom')" class="side-btn btn-groom text-[10px]">Bridegroom Side (Dulha)</button>
-                <button onclick="showContacts('bride')" class="side-btn btn-bride text-[10px]">Bride Side (Dulhan)</button>
+            <img src="jaaz logo (3).png" class="w-24 h-24 md:w-40 md:h-40 mx-auto mb-2 object-contain" alt="JAAZ Logo">
+            <h1 class="playfair text-2xl md:text-4xl font-bold text-stone-800 leading-tight px-2">Jawad & Shabhistha</h1>
+            <p class="playfair italic text-lg text-stone-500 mt-1 mb-6">Welcome</p>
+            <p class="text-stone-400 text-[8px] md:text-[9px] uppercase font-semibold tracking-[0.3em] mb-8">Choose your side to see contacts</p>
+            <div class="space-y-3 max-w-[260px] mx-auto">
+                <button onclick="showContacts('groom')" class="side-btn btn-groom">Bridegroom Side (Dulha)</button>
+                <button onclick="showContacts('bride')" class="side-btn btn-bride">Bride Side (Dulhan)</button>
             </div>
         </div>
     </div>
-    <nav class="flex justify-center space-x-8 py-6 text-xs uppercase tracking-widest font-medium relative z-50">
+
+    <nav class="flex flex-wrap justify-center gap-4 md:gap-12 py-6 text-[10px] md:text-sm uppercase tracking-widest font-medium relative z-50 px-4">
         <a href="our-story.html" class="hover:text-rose-400">Our Story</a>
-        <a href="index.html" class="border-b-2 border-stone-800 pb-1">Event</a>
+        <a href="index.html" class="hover:text-rose-400">Event</a>
         <a href="location.html" class="hover:text-rose-400">Location</a>
         <a href="#" class="hover:text-rose-400">Gallery</a>
-        <a href="contact.html" class="hover:text-rose-400">Contact</a>
+        <a href="contact.html" class="border-b-2 border-stone-800 pb-1">Contact</a>
     </nav>
 
-    <main class="max-w-7xl mx-auto px-6 py-12 relative z-20">
-        <div class="text-center mb-16">
-            <h1 class="playfair text-5xl md:text-7xl italic font-semibold text-stone-800">Jawad & Shabhistha</h1>
-            <h2 id="contact-heading" class="mt-4 playfair text-2xl md:text-3xl italic text-stone-600">Family Contacts</h2>
-            <p class="mt-2 text-stone-400 italic uppercase tracking-[0.3em] text-[10px]">Tap a number to initiate call</p>
+    <main class="max-w-7xl mx-auto px-6 py-8 md:py-12 relative z-20">
+        <div class="text-center mb-12">
+            <h1 class="playfair text-4xl md:text-7xl italic font-semibold text-stone-800">Jawad & Shabhistha</h1>
+            <h2 id="contact-heading" class="mt-4 playfair text-xl md:text-3xl italic text-stone-600">Family Contacts</h2>
+            <p class="mt-2 text-stone-400 italic uppercase tracking-[0.2em] text-[9px]">Tap a number to initiate call</p>
         </div>
 
-        <div id="contact-grid" class="flex flex-wrap justify-center gap-8"></div>
+        <div id="contact-grid" class="flex flex-wrap justify-center gap-6 md:gap-8"></div>
 
-        <div class="text-center mt-20">
-            <button onclick="location.reload()" class="text-[10px] uppercase tracking-widest font-bold text-stone-400 hover:text-stone-800 transition">Change Side Selection</button>
+        <div class="text-center mt-16 md:mt-20">
+            <button onclick="location.reload()" class="text-[10px] uppercase tracking-widest font-bold text-stone-400 hover:text-stone-800 transition py-4 px-8 border border-stone-200 rounded-full bg-white/50">Change Side Selection</button>
         </div>
     </main>
 
@@ -163,27 +152,30 @@
 
             data.forEach(person => {
                 grid.innerHTML += `
-                    <div class="glass-card p-10 text-center flex flex-col items-center">
-                        <div class="w-48 h-60 rounded-t-[4rem] rounded-b-[1rem] overflow-hidden mb-8 border-4 border-white shadow-inner">
+                    <div class="glass-card p-6 md:p-10 text-center flex flex-col items-center shadow-lg">
+                        <div class="w-40 h-52 md:w-48 md:h-60 rounded-t-[3rem] md:rounded-t-[4rem] rounded-b-[1rem] overflow-hidden mb-6 border-4 border-white shadow-inner">
                             <img src="${person.img}" alt="${person.name}" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/300x400?text=Profile'">
                         </div>
-                        <h3 class="playfair text-2xl md:text-3xl font-bold text-stone-800 whitespace-nowrap">${person.name}</h3>
-                        <p class="text-rose-400 text-xs uppercase tracking-[0.2em] font-bold mt-1.5">${person.relation}</p>
-                        <div class="h-px w-16 bg-stone-200 my-5"></div>
-                        <a href="tel:${person.phone}" class="text-lg text-stone-600 font-semibold hover:text-stone-900 transition flex items-center gap-1.5">
+                        <h3 class="playfair text-xl md:text-3xl font-bold text-stone-800 leading-tight">${person.name}</h3>
+                        <p class="text-rose-400 text-[10px] md:text-xs uppercase tracking-[0.2em] font-bold mt-2">${person.relation}</p>
+                        <div class="h-px w-12 md:w-16 bg-stone-200 my-4 md:my-5"></div>
+                        <a href="tel:${person.phone}" class="text-sm md:text-lg text-stone-600 font-bold hover:text-stone-900 transition flex items-center gap-2 bg-stone-50 px-4 py-2 rounded-lg">
                             📞 ${person.phone}
                         </a>
                     </div>`;
             });
         }
-    const petalContainer = document.getElementById('petal-container');
-        for (let i = 0; i < 75; i++) {
+
+        const petalContainer = document.getElementById('petal-container');
+        // Mobile-aware petal count
+        const count = window.innerWidth < 768 ? 40 : 75;
+        for (let i = 0; i < count; i++) {
             const petal = document.createElement('div');
             petal.className = 'petal';
             petal.style.left = Math.random() * 100 + '%';
             petal.style.animationDelay = Math.random() * 10 + 's';
             petal.style.animationDuration = (6 + Math.random() * 10) + 's';
-            const size = (10 + Math.random() * 15) + 'px';
+            const size = (8 + Math.random() * 12) + 'px';
             petal.style.width = size; petal.style.height = size;
             petalContainer.appendChild(petal);
         }
