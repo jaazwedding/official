@@ -32,7 +32,7 @@
             display: flex; align-items: center; justify-content: center;
         }
 
-        /* THE POPUP BOX - Redesigned for attraction */
+        /* THE POPUP BOX */
         .choice-card {
             background: white;
             padding: 3rem 2rem;
@@ -42,6 +42,30 @@
             max-width: 480px;
             width: 90%;
             border: 1px solid rgba(255, 255, 255, 0.8);
+            position: relative; /* Needed for absolute positioning of close button */
+        }
+
+        /* Cancel Button Style */
+        .close-btn {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: #f3f4f6;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: #9ca3af;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .close-btn:hover {
+            background: #fee2e2;
+            color: #ef4444;
+            transform: rotate(90deg);
         }
 
         .side-btn {
@@ -73,6 +97,9 @@
 
     <div id="selection-overlay">
         <div class="choice-card">
+            
+            <a href="index.html" class="close-btn" title="Back to Home">✕</a>
+
             <img src="jaaz logo (3).png" class="w-32 h-32 md:w-40 md:h-40 mx-auto mb-2 object-contain" alt="JAAZ Logo">
             
             <h1 class="playfair text-3xl md:text-4xl font-bold text-stone-800 leading-tight">Jawad & Shabhistha</h1>
