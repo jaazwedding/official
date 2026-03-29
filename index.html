@@ -19,23 +19,22 @@
 
         /* --- FIXED: FULL SCREEN SHOWER --- */
         .flower-container {
-            position: fixed; /* Fixes them to the screen, not the page */
+            position: fixed;
             width: 100vw;
             height: 100vh;
             top: 0;
             left: 0;
             overflow: hidden;
             pointer-events: none;
-            z-index: 25; /* Behind text but above background */
+            z-index: 25;
         }
 
         .petal {
             position: absolute;
             background-color: #ffb7c5; 
             border-radius: 150% 0 150% 0;
-            opacity: 0; /* START HIDDEN so they don't look "stuck" */
+            opacity: 0; 
             filter: drop-shadow(0 0 5px rgba(255,183,197,0.5));
-            /* Combined animation for fall and sway */
             animation: shower 10s linear infinite;
         }
 
@@ -90,8 +89,13 @@
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6 relative z-50">
             <div class="bg-white rounded-[2rem] p-8 text-center border border-stone-100 card-shadow">
                 <h3 class="font-semibold text-lg mb-4">The Big Day</h3>
-                <div id="countdown" class="text-5xl font-bold text-rose-300">00:00</div>
-                <p class="text-xs text-stone-400 mt-1 uppercase tracking-tighter">Days : Hours</p>
+                
+                <div id="countdown" class="text-3xl md:text-4xl font-bold text-rose-300 tracking-tighter">
+                    00:00:00:00 <span class="text-sm align-middle ml-1">--</span>
+                </div>
+                
+                <p class="text-[10px] text-stone-400 mt-1 uppercase tracking-widest">Days : Hrs : Min : Sec</p>
+                
                 <div class="flex items-center justify-center mt-6 text-sm">
                     <span>📅 June 5, 2026</span>
                 </div>
@@ -123,7 +127,7 @@
     </main>
 
     <script>
-        // Generate 100 Petals for a very heavy, clear shower
+        // --- 1. Generate Flower Shower ---
         const container = document.getElementById('petal-container');
         const petalCount = 100; 
 
@@ -131,7 +135,7 @@
             const petal = document.createElement('div');
             petal.className = 'petal';
             const left = Math.random() * 100;
-            const delay = Math.random() * 12; // Spread out the start times
+            const delay = Math.random() * 12;
             const duration = 6 + Math.random() * 10;
             const size = 10 + Math.random() * 15;
             
@@ -141,19 +145,37 @@
             petal.style.width = size + 'px';
             petal.style.height = size + 'px';
             
-            // Randomly use a lighter pink for variety
             if(Math.random() > 0.5) petal.style.backgroundColor = '#fce4ec';
-
             container.appendChild(petal);
         }
 
-        const weddingDate = new Date("Oct 18, 2026 11:30:00").getTime();
+        // --- 2. Enhanced Countdown Logic ---
+        const weddingDate = new Date("June 5, 2026 11:30:00");
+        const targetTime = weddingDate.getTime();
+        
+        const hours24 = weddingDate.getHours();
+        const ampm = hours24 >= 12 ? 'PM' : 'AM';
+
         setInterval(function() {
             const now = new Date().getTime();
-            const distance = weddingDate - now;
+            const distance = targetTime - now;
+            
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            document.getElementById("countdown").innerHTML = distance < 0 ? "00:00" : days + ":" + hours;
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            const d = days.toString().padStart(2, '0');
+            const h = hours.toString().padStart(2, '0');
+            const m = minutes.toString().padStart(2, '0');
+            const s = seconds.toString().padStart(2, '0');
+            
+            if (distance < 0) {
+                document.getElementById("countdown").innerHTML = "00:00:00:00";
+            } else {
+                document.getElementById("countdown").innerHTML = 
+                    `${d}:${h}:${m}:${s} <span class="text-sm align-middle ml-1">${ampm}</span>`;
+            }
         }, 1000);
     </script>
 </body>
