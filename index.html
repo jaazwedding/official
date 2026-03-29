@@ -3,181 +3,133 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jawad & Shabhistha's Wedding</title>
+    <title>Locations - Jawad & Shabhistha</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400;1,700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
-     <link rel="icon" type="image/png" href="jaaz logo (3).png">
+    <link rel="icon" type="image/png" href="jaaz logo (3).png">
     
     <style>
         .playfair { font-family: 'Playfair Display', serif; }
         .montserrat { font-family: 'Montserrat', sans-serif; }
-        .card-shadow { box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.05); }
-
-        .halo-effect {
-            box-shadow: 0 0 50px 15px rgba(103, 151, 169, 0.3);
+        
+        /* Mobile-First Glassmorphism */
+        .location-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 2rem;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        /* STOPS THE JUMPING EFFECT */
-        .tabular-nums {
-            font-variant-numeric: tabular-nums;
-            letter-spacing: -1px;
+        /* Subtle float for emojis to make it look "alive" */
+        .floating-emoji {
+            animation: floating 3s ease-in-out infinite;
         }
 
-        /* --- FIXED: FULL SCREEN SHOWER --- */
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .location-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        /* Petal Animation */
         .flower-container {
-            position: fixed;
-            width: 100vw;
-            height: 100vh;
-            top: 0;
-            left: 0;
-            overflow: hidden;
-            pointer-events: none;
-            z-index: 25;
+            position: fixed; inset: 0;
+            overflow: hidden; pointer-events: none; z-index: 5;
         }
-
         .petal {
-            position: absolute;
-            background-color: #ffb7c5; 
-            border-radius: 150% 0 150% 0;
-            opacity: 0; 
-            filter: drop-shadow(0 0 5px rgba(255,183,197,0.5));
-            animation: shower 10s linear infinite;
+            position: absolute; background-color: #ffb7c5; 
+            border-radius: 150% 0 150% 0; opacity: 0;
+            animation: shower 8s linear infinite;
         }
-
         @keyframes shower {
-            0% { transform: translateY(-10vh) rotate(0deg) translateX(0); opacity: 0; }
-            5% { opacity: 0.9; }
-            95% { opacity: 0.9; }
-            100% { transform: translateY(110vh) rotate(720deg) translateX(100px); opacity: 0; }
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
         }
     </style>
 </head>
-<body class="montserrat text-stone-700 min-h-screen relative" 
+<body class="montserrat text-stone-700 min-h-screen relative overflow-x-hidden" 
       style="background: linear-gradient(to bottom, #d9e9f2 0%, #d9e9f2 60%, #c5e1a5 100%);">
 
     <div id="petal-container" class="flower-container"></div>
 
-    <nav class="flex justify-center space-x-6 md:space-x-12 py-6 text-xs md:text-sm uppercase tracking-widest font-medium relative z-50">
-        <a href="our-story.html" class="hover:text-rose-400">Our Story</a>
+    <nav class="flex flex-wrap justify-center gap-4 md:gap-12 py-6 text-[10px] md:text-sm uppercase tracking-widest font-medium relative z-50 px-4">
+         <a href="our-story.html" class="hover:text-rose-400">Our Story</a>
         <a href="index.html" class="border-b-2 border-stone-800 pb-1">Event</a>
         <a href="location.html" class="hover:text-rose-400">Location</a>
         <a href="#" class="hover:text-rose-400">Gallery</a>
         <a href="contact.html" class="hover:text-rose-400">Contact</a>
     </nav>
 
-    <main class="max-w-6xl mx-auto px-4 pb-20 relative z-40">
-        
-        <div class="text-center mt-4">
-            <h1 class="playfair text-4xl md:text-6xl italic font-semibold text-stone-800">Jawad & Shabhistha's</h1>
-            <h2 class="playfair text-2xl md:text-3xl italic text-stone-700 mt-2">Wedding Invitation</h2>
+    <main class="max-w-7xl mx-auto px-6 py-8 md:py-12 relative z-10">
+        <div class="text-center mb-10 md:mb-16">
+            <h1 class="playfair text-4xl md:text-7xl italic font-semibold text-stone-800 leading-tight">Jawad & Shabhistha</h1>
+            <h2 class="mt-2 playfair text-xl md:text-3xl italic text-stone-600 tracking-wide">Wedding Venues</h2>
+            <p class="mt-3 text-stone-400 italic uppercase tracking-[0.2em] text-[9px]">Tap to get directions</p>
         </div>
 
-        <div class="relative flex justify-center items-end my-10 h-80 md:h-[500px]">
-            <img src="images/arch-left.png" class="absolute left-0 md:left-20 h-4/5 opacity-80 pointer-events-none z-10" alt="">
-            <div class="relative z-30 overflow-hidden rounded-[2rem] md:rounded-[4rem] h-full shadow-2xl halo-effect">
-                <img src="main page poster.png" class="h-full w-auto object-cover" alt="Couple">
-            </div>
-            <img src="images/arch-right.png" class="absolute right-0 md:right-20 h-4/5 opacity-80 scale-x-[-1] pointer-events-none z-10" alt="">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 items-stretch">
+            
+            <a href="https://maps.app.goo.gl/Zm6h133qryg2fpzu5?g_st=ic" target="_blank" class="location-card p-8 text-center shadow-md">
+                <div class="text-4xl md:text-5xl mb-4 floating-emoji">🌻</div>
+                <h2 class="playfair text-xl md:text-3xl font-bold text-stone-800">Sanchak (Haldi)</h2>
+                <p class="text-rose-400 font-semibold mt-1 text-xs md:text-sm tracking-wide">June 4, 2026 • 4:00 PM</p>
+                <div class="h-[1px] w-12 bg-stone-200 my-4 md:my-6 mx-auto"></div>
+                <p class="text-[10px] md:text-xs font-bold text-stone-600 uppercase tracking-widest px-2 leading-relaxed">Sandfields Apartments, Hyderabad</p>
+                <p class="text-[9px] text-stone-400 italic mt-6 opacity-60">Open in Maps →</p>
+            </a>
+
+            <a href="https://maps.app.goo.gl/LMMEQpyX93CDdB4w8?g_st=ic" target="_blank" class="location-card p-8 text-center border-rose-100 shadow-xl shadow-rose-100/10">
+                <div class="text-4xl md:text-5xl mb-4 floating-emoji" style="animation-delay: 0.5s;">🕌</div>
+                <h2 class="playfair text-xl md:text-3xl font-bold text-stone-800">Nikah (Wedding)</h2>
+                <p class="text-rose-400 font-semibold mt-1 text-xs md:text-sm tracking-wide">June 5, 2026 • 9:30 PM</p>
+                <div class="h-[1px] w-12 bg-stone-200 my-4 md:my-6 mx-auto"></div>
+                <p class="text-[10px] md:text-xs font-bold text-stone-600 uppercase tracking-widest px-2 leading-relaxed">T.S. Paradise Function Hall, Hyderabad</p>
+                <p class="text-[9px] text-stone-400 italic mt-6 opacity-60">Open in Maps →</p>
+            </a>
+
+            <a href="https://maps.app.goo.gl/LkK6mrb7ixLULYem9?g_st=ic" target="_blank" class="location-card p-8 text-center shadow-md">
+                <div class="text-4xl md:text-5xl mb-4 floating-emoji" style="animation-delay: 1s;">🤵👰</div>
+                <h2 class="playfair text-xl md:text-3xl font-bold text-stone-800">Valima (Reception)</h2>
+                <p class="text-rose-400 font-semibold mt-1 text-xs md:text-sm tracking-wide">June 6, 2026 • 8:00 PM</p>
+                <div class="h-[1px] w-12 bg-stone-200 my-4 md:my-6 mx-auto"></div>
+                <p class="text-[10px] md:text-xs font-bold text-stone-600 uppercase tracking-widest px-2 leading-relaxed">Heritage Palace, Hyderabad</p>
+                <p class="text-[9px] text-stone-400 italic mt-6 opacity-60">Open in Maps →</p>
+            </a>
+
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 relative z-50">
-            <div class="bg-white rounded-[2rem] p-8 text-center border border-stone-100 card-shadow">
-                <h3 class="font-semibold text-lg mb-4">The Big Day</h3>
-                
-                <div class="flex items-center justify-center gap-1 text-rose-300">
-                    <div id="countdown" class="text-2xl md:text-3xl font-bold tabular-nums tracking-tighter">
-                        00:00:00:00
-                    </div>
-                    <span id="ampm-label" class="text-xs font-semibold opacity-80 mt-1">--</span>
-                </div>
-                
-                <p class="text-[10px] text-stone-400 mt-2 uppercase tracking-widest">Days : Hrs : Min : Sec</p>
-                
-                <div class="flex items-center justify-center mt-6 text-sm">
-                    <span>📅 June 5, 2026</span>
-                </div>
-            </div>
-            
-              <div class="bg-white rounded-[2rem] p-8 text-center border border-stone-100 card-shadow">
-              <div class="text-5xl mb-6">🌻</div>
-                <h2 class="playfair text-2xl lg:text-3xl font-bold text-stone-800">Sanchak (Haldi)</h2>
-                <p class="text-rose-400 font-semibold mt-2 text-sm tracking-wide">June 4, 2026 • 4:00 PM</p>
-                <div class="h-px w-16 bg-stone-200 my-6 mx-auto"></div>
-               
-            </div>
-
-
-            <div class="bg-white rounded-[2rem] p-8 text-center border border-stone-100 card-shadow">
-                  <div class="text-5xl mb-6">🕌</div>
-                <h2 class="playfair text-2xl lg:text-3xl font-bold text-stone-800">Nikah (Wedding)</h2>
-                <p class="text-rose-400 font-semibold mt-2 text-sm tracking-wide">June 5, 2026 • 9:30 PM</p>
-                <div class="h-px w-16 bg-stone-200 my-6 mx-auto"></div>
-            
-            </div>
-
-            <div class="bg-white rounded-[2rem] p-8 text-center border border-stone-100 card-shadow">
-              <div class="text-5xl mb-6">🤵👰</div>
-                <h2 class="playfair text-2xl lg:text-3xl font-bold text-stone-800">Valima (Reception)</h2>
-                <p class="text-rose-400 font-semibold mt-2 text-sm tracking-wide">June 6, 2026 • 8:00 PM</p>
-                <div class="h-px w-16 bg-stone-200 my-6 mx-auto"></div>
-               
-            </div>
-
-           
-                <a href="location.html" target="_blank" class="block bg-stone-900 text-white text-center py-3 text-xs font-bold uppercase tracking-widest hover:bg-stone-700 transition">
-                    Click for Directions
-                </a>
-            </div>
+        <div class="text-center mt-12 md:mt-20">
+            <a href="index.html" class="inline-block bg-stone-900 text-white px-8 py-3 md:px-10 md:py-4 rounded-full uppercase tracking-widest text-[9px] md:text-[10px] font-bold hover:bg-stone-700 transition shadow-lg active:scale-95">Back to Invitation</a>
         </div>
     </main>
 
     <script>
-        // -- 1. Flower Shower --
         const container = document.getElementById('petal-container');
-        const petalCount = 100; 
+        const petalCount = window.innerWidth < 768 ? 40 : 80; // Fewer petals on mobile for performance
         for (let i = 0; i < petalCount; i++) {
             const petal = document.createElement('div');
             petal.className = 'petal';
-            const left = Math.random() * 100;
-            const delay = Math.random() * 12;
-            const duration = 6 + Math.random() * 10;
-            const size = 10 + Math.random() * 15;
-            petal.style.left = left + '%';
-            petal.style.animationDelay = delay + 's';
-            petal.style.animationDuration = duration + 's';
-            petal.style.width = size + 'px';
-            petal.style.height = size + 'px';
-            if(Math.random() > 0.5) petal.style.backgroundColor = '#fce4ec';
+            petal.style.left = Math.random() * 100 + '%';
+            petal.style.animationDelay = Math.random() * 8 + 's';
+            petal.style.animationDuration = (5 + Math.random() * 5) + 's';
+            const size = (8 + Math.random() * 10) + 'px';
+            petal.style.width = size;
+            petal.style.height = size;
             container.appendChild(petal);
         }
-
-        // --- 2. Stable Countdown Logic ---
-        const weddingDate = new Date("June 5, 2026 11:30:00");
-        const targetTime = weddingDate.getTime();
-        const ampm = weddingDate.getHours() >= 12 ? 'PM' : 'AM';
-        document.getElementById("ampm-label").innerHTML = ampm;
-
-        setInterval(function() {
-            const now = new Date().getTime();
-            const distance = targetTime - now;
-            
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-            
-            const d = days.toString().padStart(2, '0');
-            const h = hours.toString().padStart(2, '0');
-            const m = minutes.toString().padStart(2, '0');
-            const s = seconds.toString().padStart(2, '0');
-            
-            const countdownEl = document.getElementById("countdown");
-            if (distance < 0) {
-                countdownEl.innerHTML = "00:00:00:00";
-            } else {
-                countdownEl.innerHTML = `${d}:${h}:${m}:${s}`;
-            }
-        }, 1000);
     </script>
 </body>
 </html>
