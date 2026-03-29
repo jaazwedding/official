@@ -17,6 +17,12 @@
             box-shadow: 0 0 50px 15px rgba(103, 151, 169, 0.3);
         }
 
+        /* STOPS THE JUMPING EFFECT */
+        .tabular-nums {
+            font-variant-numeric: tabular-nums;
+            letter-spacing: -1px;
+        }
+
         /* --- FIXED: FULL SCREEN SHOWER --- */
         .flower-container {
             position: fixed;
@@ -39,20 +45,10 @@
         }
 
         @keyframes shower {
-            0% { 
-                transform: translateY(-10vh) rotate(0deg) translateX(0); 
-                opacity: 0; 
-            }
-            5% { 
-                opacity: 0.9; 
-            }
-            95% { 
-                opacity: 0.9; 
-            }
-            100% { 
-                transform: translateY(110vh) rotate(720deg) translateX(100px); 
-                opacity: 0; 
-            }
+            0% { transform: translateY(-10vh) rotate(0deg) translateX(0); opacity: 0; }
+            5% { opacity: 0.9; }
+            95% { opacity: 0.9; }
+            100% { transform: translateY(110vh) rotate(720deg) translateX(100px); opacity: 0; }
         }
     </style>
 </head>
@@ -78,11 +74,9 @@
 
         <div class="relative flex justify-center items-end my-10 h-80 md:h-[500px]">
             <img src="images/arch-left.png" class="absolute left-0 md:left-20 h-4/5 opacity-80 pointer-events-none z-10" alt="">
-            
             <div class="relative z-30 overflow-hidden rounded-[2rem] md:rounded-[4rem] h-full shadow-2xl halo-effect">
                 <img src="main page poster.png" class="h-full w-auto object-cover" alt="Couple">
             </div>
-            
             <img src="images/arch-right.png" class="absolute right-0 md:right-20 h-4/5 opacity-80 scale-x-[-1] pointer-events-none z-10" alt="">
         </div>
 
@@ -90,11 +84,14 @@
             <div class="bg-white rounded-[2rem] p-8 text-center border border-stone-100 card-shadow">
                 <h3 class="font-semibold text-lg mb-4">The Big Day</h3>
                 
-                <div id="countdown" class="text-3xl md:text-4xl font-bold text-rose-300 tracking-tighter">
-                    00:00:00:00 <span class="text-sm align-middle ml-1">--</span>
+                <div class="flex items-center justify-center gap-1 text-rose-300">
+                    <div id="countdown" class="text-2xl md:text-3xl font-bold tabular-nums tracking-tighter">
+                        00:00:00:00
+                    </div>
+                    <span id="ampm-label" class="text-xs font-semibold opacity-80 mt-1">--</span>
                 </div>
                 
-                <p class="text-[10px] text-stone-400 mt-1 uppercase tracking-widest">Days : Hrs : Min : Sec</p>
+                <p class="text-[10px] text-stone-400 mt-2 uppercase tracking-widest">Days : Hrs : Min : Sec</p>
                 
                 <div class="flex items-center justify-center mt-6 text-sm">
                     <span>📅 June 5, 2026</span>
@@ -127,10 +124,9 @@
     </main>
 
     <script>
-        // --- 1. Generate Flower Shower ---
+        // --- 1. Flower Shower ---
         const container = document.getElementById('petal-container');
         const petalCount = 100; 
-
         for (let i = 0; i < petalCount; i++) {
             const petal = document.createElement('div');
             petal.className = 'petal';
@@ -138,23 +134,20 @@
             const delay = Math.random() * 12;
             const duration = 6 + Math.random() * 10;
             const size = 10 + Math.random() * 15;
-            
             petal.style.left = left + '%';
             petal.style.animationDelay = delay + 's';
             petal.style.animationDuration = duration + 's';
             petal.style.width = size + 'px';
             petal.style.height = size + 'px';
-            
             if(Math.random() > 0.5) petal.style.backgroundColor = '#fce4ec';
             container.appendChild(petal);
         }
 
-        // --- 2. Enhanced Countdown Logic ---
+        // --- 2. Stable Countdown Logic ---
         const weddingDate = new Date("June 5, 2026 11:30:00");
         const targetTime = weddingDate.getTime();
-        
-        const hours24 = weddingDate.getHours();
-        const ampm = hours24 >= 12 ? 'PM' : 'AM';
+        const ampm = weddingDate.getHours() >= 12 ? 'PM' : 'AM';
+        document.getElementById("ampm-label").innerHTML = ampm;
 
         setInterval(function() {
             const now = new Date().getTime();
@@ -170,11 +163,11 @@
             const m = minutes.toString().padStart(2, '0');
             const s = seconds.toString().padStart(2, '0');
             
+            const countdownEl = document.getElementById("countdown");
             if (distance < 0) {
-                document.getElementById("countdown").innerHTML = "00:00:00:00";
+                countdownEl.innerHTML = "00:00:00:00";
             } else {
-                document.getElementById("countdown").innerHTML = 
-                    `${d}:${h}:${m}:${s} <span class="text-sm align-middle ml-1">${ampm}</span>`;
+                countdownEl.innerHTML = `${d}:${h}:${m}:${s}`;
             }
         }, 1000);
     </script>
