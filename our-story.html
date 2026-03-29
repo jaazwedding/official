@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Story - Jawad & Shabhistha</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400;1,700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        .playfair { font-family: 'Playfair Display', serif; }
+        .montserrat { font-family: 'Montserrat', sans-serif; }
+        
+        /* Glassmorphism Effect */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 2rem;
+            transition: all 0.4s ease;
+        }
+        .glass-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        /* Timeline Line */
+        .timeline-line::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            width: 2px;
+            height: 100%;
+            background: rgba(103, 151, 169, 0.3);
+            transform: translateX(-50%);
+        }
+
+        /* Flower Shower Styling */
+        .flower-container {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 5;
+        }
+        .petal {
+            position: absolute;
+            background-color: #ffb7c5; 
+            border-radius: 150% 0 150% 0;
+            opacity: 0;
+            animation: shower 10s linear infinite;
+        }
+        @keyframes shower {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
+            5% { opacity: 0.8; }
+            95% { opacity: 0.8; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body class="montserrat text-stone-700 min-h-screen relative" 
+      style="background: linear-gradient(to bottom, #d9e9f2 0%, #d9e9f2 60%, #c5e1a5 100%);">
+
+    <div id="petal-container" class="flower-container"></div>
+
+    <nav class="flex justify-center space-x-6 md:space-x-12 py-6 text-xs md:text-sm uppercase tracking-widest font-medium relative z-50">
+        <a href="index.html" class="hover:text-rose-400">Home</a>
+        <a href="#" class="border-b-2 border-stone-800 pb-1">Our Story</a>
+        <a href="#" class="hover:text-rose-400">Location</a>
+        <a href="#" class="hover:text-rose-400">Gallery</a>
+    </nav>
+
+    <main class="max-w-4xl mx-auto px-4 py-12 relative z-10">
+        <div class="text-center mb-16">
+            <h1 class="playfair text-5xl md:text-7xl italic font-semibold text-stone-800">Our Love Story</h1>
+            <p class="mt-4 text-stone-500 italic">How it all began...</p>
+        </div>
+
+        <div class="relative timeline-line space-y-12">
+            
+            <div class="relative flex flex-col md:flex-row items-center justify-between">
+                <div class="hidden md:block w-5/12"></div>
+                <div class="z-20 flex items-center justify-center w-10 h-10 bg-white rounded-full border-4 border-[#d9e9f2] shadow">
+                    <span class="text-rose-300">❤️</span>
+                </div>
+                <div class="w-full md:w-5/12 glass-card p-8">
+                    <span class="text-rose-400 font-bold playfair">August 2024</span>
+                    <h3 class="text-xl font-semibold mt-1">The First Meeting</h3>
+                    <p class="mt-3 text-sm leading-relaxed text-stone-600">
+                        It started with a simple hello. We met at a small café, and what was supposed to be a 30-minute coffee turned into a 4-hour conversation about everything and nothing.
+                    </p>
+                </div>
+            </div>
+
+            <div class="relative flex flex-col md:flex-row-reverse items-center justify-between">
+                <div class="hidden md:block w-5/12"></div>
+                <div class="z-20 flex items-center justify-center w-10 h-10 bg-white rounded-full border-4 border-[#d9e9f2] shadow">
+                    <span class="text-rose-300">✨</span>
+                </div>
+                <div class="w-full md:w-5/12 glass-card p-8">
+                    <span class="text-rose-400 font-bold playfair">December 2024</span>
+                    <h3 class="text-xl font-semibold mt-1">The Realization</h3>
+                    <p class="mt-3 text-sm leading-relaxed text-stone-600">
+                        Under the winter stars, we realized this wasn't just a friendship. Every laugh felt like home, and every goodbye felt a little too soon.
+                    </p>
+                </div>
+            </div>
+
+            <div class="relative flex flex-col md:flex-row items-center justify-between">
+                <div class="hidden md:block w-5/12"></div>
+                <div class="z-20 flex items-center justify-center w-10 h-10 bg-white rounded-full border-4 border-[#d9e9f2] shadow">
+                    <span class="text-rose-300">💍</span>
+                </div>
+                <div class="w-full md:w-5/12 glass-card p-8">
+                    <span class="text-rose-400 font-bold playfair">March 2025</span>
+                    <h3 class="text-xl font-semibold mt-1">She Said Yes!</h3>
+                    <p class="mt-3 text-sm leading-relaxed text-stone-600">
+                        With family blessings and tears of joy, we decided to walk the rest of our lives together. The journey of Jawad & Shabhistha officially began!
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="text-center mt-20">
+            <p class="playfair italic text-2xl text-stone-800">And the best is yet to come...</p>
+            <a href="index.html" class="inline-block mt-8 bg-stone-900 text-white px-8 py-3 rounded-full uppercase tracking-widest text-xs font-bold hover:bg-stone-700 transition">Back to Main Page</a>
+        </div>
+    </main>
+
+    <script>
+        // Same Petal Shower Script for consistency
+        const container = document.getElementById('petal-container');
+        const petalCount = 80; 
+
+        for (let i = 0; i < petalCount; i++) {
+            const petal = document.createElement('div');
+            petal.className = 'petal';
+            petal.style.left = Math.random() * 100 + '%';
+            petal.style.animationDelay = Math.random() * 10 + 's';
+            petal.style.animationDuration = (6 + Math.random() * 8) + 's';
+            const size = (10 + Math.random() * 12) + 'px';
+            petal.style.width = size;
+            petal.style.height = size;
+            container.appendChild(petal);
+        }
+    </script>
+</body>
+</html>
