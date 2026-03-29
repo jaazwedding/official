@@ -12,7 +12,7 @@
         .playfair { font-family: 'Playfair Display', serif; }
         .montserrat { font-family: 'Montserrat', sans-serif; }
         
-        /* Glassmorphism Cards - Adjusted for perfect 3-column fit */
+        /* Glassmorphism Cards - Mobile First */
         .location-card {
             background: rgba(255, 255, 255, 0.75);
             backdrop-filter: blur(12px);
@@ -21,18 +21,34 @@
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             cursor: pointer;
             width: 100%;
-            height: 100%; /* Ensures all cards are same height */
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
+        /* Interaction feedback for mobile/desktop */
         .location-card:hover {
             transform: translateY(-8px);
             background: rgba(255, 255, 255, 0.98);
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
         }
 
+        .location-card:active {
+            transform: scale(0.96);
+        }
+
+        /* Floating Icon Animation */
+        .floating-icon {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Flower Shower */
         .flower-container {
             position: fixed; width: 100vw; height: 100vh; top: 0; left: 0;
             overflow: hidden; pointer-events: none; z-index: 5;
@@ -50,72 +66,73 @@
         }
     </style>
 </head>
-<body class="montserrat text-stone-700 min-h-screen relative" 
+<body class="montserrat text-stone-700 min-h-screen relative overflow-x-hidden" 
       style="background: linear-gradient(to bottom, #d9e9f2 0%, #d9e9f2 60%, #c5e1a5 100%);">
 
     <div id="petal-container" class="flower-container"></div>
 
-    <nav class="flex justify-center space-x-6 md:space-x-12 py-6 text-xs md:text-sm uppercase tracking-widest font-medium relative z-50">
-        <a href="index.html" class="hover:text-rose-400">Home</a>
-        <a href="our-story.html" class="hover:text-rose-400">Our Story</a>
+    <nav class="flex flex-wrap justify-center gap-4 md:gap-12 py-6 text-[10px] md:text-sm uppercase tracking-widest font-medium relative z-50 px-4">
+        <a href="index.html" class="hover:text-rose-400 transition">Home</a>
+        <a href="our-story.html" class="hover:text-rose-400 transition">Our Story</a>
         <a href="location.html" class="border-b-2 border-stone-800 pb-1">Location</a>
-        <a href="#" class="hover:text-rose-400">Gallery</a>
-        <a href="contact.html" class="hover:text-rose-400">Contact</a>
+        <a href="#" class="hover:text-rose-400 transition">Gallery</a>
+        <a href="contact.html" class="hover:text-rose-400 transition">Contact</a>
     </nav>
 
-    <main class="max-w-7xl mx-auto px-6 py-12 relative z-10">
-        <div class="text-center mb-16">
-            <h1 class="playfair text-5xl md:text-7xl italic font-semibold text-stone-800">Jawad & Shabhistha</h1>
-            <h2 class="mt-4 playfair text-2xl md:text-3xl italic text-stone-600 tracking-wide">Wedding Venues</h2>
-            <p class="mt-2 text-stone-400 italic uppercase tracking-[0.3em] text-[10px]">Tap a card to open Google Maps</p>
+    <main class="max-w-7xl mx-auto px-6 py-8 md:py-12 relative z-10">
+        <div class="text-center mb-10 md:mb-16">
+            <h1 class="playfair text-4xl md:text-7xl italic font-semibold text-stone-800 leading-tight">Jawad & Shabhistha</h1>
+            <h2 class="mt-2 playfair text-xl md:text-3xl italic text-stone-600 tracking-wide">Wedding Venues</h2>
+            <p class="mt-3 text-stone-400 italic uppercase tracking-[0.2em] text-[9px] md:text-[11px]">Tap a card to open Google Maps</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 items-stretch">
             
-            <a href="https://maps.app.goo.gl/Zm6h133qryg2fpzu5?g_st=ic" target="_blank" class="location-card p-8 md:p-10 text-center">
-                <div class="text-5xl mb-6">🌻</div>
+            <a href="https://maps.app.goo.gl/Zm6h133qryg2fpzu5?g_st=ic" target="_blank" class="location-card p-8 md:p-10 text-center shadow-sm">
+                <div class="text-5xl mb-6 floating-icon">🌻</div>
                 <h2 class="playfair text-2xl lg:text-3xl font-bold text-stone-800">Sanchak (Haldi)</h2>
                 <p class="text-rose-400 font-semibold mt-2 text-sm tracking-wide">June 4, 2026 • 4:00 PM</p>
                 <div class="h-px w-16 bg-stone-200 my-6 mx-auto"></div>
-                <p class="text-xs font-bold text-stone-600 uppercase tracking-[0.15em] mb-1">Sandfields Apartments, Hyderabad</p>
-                <p class="text-[10px] text-stone-400 italic mt-auto">Click for Directions</p>
+                <p class="text-xs font-bold text-stone-600 uppercase tracking-[0.15em] mb-1 px-4 leading-relaxed">Sandfields Apartments, Hyderabad</p>
+                <p class="text-[10px] text-stone-400 italic mt-auto pt-4">Click for Directions →</p>
             </a>
 
             <a href="https://maps.app.goo.gl/LMMEQpyX93CDdB4w8?g_st=ic" target="_blank" class="location-card p-8 md:p-10 text-center border-rose-100 shadow-xl shadow-rose-100/10">
-                <div class="text-5xl mb-6">🕌</div>
+                <div class="text-5xl mb-6 floating-icon" style="animation-delay: 0.5s;">🕌</div>
                 <h2 class="playfair text-2xl lg:text-3xl font-bold text-stone-800">Nikah (Wedding)</h2>
                 <p class="text-rose-400 font-semibold mt-2 text-sm tracking-wide">June 5, 2026 • 9:30 PM</p>
                 <div class="h-px w-16 bg-stone-200 my-6 mx-auto"></div>
-                <p class="text-xs font-bold text-stone-600 uppercase tracking-[0.15em] mb-1">T.S. Paradise Function Hall, Hyderabad</p>
-                <p class="text-[10px] text-stone-400 italic mt-auto">Click for Directions</p>
+                <p class="text-xs font-bold text-stone-600 uppercase tracking-[0.15em] mb-1 px-4 leading-relaxed">T.S. Paradise Function Hall, Hyderabad</p>
+                <p class="text-[10px] text-stone-400 italic mt-auto pt-4">Click for Directions →</p>
             </a>
 
-            <a href="https://maps.app.goo.gl/LkK6mrb7ixLULYem9?g_st=ic" target="_blank" class="location-card p-8 md:p-10 text-center">
-                <div class="text-5xl mb-6">🤵👰</div>
+            <a href="https://maps.app.goo.gl/LkK6mrb7ixLULYem9?g_st=ic" target="_blank" class="location-card p-8 md:p-10 text-center shadow-sm">
+                <div class="text-5xl mb-6 floating-icon" style="animation-delay: 1s;">🤵👰</div>
                 <h2 class="playfair text-2xl lg:text-3xl font-bold text-stone-800">Valima (Reception)</h2>
                 <p class="text-rose-400 font-semibold mt-2 text-sm tracking-wide">June 6, 2026 • 8:00 PM</p>
                 <div class="h-px w-16 bg-stone-200 my-6 mx-auto"></div>
-                <p class="text-xs font-bold text-stone-600 uppercase tracking-[0.15em] mb-1">Heritage Palace, Hyderabad</p>
-                <p class="text-[10px] text-stone-400 italic mt-auto">Click for Directions</p>
+                <p class="text-xs font-bold text-stone-600 uppercase tracking-[0.15em] mb-1 px-4 leading-relaxed">Heritage Palace, Hyderabad</p>
+                <p class="text-[10px] text-stone-400 italic mt-auto pt-4">Click for Directions →</p>
             </a>
 
         </div>
 
-        <div class="text-center mt-20">
-            <a href="index.html" class="inline-block bg-stone-900 text-white px-10 py-4 rounded-full uppercase tracking-widest text-[10px] font-bold hover:bg-stone-700 transition shadow-lg">Back to Invitation</a>
+        <div class="text-center mt-12 md:mt-20">
+            <a href="index.html" class="inline-block bg-stone-900 text-white px-10 py-4 rounded-full uppercase tracking-widest text-[10px] font-bold hover:bg-stone-700 transition shadow-lg active:scale-95">Back to Invitation</a>
         </div>
     </main>
 
     <script>
         const container = document.getElementById('petal-container');
-        const petalCount = 80; 
+        // Reduced count for mobile performance
+        const petalCount = window.innerWidth < 768 ? 40 : 80; 
         for (let i = 0; i < petalCount; i++) {
             const petal = document.createElement('div');
             petal.className = 'petal';
             petal.style.left = Math.random() * 100 + '%';
             petal.style.animationDelay = Math.random() * 10 + 's';
             petal.style.animationDuration = (6 + Math.random() * 8) + 's';
-            const size = (10 + Math.random() * 12) + 'px';
+            const size = (8 + Math.random() * 12) + 'px';
             petal.style.width = size;
             petal.style.height = size;
             container.appendChild(petal);
