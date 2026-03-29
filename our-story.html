@@ -6,7 +6,7 @@
     <title>Our Story - Jawad & Shabhistha</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400;1,700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
-     <link rel="icon" type="image/png" href="jaaz logo (3).png">
+    <link rel="icon" type="image/png" href="jaaz logo (3).png">
     
     <style>
         .playfair { font-family: 'Playfair Display', serif; }
@@ -14,112 +14,114 @@
         
         /* Glassmorphism Effect */
         .glass-card {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
             border-radius: 2rem;
-            transition: all 0.4s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
+
         .glass-card:hover {
-            transform: translateY(-10px);
-            background: rgba(255, 255, 255, 0.9);
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.95);
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
         }
 
-        /* Timeline Line */
+        /* Responsive Timeline Line */
         .timeline-line::before {
             content: '';
             position: absolute;
-            left: 50%;
+            /* Mobile: line stays left | Desktop: line stays center */
+            left: 20px; 
             width: 2px;
             height: 100%;
-            background: rgba(103, 151, 169, 0.3);
-            transform: translateX(-50%);
+            background: linear-gradient(to bottom, transparent, rgba(103, 151, 169, 0.3), transparent);
+            z-index: 1;
+        }
+
+        @media (min-width: 768px) {
+            .timeline-line::before {
+                left: 50%;
+                transform: translateX(-50%);
+            }
         }
 
         /* Flower Shower Styling */
         .flower-container {
-            position: fixed;
-            width: 100vw;
-            height: 100vh;
-            top: 0;
-            left: 0;
-            overflow: hidden;
-            pointer-events: none;
-            z-index: 5;
+            position: fixed; inset: 0;
+            overflow: hidden; pointer-events: none; z-index: 5;
         }
         .petal {
-            position: absolute;
-            background-color: #ffb7c5; 
-            border-radius: 150% 0 150% 0;
-            opacity: 0;
+            position: absolute; background-color: #ffb7c5; 
+            border-radius: 150% 0 150% 0; opacity: 0;
             animation: shower 10s linear infinite;
         }
         @keyframes shower {
             0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
-            5% { opacity: 0.8; }
-            95% { opacity: 0.8; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
             100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
         }
     </style>
 </head>
-<body class="montserrat text-stone-700 min-h-screen relative" 
+<body class="montserrat text-stone-700 min-h-screen relative overflow-x-hidden" 
       style="background: linear-gradient(to bottom, #d9e9f2 0%, #d9e9f2 60%, #c5e1a5 100%);">
 
     <div id="petal-container" class="flower-container"></div>
 
-    <nav class="flex justify-center space-x-6 md:space-x-12 py-6 text-xs md:text-sm uppercase tracking-widest font-medium relative z-50">
-        <a href="index.html" class="hover:text-rose-400">Home</a>
-        <a href="#" class="border-b-2 border-stone-800 pb-1">Our Story</a>
-        <a href="#" class="hover:text-rose-400">Location</a>
-        <a href="#" class="hover:text-rose-400">Gallery</a>
+    <nav class="flex flex-wrap justify-center gap-4 md:gap-12 py-6 text-[10px] md:text-sm uppercase tracking-widest font-medium relative z-50 px-4">
+        <a href="index.html" class="hover:text-rose-400 transition">Home</a>
+        <a href="our-story.html" class="hover:text-rose-400 transition">Our Story</a>
+        <a href="location.html" class="border-b-2 border-stone-800 pb-1">Location</a>
+        <a href="#" class="hover:text-rose-400 transition">Gallery</a>
+        <a href="contact.html" class="hover:text-rose-400 transition">Contact</a>
     </nav>
 
-    <main class="max-w-4xl mx-auto px-4 py-12 relative z-10">
-        <div class="text-center mb-16">
-            <h1 class="playfair text-5xl md:text-7xl italic font-semibold text-stone-800">Our Love Story</h1>
-            <p class="mt-4 text-stone-500 italic">How it all began...</p>
+    <main class="max-w-5xl mx-auto px-6 py-8 md:py-12 relative z-10">
+        <div class="text-center mb-12 md:mb-20">
+            <h1 class="playfair text-4xl md:text-7xl italic font-semibold text-stone-800 leading-tight">Our Love Story</h1>
+            <p class="mt-4 text-stone-500 italic text-sm md:text-base">A journey of a thousand miles begins with a single step...</p>
         </div>
 
-        <div class="relative timeline-line space-y-12">
+        <div class="relative timeline-line space-y-10 md:space-y-20">
             
-            <div class="relative flex flex-col md:flex-row items-center justify-between">
-                <div class="hidden md:block w-5/12"></div>
-                <div class="z-20 flex items-center justify-center w-10 h-10 bg-white rounded-full border-4 border-[#d9e9f2] shadow">
-                    <span class="text-rose-300">❤️</span>
+            <div class="relative flex items-center justify-between w-full">
+                <div class="hidden md:block w-[45%]"></div>
+                <div class="absolute left-[10px] md:static z-20 flex items-center justify-center w-5 h-5 md:w-10 md:h-10 bg-white rounded-full border-4 border-[#d9e9f2] shadow">
+                    <span class="hidden md:block text-xs">❤️</span>
                 </div>
-                <div class="w-full md:w-5/12 glass-card p-8">
-                    <span class="text-rose-400 font-bold playfair">August 2024</span>
-                    <h3 class="text-xl font-semibold mt-1">The First Meeting</h3>
-                    <p class="mt-3 text-sm leading-relaxed text-stone-600">
+                <div class="w-full md:w-[45%] ml-10 md:ml-0 glass-card p-6 md:p-8">
+                    <span class="text-rose-400 font-bold playfair text-sm md:text-lg">August 2024</span>
+                    <h3 class="text-lg md:text-2xl font-semibold mt-1 text-stone-800">The First Meeting</h3>
+                    <p class="mt-3 text-xs md:text-sm leading-relaxed text-stone-600">
                         It started with a simple hello. We met at a small café, and what was supposed to be a 30-minute coffee turned into a 4-hour conversation about everything and nothing.
                     </p>
                 </div>
             </div>
 
-            <div class="relative flex flex-col md:flex-row-reverse items-center justify-between">
-                <div class="hidden md:block w-5/12"></div>
-                <div class="z-20 flex items-center justify-center w-10 h-10 bg-white rounded-full border-4 border-[#d9e9f2] shadow">
-                    <span class="text-rose-300">✨</span>
+            <div class="relative flex items-center md:flex-row-reverse justify-between w-full">
+                <div class="hidden md:block w-[45%]"></div>
+                <div class="absolute left-[10px] md:static z-20 flex items-center justify-center w-5 h-5 md:w-10 md:h-10 bg-white rounded-full border-4 border-[#d9e9f2] shadow">
+                    <span class="hidden md:block text-xs">✨</span>
                 </div>
-                <div class="w-full md:w-5/12 glass-card p-8">
-                    <span class="text-rose-400 font-bold playfair">December 2024</span>
-                    <h3 class="text-xl font-semibold mt-1">The Realization</h3>
-                    <p class="mt-3 text-sm leading-relaxed text-stone-600">
+                <div class="w-full md:w-[45%] ml-10 md:ml-0 glass-card p-6 md:p-8">
+                    <span class="text-rose-400 font-bold playfair text-sm md:text-lg">December 2024</span>
+                    <h3 class="text-lg md:text-2xl font-semibold mt-1 text-stone-800">The Realization</h3>
+                    <p class="mt-3 text-xs md:text-sm leading-relaxed text-stone-600">
                         Under the winter stars, we realized this wasn't just a friendship. Every laugh felt like home, and every goodbye felt a little too soon.
                     </p>
                 </div>
             </div>
 
-            <div class="relative flex flex-col md:flex-row items-center justify-between">
-                <div class="hidden md:block w-5/12"></div>
-                <div class="z-20 flex items-center justify-center w-10 h-10 bg-white rounded-full border-4 border-[#d9e9f2] shadow">
-                    <span class="text-rose-300">💍</span>
+            <div class="relative flex items-center justify-between w-full">
+                <div class="hidden md:block w-[45%]"></div>
+                <div class="absolute left-[10px] md:static z-20 flex items-center justify-center w-5 h-5 md:w-10 md:h-10 bg-white rounded-full border-4 border-[#d9e9f2] shadow">
+                    <span class="hidden md:block text-xs">💍</span>
                 </div>
-                <div class="w-full md:w-5/12 glass-card p-8">
-                    <span class="text-rose-400 font-bold playfair">March 2025</span>
-                    <h3 class="text-xl font-semibold mt-1">She Said Yes!</h3>
-                    <p class="mt-3 text-sm leading-relaxed text-stone-600">
+                <div class="w-full md:w-[45%] ml-10 md:ml-0 glass-card p-6 md:p-8">
+                    <span class="text-rose-400 font-bold playfair text-sm md:text-lg">March 2025</span>
+                    <h3 class="text-lg md:text-2xl font-semibold mt-1 text-stone-800">She Said Yes!</h3>
+                    <p class="mt-3 text-xs md:text-sm leading-relaxed text-stone-600">
                         With family blessings and tears of joy, we decided to walk the rest of our lives together. The journey of Jawad & Shabhistha officially began!
                     </p>
                 </div>
@@ -127,24 +129,23 @@
 
         </div>
 
-        <div class="text-center mt-20">
-            <p class="playfair italic text-2xl text-stone-800">And the best is yet to come...</p>
-            <a href="index.html" class="inline-block mt-8 bg-stone-900 text-white px-8 py-3 rounded-full uppercase tracking-widest text-xs font-bold hover:bg-stone-700 transition">Back to Main Page</a>
+        <div class="text-center mt-20 mb-10">
+            <p class="playfair italic text-xl md:text-3xl text-stone-800">And the best is yet to come...</p>
+            <a href="index.html" class="inline-block mt-8 bg-stone-900 text-white px-10 py-4 rounded-full uppercase tracking-widest text-[10px] font-bold hover:bg-stone-700 transition active:scale-95">Back to Invitation</a>
         </div>
     </main>
 
     <script>
-        // Same Petal Shower Script for consistency
         const container = document.getElementById('petal-container');
-        const petalCount = 80; 
+        const petalCount = window.innerWidth < 768 ? 40 : 80; // Performance optimization for mobile
 
         for (let i = 0; i < petalCount; i++) {
             const petal = document.createElement('div');
             petal.className = 'petal';
             petal.style.left = Math.random() * 100 + '%';
-            petal.style.animationDelay = Math.random() * 10 + 's';
-            petal.style.animationDuration = (6 + Math.random() * 8) + 's';
-            const size = (10 + Math.random() * 12) + 'px';
+            petal.style.animationDelay = Math.random() * 8 + 's';
+            petal.style.animationDuration = (5 + Math.random() * 7) + 's';
+            const size = (8 + Math.random() * 10) + 'px';
             petal.style.width = size;
             petal.style.height = size;
             container.appendChild(petal);
