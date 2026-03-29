@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jawad & Shabhistha's Wedding</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400;1,700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght=1,400;1,700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="jaaz logo.png">
+    
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+    
     <style>
         .playfair { font-family: 'Playfair Display', serif; }
         .montserrat { font-family: 'Montserrat', sans-serif; }
@@ -14,31 +17,18 @@
 
         /* Halo Glow Effect for the Image */
         .halo-effect {
-            box-shadow: 0 0 40px 10px rgba(103, 151, 169, 0.3);
+            box-shadow: 0 0 40px 15px rgba(103, 151, 169, 0.3);
         }
 
-        /* Floating Animation 1 (Moves Up/Down & Side to Side) */
-        @keyframes floatCircle1 {
-            0%, 100% { transform: translate(0, 0); }
-            50% { transform: translate(15px, -35px); }
+        /* Prevent particles and videos from blocking interactions */
+        video, #tsparticles-back, #tsparticles-over-image { 
+            pointer-events: none; 
         }
-
-        /* Floating Animation 2 (Moves Opposite to Animation 1) */
-        @keyframes floatCircle2 {
-            0%, 100% { transform: translate(0, 0); }
-            50% { transform: translate(-15px, 35px); }
-        }
-
-        .animate-float1 { animation: floatCircle1 8s ease-in-out infinite; }
-        .animate-float2 { animation: floatCircle2 10s ease-in-out infinite; }
-
-        /* Ensure video doesn't block clicks */
-        video { pointer-events: none; }
     </style>
 </head>
 <body class="bg-[#d9e9f2] montserrat text-stone-700">
 
-    <nav class="flex justify-center space-x-6 md:space-x-12 py-6 text-xs md:text-sm uppercase tracking-widest font-medium">
+    <nav class="flex justify-center space-x-6 md:space-x-12 py-6 text-xs md:text-sm uppercase tracking-widest font-medium relative z-40">
         <a href="#" class="hover:text-rose-400">Our Story</a>
         <a href="#" class="border-b-2 border-stone-800 pb-1">Event</a>
         <a href="#" class="hover:text-rose-400">Location</a>
@@ -48,74 +38,32 @@
 
     <main class="max-w-6xl mx-auto px-4 pb-20">
         
-        <div class="text-center mt-4 relative z-20">
+        <div class="text-center mt-4 relative z-40">
             <h1 class="playfair text-4xl md:text-6xl italic font-semibold text-stone-800">Jawad & Shabhistha's</h1>
             <h2 class="playfair text-2xl md:text-3xl italic text-stone-700 mt-2">Wedding Invitation</h2>
         </div>
 
         <div class="relative flex justify-center items-center my-10 px-4 h-64 md:h-96">
             
-            <img src="images/arch-left.png" class="absolute left-10 md:left-20 lg:left-40 h-full opacity-60 pointer-events-none hidden sm:block z-10" alt="">
+            <img src="images/arch-left.png" class="absolute left-10 md:left-20 lg:left-40 h-full opacity-60 pointer-events-none hidden sm:block z-20" alt="">
             
-           <div class="absolute inset-0 z-0 flex justify-center items-center pointer-events-none overflow-visible">
-    
-    <img 
-        src="jaaz logo.png" 
-        class="absolute h-32 w-32 md:h-56 md:w-56 top-[-10%] left-[5%] animate-float1 opacity-80 brightness-105 drop-shadow-2xl"
-        alt="Jaaz Logo"
-    >
-    
-    <img 
-        src="jaaz logo.png" 
-        class="absolute h-24 w-24 md:h-48 md:w-48 bottom-[-10%] right-[5%] animate-float2 opacity-80 brightness-105 drop-shadow-2xl"
-        alt="Jaaz Logo"
-    >
-    
-</div>
+            <div id="tsparticles-back" class="absolute inset-0 pointer-events-none z-15"></div>
 
-            <div class="relative z-20 overflow-hidden rounded-[2rem] md:rounded-[4rem] h-full shadow-2xl halo-effect">
+            <div class="relative z-30 overflow-hidden rounded-[2rem] md:rounded-[4rem] h-full shadow-2xl halo-effect">
                 <img src="main page poster.png" class="h-full w-auto object-cover" alt="Couple">
+                
+                <div id="tsparticles-over-image" class="absolute inset-0 pointer-events-none z-35"></div>
             </div>
 
-            <img src="images/arch-right.png" class="absolute right-10 md:right-20 lg:right-40 h-full opacity-60 scale-x-[-1] pointer-events-none hidden sm:block z-10" alt="">
+            <img src="images/arch-right.png" class="absolute right-10 md:right-20 lg:right-40 h-full opacity-60 scale-x-[-1] pointer-events-none hidden sm:block z-20" alt="">
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 relative z-20">
-            <div class="bg-white rounded-[2rem] p-8 text-center border border-stone-100 card-shadow">
-                <h3 class="font-semibold text-lg mb-4">The Big Day</h3>
-                <div id="countdown" class="text-5xl font-bold text-rose-300">00:00</div>
-                <p class="text-xs text-stone-400 mt-1 uppercase tracking-tighter">Days : Hours</p>
-                <div class="flex items-center justify-center mt-6 text-sm">
-                    <span>📅 October 18, 2026</span>
-                </div>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 relative z-40">
             </div>
-
-            <div class="bg-white rounded-[2rem] p-8 text-center border border-stone-100 card-shadow">
-                <div class="text-4xl mb-3">🕌</div>
-                <h3 class="font-semibold text-lg">Nikah Ceremony</h3>
-                <p class="text-sm text-stone-500 mt-2">Timing: 11:30 AM</p>
-            </div>
-
-            <div class="bg-white rounded-[2rem] p-8 text-center border border-stone-100 card-shadow">
-                <div class="text-4xl mb-3">🎂</div>
-                <h3 class="font-semibold text-lg">Reception</h3>
-                <p class="text-sm text-stone-500 mt-2">Timing: 7:00 PM onwards</p>
-            </div>
-
-            <div class="md:col-span-1 bg-white rounded-[2rem] overflow-hidden border border-stone-100 card-shadow">
-                <div class="p-6">
-                    <h3 class="font-semibold text-lg">The Venue</h3>
-                    <p class="text-sm font-medium mt-2">The Emerald Garden</p>
-                    <p class="text-xs text-stone-400">123 Wedding Street, City</p>
-                </div>
-                <a href="#" target="_blank" class="block bg-stone-900 text-white text-center py-3 text-xs font-bold uppercase tracking-widest hover:bg-stone-700 transition">
-                    Click for Directions
-                </a>
-            </div>
-        </div>
     </main>
 
     <script>
+        // Countdown Logic (existing code)
         const weddingDate = new Date("Oct 18, 2026 11:30:00").getTime();
         
         setInterval(function() {
@@ -131,6 +79,66 @@
                 document.getElementById("countdown").innerHTML = days + ":" + hours;
             }
         }, 1000);
+
+        // --- Optimized tsParticles configuration for visual clarity ---
+        window.onload = function() {
+            
+            // Defines the base shared properties for a "petal"
+            const sharedPetalConfig = {
+                scalar: 1.2,
+                colors: ["#F9A8D4", "#FDF2F8", "#FECDD3"], // Soft pinks
+                gravity: 0.12,  // Light, romantic descent
+                drift: 0.3,     // Gentle side-to-side sway
+                shapes: ["circle", "square"],
+                ticks: 400      // Slow falling speed
+            };
+
+            // 1. Initial burst for both deep and front layers
+            // Deep Layer (z-15)
+            confetti({
+                target: "tsparticles-back",
+                particleCount: 15,
+                spread: 100,
+                origin: { y: -0.1 },
+                zIndex: 15,
+                ...sharedPetalConfig
+            });
+            // Front Layer (z-35)
+            confetti({
+                target: "tsparticles-over-image",
+                particleCount: 5,
+                spread: 40,     // Narrower spread for image focus
+                origin: { y: -0.1, x: 0.5 }, // Centralized start
+                zIndex: 35,
+                ...sharedPetalConfig
+            });
+            
+            // 2. Continuous Immersion Shower Loops
+            // Loop for the Deep Layer (Keeps the scene active behind text)
+            setInterval(() => {
+                confetti({
+                    target: "tsparticles-back",
+                    particleCount: 3, // Minimal, constant activity
+                    spread: 100,
+                    origin: { y: -0.1 },
+                    zIndex: 15,
+                    ...sharedPetalConfig
+                });
+            }, 5000);
+
+            // Loop for the Front Layer (Creates depth OVER the image)
+            setInterval(() => {
+                confetti({
+                    target: "tsparticles-over-image",
+                    particleCount: 2, // Very minimal to ensure visibility over the illustration
+                    spread: 30,      
+                    origin: { y: -0.1, x: 0.5 },
+                    zIndex: 35,
+                    gravity: 0.1,   // Even lighter gravity for the front layer
+                    ...sharedPetalConfig
+                });
+            }, 6500); // Front petals fall less frequently
+        };
     </script>
 </body>
 </html>
