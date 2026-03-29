@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Locations - Jawad & Shabhistha</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400;1,700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="favicon.png">
+    
+    <style>
+        .playfair { font-family: 'Playfair Display', serif; }
+        .montserrat { font-family: 'Montserrat', sans-serif; }
+        
+        /* Glassmorphism Cards */
+        .location-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 2.5rem;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+        }
+
+        .location-card:hover {
+            transform: scale(1.03);
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Flower Shower */
+        .flower-container {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 5;
+        }
+        .petal {
+            position: absolute;
+            background-color: #ffb7c5; 
+            border-radius: 150% 0 150% 0;
+            opacity: 0;
+            animation: shower 10s linear infinite;
+        }
+        @keyframes shower {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
+            5% { opacity: 0.8; }
+            95% { opacity: 0.8; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body class="montserrat text-stone-700 min-h-screen relative" 
+      style="background: linear-gradient(to bottom, #d9e9f2 0%, #d9e9f2 60%, #c5e1a5 100%);">
+
+    <div id="petal-container" class="flower-container"></div>
+
+    <nav class="flex justify-center space-x-6 md:space-x-12 py-6 text-xs md:text-sm uppercase tracking-widest font-medium relative z-50">
+        <a href="index.html" class="hover:text-rose-400">Home</a>
+        <a href="our-story.html" class="hover:text-rose-400">Our Story</a>
+        <a href="location.html" class="border-b-2 border-stone-800 pb-1">Location</a>
+        <a href="#" class="hover:text-rose-400">Gallery</a>
+       <a href="#" class="hover:text-rose-400">contact</a>
+    </nav>
+
+    <main class="max-w-5xl mx-auto px-6 py-12 relative z-10">
+        <div class="text-center mb-12">
+            <h1 class="playfair text-5xl md:text-6xl italic font-semibold text-stone-800">Wedding Venues</h1>
+            <p class="mt-4 text-stone-500 italic uppercase tracking-widest text-xs">Tap a card to open Google Maps</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            <a href="https://www.google.com/maps/search/?api=1&query=Sanchak+Venue+Location" target="_blank" class="location-card p-10 text-center flex flex-col items-center">
+                <div class="text-5xl mb-6">🌼</div>
+                <h2 class="playfair text-3xl font-bold text-stone-800">Sanchak (Haldi)</h2>
+                <p class="text-rose-400 font-semibold mt-2 tracking-tighter">June 3, 2026 • 4:00 PM</p>
+                <div class="h-px w-12 bg-stone-200 my-6"></div>
+                <p class="text-sm font-medium text-stone-600 uppercase tracking-widest">The Sunshine Hall</p>
+                <p class="text-xs text-stone-400 mt-1 italic">Click for Directions</p>
+            </a>
+
+            <a href="https://www.google.com/maps/search/?api=1&query=Nikah+Venue+Location" target="_blank" class="location-card p-10 text-center flex flex-col items-center border-rose-200 shadow-xl shadow-rose-100/20">
+                <div class="text-5xl mb-6">🕌</div>
+                <h2 class="playfair text-3xl font-bold text-stone-800">Nikah (Wedding)</h2>
+                <p class="text-rose-400 font-semibold mt-2 tracking-tighter">June 5, 2026 • 11:30 AM</p>
+                <div class="h-px w-12 bg-stone-200 my-6"></div>
+                <p class="text-sm font-medium text-stone-600 uppercase tracking-widest">The Grand Masjid Ballroom</p>
+                <p class="text-xs text-stone-400 mt-1 italic">Click for Directions</p>
+            </a>
+
+            <a href="https://www.google.com/maps/search/?api=1&query=Reception+Venue+Location" target="_blank" class="location-card p-10 text-center flex flex-col items-center">
+                <div class="text-5xl mb-6">🎂</div>
+                <h2 class="playfair text-3xl font-bold text-stone-800">Valima (Reception)</h2>
+                <p class="text-rose-400 font-semibold mt-2 tracking-tighter">June 7, 2026 • 7:00 PM</p>
+                <div class="h-px w-12 bg-stone-200 my-6"></div>
+                <p class="text-sm font-medium text-stone-600 uppercase tracking-widest">The Emerald Garden</p>
+                <p class="text-xs text-stone-400 mt-1 italic">Click for Directions</p>
+            </a>
+
+        </div>
+
+        <div class="text-center mt-16">
+            <a href="index.html" class="inline-block bg-stone-900 text-white px-10 py-4 rounded-full uppercase tracking-widest text-[10px] font-bold hover:bg-stone-700 transition shadow-lg">Back to Invitation</a>
+        </div>
+    </main>
+
+    <script>
+        const container = document.getElementById('petal-container');
+        const petalCount = 80; 
+        for (let i = 0; i < petalCount; i++) {
+            const petal = document.createElement('div');
+            petal.className = 'petal';
+            petal.style.left = Math.random() * 100 + '%';
+            petal.style.animationDelay = Math.random() * 10 + 's';
+            petal.style.animationDuration = (6 + Math.random() * 8) + 's';
+            const size = (10 + Math.random() * 12) + 'px';
+            petal.style.width = size;
+            petal.style.height = size;
+            container.appendChild(petal);
+        }
+    </script>
+</body>
+</html>
