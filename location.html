@@ -6,29 +6,31 @@
     <title>Event Locations - Jawad & Shabhistha</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400;1,700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/png" href="jaaz logo (3).png">
+    <link rel="icon" type="image/png" href="favicon.png">
     
     <style>
         .playfair { font-family: 'Playfair Display', serif; }
         .montserrat { font-family: 'Montserrat', sans-serif; }
         
-        /* Glassmorphism Cards */
+        /* Glassmorphism Cards - Increased width for better text fit */
         .location-card {
-            background: rgba(255, 255, 255, 0.7);
+            background: rgba(255, 255, 255, 0.75);
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.4);
             border-radius: 2.5rem;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             cursor: pointer;
+            width: 100%;
+            max-width: 380px; /* Slightly wider to fix text wrapping */
         }
 
         .location-card:hover {
-            transform: scale(1.03);
-            background: rgba(255, 255, 255, 0.95);
+            transform: translateY(-8px);
+            background: rgba(255, 255, 255, 0.98);
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
         }
 
-        /* Flower Shower */
+        /* Flower Shower Animation */
         .flower-container {
             position: fixed;
             width: 100vw;
@@ -62,49 +64,49 @@
     <nav class="flex justify-center space-x-6 md:space-x-12 py-6 text-xs md:text-sm uppercase tracking-widest font-medium relative z-50">
         <a href="index.html" class="hover:text-rose-400">Home</a>
         <a href="our-story.html" class="hover:text-rose-400">Our Story</a>
-        <a href="location.html" class="border-b-2 border-stone-800 pb-1">Location</a>
+        <a href="#" class="border-b-2 border-stone-800 pb-1">Location</a>
         <a href="#" class="hover:text-rose-400">Gallery</a>
-       <a href="#" class="hover:text-rose-400">contact</a>
     </nav>
 
-    <main class="max-w-5xl mx-auto px-6 py-12 relative z-10">
-        <div class="text-center mb-12">
-            <h1 class="playfair text-5xl md:text-6xl italic font-semibold text-stone-800">Wedding Venues</h1>
-            <p class="mt-4 text-stone-500 italic uppercase tracking-widest text-xs">Tap a card to open Google Maps</p>
+    <main class="max-w-7xl mx-auto px-6 py-12 relative z-10">
+        <div class="text-center mb-16">
+            <h1 class="playfair text-5xl md:text-7xl italic font-semibold text-stone-800">Jawad & Shabhistha</h1>
+            <h2 class="mt-4 playfair text-2xl md:text-3xl italic text-stone-600 tracking-wide">Wedding Venues</h2>
+            <p class="mt-2 text-stone-400 italic uppercase tracking-[0.3em] text-[10px]">Tap a card to open Google Maps</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="flex flex-wrap justify-center gap-10">
             
-            <a  href="https://maps.app.goo.gl/Zm6h133qryg2fpzu5?g_st=ic" target="_blank" class="location-card p-10..." target="_blank" class="location-card p-10 text-center flex flex-col items-center">
+            <a href="#" target="_blank" class="location-card p-10 text-center flex flex-col items-center">
                 <div class="text-5xl mb-6">🌼</div>
-                <h2 class="playfair text-3xl font-bold text-stone-800">Sanchak (Haldi)</h2>
-                <p class="text-rose-400 font-semibold mt-2 tracking-tighter">June 3, 2026 • 4:00 PM</p>
-                <div class="h-px w-12 bg-stone-200 my-6"></div>
-                <p class="text-sm font-medium text-stone-600 uppercase tracking-widest">The Sunshine Hall</p>
-                <p class="text-xs text-stone-400 mt-1 italic">Click for Directions</p>
+                <h2 class="playfair text-2xl md:text-3xl font-bold text-stone-800 whitespace-nowrap">Sanchak (Haldi)</h2>
+                <p class="text-rose-400 font-semibold mt-2 text-sm tracking-wide">June 3, 2026 • 4:00 PM</p>
+                <div class="h-px w-16 bg-stone-200 my-6"></div>
+                <p class="text-xs font-bold text-stone-600 uppercase tracking-[0.2em] mb-1">The Sunshine Hall</p>
+                <p class="text-[10px] text-stone-400 italic">Click for Directions</p>
             </a>
 
-            <a  href="https://maps.app.goo.gl/LMMEQpyX93CDdB4w8?g_st=icRE" target="_blank" class="location-card p-10..." target="_blank" class="location-card p-10 text-center flex flex-col items-center border-rose-200 shadow-xl shadow-rose-100/20">
+            <a href="#" target="_blank" class="location-card p-10 text-center flex flex-col items-center border-rose-100 shadow-xl shadow-rose-100/10">
                 <div class="text-5xl mb-6">🕌</div>
-                <h2 class="playfair text-3xl font-bold text-stone-800">Nikah (Wedding)</h2>
-                <p class="text-rose-400 font-semibold mt-2 tracking-tighter">June 5, 2026 • 11:30 AM</p>
-                <div class="h-px w-12 bg-stone-200 my-6"></div>
-                <p class="text-sm font-medium text-stone-600 uppercase tracking-widest">The Grand Masjid Ballroom</p>
-                <p class="text-xs text-stone-400 mt-1 italic">Click for Directions</p>
+                <h2 class="playfair text-2xl md:text-3xl font-bold text-stone-800 whitespace-nowrap">Nikah (Wedding)</h2>
+                <p class="text-rose-400 font-semibold mt-2 text-sm tracking-wide">June 5, 2026 • 11:30 AM</p>
+                <div class="h-px w-16 bg-stone-200 my-6"></div>
+                <p class="text-xs font-bold text-stone-600 uppercase tracking-[0.2em] mb-1">Grand Masjid Ballroom</p>
+                <p class="text-[10px] text-stone-400 italic">Click for Directions</p>
             </a>
 
-            <a href="https://maps.app.goo.gl/LkK6mrb7ixLULYem9?g_st=ic" target="_blank" class="location-card p-10..." target="_blank" class="location-card p-10 text-center flex flex-col items-center">
+            <a href="#" target="_blank" class="location-card p-10 text-center flex flex-col items-center">
                 <div class="text-5xl mb-6">🎂</div>
-                <h2 class="playfair text-3xl font-bold text-stone-800">Valima (Reception)</h2>
-                <p class="text-rose-400 font-semibold mt-2 tracking-tighter">June 7, 2026 • 7:00 PM</p>
-                <div class="h-px w-12 bg-stone-200 my-6"></div>
-                <p class="text-sm font-medium text-stone-600 uppercase tracking-widest">The Emerald Garden</p>
-                <p class="text-xs text-stone-400 mt-1 italic">Click for Directions</p>
+                <h2 class="playfair text-2xl md:text-3xl font-bold text-stone-800 whitespace-nowrap">Valima (Reception)</h2>
+                <p class="text-rose-400 font-semibold mt-2 text-sm tracking-wide">June 7, 2026 • 7:00 PM</p>
+                <div class="h-px w-16 bg-stone-200 my-6"></div>
+                <p class="text-xs font-bold text-stone-600 uppercase tracking-[0.2em] mb-1">The Emerald Garden</p>
+                <p class="text-[10px] text-stone-400 italic">Click for Directions</p>
             </a>
 
         </div>
 
-        <div class="text-center mt-16">
+        <div class="text-center mt-20">
             <a href="index.html" class="inline-block bg-stone-900 text-white px-10 py-4 rounded-full uppercase tracking-widest text-[10px] font-bold hover:bg-stone-700 transition shadow-lg">Back to Invitation</a>
         </div>
     </main>
