@@ -12,6 +12,7 @@
         .playfair { font-family: 'Playfair Display', serif; }
         .montserrat { font-family: 'Montserrat', sans-serif; }
         
+        /* Glassmorphism for Contact Cards */
         .glass-card {
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(12px);
@@ -22,6 +23,7 @@
             max-width: 360px;
         }
 
+        /* Selection Overlay */
         #selection-overlay {
             position: fixed; inset: 0;
             background: rgba(217, 233, 242, 0.9);
@@ -30,14 +32,14 @@
             display: flex; align-items: center; justify-content: center;
         }
 
-        /* THE UPDATED POPUP BOX */
+        /* THE POPUP BOX - Redesigned for attraction */
         .choice-card {
             background: white;
-            padding: 3.5rem 2.5rem;
+            padding: 3rem 2rem;
             border-radius: 3.5rem;
             text-align: center;
-            box-shadow: 0 40px 100px rgba(0,0,0,0.1);
-            max-width: 550px; /* Slightly wider for side-by-side text */
+            box-shadow: 0 40px 100px rgba(0,0,0,0.12);
+            max-width: 480px;
             width: 90%;
             border: 1px solid rgba(255, 255, 255, 0.8);
         }
@@ -51,6 +53,7 @@
         .btn-bride { background: #f9a8d4; color: white; }
         .side-btn:hover { transform: scale(1.03); filter: brightness(1.1); }
 
+        /* FIXED FLOWER SHOWER */
         .flower-container { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 10; }
         .petal { 
             position: absolute; background-color: #ffb7c5; border-radius: 150% 0 150% 0; 
@@ -70,31 +73,24 @@
 
     <div id="selection-overlay">
         <div class="choice-card">
+            <img src="jaaz logo (3).png" class="w-32 h-32 md:w-40 md:h-40 mx-auto mb-2 object-contain" alt="JAAZ Logo">
             
-            <div class="flex items-center justify-center gap-6 mb-2">
-                <img src="jaaz logo (3).png" class="w-24 h-24 md:w-32 md:h-32 object-contain" alt="JAAZ Logo">
-                <h1 class="playfair text-3xl md:text-5xl font-bold text-stone-800 leading-tight border-l-2 border-stone-100 pl-6 py-2">
-                    JAAZ'S <br> <span class="text-2xl md:text-3xl opacity-80">Wedding</span>
-                </h1>
-            </div>
+            <h1 class="playfair text-3xl md:text-4xl font-bold text-stone-800 leading-tight">Jawad & Shabhistha</h1>
             
-            <p class="playfair italic text-xl md:text-2xl text-stone-500 mb-8 mt-2">Welcome</p>
+            <p class="playfair italic text-xl text-stone-500 mt-1 mb-6">Welcome</p>
             
-            <p class="text-stone-400 text-[9px] uppercase tracking-[0.4em] mb-10">Select which side you wanat to contact</p>
+            <p class="text-stone-400 text-[9px] uppercase font-semibold tracking-[0.4em] mb-8">Choose your side to see contacts</p>
             
-            <div class="space-y-4 max-w-sm mx-auto">
+            <div class="space-y-4 max-w-[280px] mx-auto">
                 <button onclick="showContacts('groom')" class="side-btn btn-groom text-[10px]">Bridegroom Side (Dulha)</button>
                 <button onclick="showContacts('bride')" class="side-btn btn-bride text-[10px]">Bride Side (Dulhan)</button>
             </div>
         </div>
     </div>
-
     <nav class="flex justify-center space-x-8 py-6 text-xs uppercase tracking-widest font-medium relative z-50">
-        <a href="our-story.html" class="hover:text-rose-400">Our Story</a>
-        <a href="index.html" class="border-b-2 border-stone-800 pb-1">Event</a>
+        <a href="index.html" class="hover:text-rose-400">Home</a>
         <a href="location.html" class="hover:text-rose-400">Location</a>
-        <a href="#" class="hover:text-rose-400">Gallery</a>
-        <a href="contact.html" class="hover:text-rose-400">Contact</a>
+        <a href="#" class="border-b-2 border-stone-800 pb-1">Contact</a>
     </nav>
 
     <main class="max-w-7xl mx-auto px-6 py-12 relative z-20">
@@ -104,8 +100,7 @@
             <p class="mt-2 text-stone-400 italic uppercase tracking-[0.3em] text-[10px]">Tap a number to initiate call</p>
         </div>
 
-        <div id="contact-grid" class="flex flex-wrap justify-center gap-8">
-            </div>
+        <div id="contact-grid" class="flex flex-wrap justify-center gap-8"></div>
 
         <div class="text-center mt-20">
             <button onclick="location.reload()" class="text-[10px] uppercase tracking-widest font-bold text-stone-400 hover:text-stone-800 transition">Change Side Selection</button>
