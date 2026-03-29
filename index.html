@@ -17,13 +17,13 @@
             box-shadow: 0 0 40px 10px rgba(103, 151, 169, 0.3);
         }
 
-        /* Floating Circle Animation 1 (Moves Up/Down & Side to Side) */
+        /* Floating Animation 1 (Moves Up/Down & Side to Side) */
         @keyframes floatCircle1 {
             0%, 100% { transform: translate(0, 0); }
             50% { transform: translate(15px, -35px); }
         }
 
-        /* Floating Circle Animation 2 (Moves Opposite to Circle 1) */
+        /* Floating Animation 2 (Moves Opposite to Animation 1) */
         @keyframes floatCircle2 {
             0%, 100% { transform: translate(0, 0); }
             50% { transform: translate(-15px, 35px); }
@@ -57,11 +57,21 @@
             
             <img src="images/arch-left.png" class="absolute left-10 md:left-20 lg:left-40 h-full opacity-60 pointer-events-none hidden sm:block z-10" alt="">
             
-           <div class="absolute inset-0 z-0 flex justify-center items-center pointer-events-none overflow-visible">
-    <div class="absolute h-40 w-40 md:h-72 md:w-72 bg-cyan-900/50 rounded-full top-[-10%] left-[5%] animate-float1 blur-sm shadow-inner"></div>
-    
-    <div class="absolute h-32 w-32 md:h-60 md:w-60 bg-cyan-900/50 rounded-full bottom-[-10%] right-[5%] animate-float2 blur-sm shadow-inner"></div>
-</div>
+            <div class="absolute inset-0 z-0 flex justify-center items-center pointer-events-none overflow-visible">
+                
+                <img 
+                    src="jaaz logo.png" 
+                    class="absolute h-32 w-32 md:h-56 md:w-56 top-[-10%] left-[5%] animate-float1 opacity-40 blur-sm brightness-110 drop-shadow-xl"
+                    alt="Jaaz Logo"
+                >
+                
+                <img 
+                    src="jaaz logo.png" 
+                    class="absolute h-24 w-24 md:h-48 md:w-48 bottom-[-10%] right-[5%] animate-float2 opacity-40 blur-sm brightness-110 drop-shadow-xl"
+                    alt="Jaaz Logo"
+                >
+                
+            </div>
 
             <div class="relative z-20 overflow-hidden rounded-[2rem] md:rounded-[4rem] h-full shadow-2xl halo-effect">
                 <img src="main page poster.png" class="h-full w-auto object-cover" alt="Couple">
