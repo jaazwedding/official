@@ -17,13 +17,11 @@
             box-shadow: 0 0 50px 15px rgba(103, 151, 169, 0.3);
         }
 
-        /* Prevent layout jumping during countdown */
         .tabular-nums {
             font-variant-numeric: tabular-nums;
             letter-spacing: -1px;
         }
 
-        /* Floating Animation for Event Icons */
         .floating {
             animation: float 3s ease-in-out infinite;
         }
@@ -33,7 +31,6 @@
             100% { transform: translateY(0px); }
         }
 
-        /* --- FULL SCREEN SHOWER --- */
         .flower-container {
             position: fixed; width: 100vw; height: 100vh;
             top: 0; left: 0; overflow: hidden;
@@ -53,6 +50,14 @@
             95% { opacity: 0.9; }
             100% { transform: translateY(110vh) rotate(720deg) translateX(100px); opacity: 0; }
         }
+
+        /* Watermark Glow for Mobile Clarity */
+        .dev-signature {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
     </style>
 </head>
 <body class="montserrat text-stone-700 min-h-screen relative overflow-x-hidden" 
@@ -68,7 +73,7 @@
         <a href="contact.html" class="hover:text-rose-400 transition">Contact</a>
     </nav>
 
-    <main class="max-w-6xl mx-auto px-6 pb-20 relative z-40">
+    <main class="max-w-6xl mx-auto px-6 pb-24 relative z-40">
         
         <div class="text-center mt-4">
             <h1 class="playfair text-4xl md:text-7xl italic font-semibold text-stone-800 leading-tight">Jawad & Shabhistha</h1>
@@ -135,10 +140,16 @@
         </div>
     </main>
 
+    <div class="fixed bottom-3 right-3 md:bottom-6 md:right-6 z-[60]">
+        <div class="dev-signature px-3 py-1.5 md:px-5 md:py-2.5 rounded-full">
+            <p class="text-stone-500 text-[8px] md:text-[10px] font-bold uppercase tracking-[0.25em] whitespace-nowrap">
+                <span class="opacity-60 font-medium">Created by</span> Tauseef Shaik
+            </p>
+        </div>
+    </div>
+
     <script>
-        // -- 1. Flower Shower --
         const container = document.getElementById('petal-container');
-        // Reduce count for mobile performance
         const petalCount = window.innerWidth < 768 ? 50 : 100; 
         for (let i = 0; i < petalCount; i++) {
             const petal = document.createElement('div');
@@ -156,7 +167,6 @@
             container.appendChild(petal);
         }
 
-        // --- 2. Stable Countdown Logic ---
         const weddingDate = new Date("June 5, 2026 21:30:00");
         const targetTime = weddingDate.getTime();
         const ampm = weddingDate.getHours() >= 12 ? 'PM' : 'AM';
@@ -165,17 +175,14 @@
         setInterval(function() {
             const now = new Date().getTime();
             const distance = targetTime - now;
-            
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-            
             const d = days.toString().padStart(2, '0');
             const h = hours.toString().padStart(2, '0');
             const m = minutes.toString().padStart(2, '0');
             const s = seconds.toString().padStart(2, '0');
-            
             const countdownEl = document.getElementById("countdown");
             if (distance < 0) {
                 countdownEl.innerHTML = "00:00:00:00";
