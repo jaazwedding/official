@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - Jawad & Shabhistha</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400;1,700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="jaaz logo (3).png">
+    
+    <style>
+        .playfair { font-family: 'Playfair Display', serif; }
+        .montserrat { font-family: 'Montserrat', sans-serif; }
+        
+        /* Glassmorphism for Album Cards */
+        .album-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 2.5rem;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+        }
+
+        .album-card:hover {
+            transform: translateY(-10px);
+            background: white;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Password Overlay */
+        #gallery-overlay {
+            position: fixed; inset: 0;
+            background: rgba(217, 233, 242, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 100;
+            display: flex; align-items: center; justify-content: center;
+            padding: 20px;
+        }
+
+        .lock-card {
+            background: white; padding: 3rem 2rem; border-radius: 3rem;
+            text-align: center; box-shadow: 0 40px 100px rgba(0,0,0,0.1);
+            max-width: 400px; width: 100%;
+        }
+
+        /* Flower Shower */
+        .flower-container { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 10; }
+        .petal { 
+            position: absolute; background-color: #ffb7c5; border-radius: 150% 0 150% 0; 
+            opacity: 0; animation: shower 10s linear infinite; 
+        }
+        @keyframes shower {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body class="montserrat text-stone-700 min-h-screen relative bg-[#d9e9f2] overflow-x-hidden">
+
+    <div id="petal-container" class="flower-container"></div>
+
+    <div id="gallery-overlay">
+        <div class="lock-card">
+            <img src="jaaz logo (3).png" class="w-20 h-20 mx-auto mb-6" alt="Logo">
+            <h2 class="playfair text-2xl font-bold text-stone-800 mb-2">Private Gallery</h2>
+            <p class="text-stone-400 text-[10px] uppercase tracking-widest mb-8">Enter the 4-digit access code</p>
+            <input type="password" id="passCode" class="w-full p-4 border-2 border-stone-100 rounded-xl text-center text-2xl tracking-[0.5em] mb-6 outline-none focus:border-rose-300 transition" placeholder="••••">
+            <button onclick="checkPassword()" class="w-full py-4 bg-stone-900 text-white rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-stone-700 active:scale-95 transition">View Albums</button>
+            <a href="index.html" class="inline-block mt-6 text-[10px] text-stone-300 uppercase tracking-widest hover:text-stone-500">Back to Home</a>
+        </div>
+    </div>
+
+    <nav class="flex justify-center space-x-6 md:space-x-12 py-6 text-[10px] md:text-sm uppercase tracking-widest font-medium relative z-50">
+        <a href="index.html" class="hover:text-rose-400 transition">Home</a>
+        <a href="our-story.html" class="hover:text-rose-400 transition">Our Story</a>
+        <a href="location.html" class="border-b-2 border-stone-800 pb-1">Location</a>
+        <a href="gallery.html" class="hover:text-rose-400 transition">Gallery</a>
+        <a href="contact.html" class="hover:text-rose-400 transition">Contact</a>
+    </nav>
+
+    <main class="max-w-5xl mx-auto px-6 py-12 relative z-20">
+        <div class="text-center mb-16">
+            <p class="playfair italic text-2xl text-stone-500 mb-2">Welcome to</p>
+            <h1 class="playfair text-4xl md:text-6xl font-bold text-stone-800 leading-tight">Jawad & Shabhistha's<br>Wedding Gallery</h1>
+            <p class="mt-6 text-stone-400 text-[10px] uppercase tracking-[0.4em]">Tap an event to view photos on Drive</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            <a href="PASTE_DRIVE_LINK_FOR_SANCHAK" target="_blank" class="album-card p-10 text-center">
+                <div class="text-5xl mb-6">🌻</div>
+                <h3 class="playfair text-2xl font-bold text-stone-800">Sanchak (Haldi)</h3>
+                <p class="text-rose-400 text-xs font-bold mt-2 tracking-widest">VIEW PHOTOS</p>
+                <div class="h-px w-12 bg-stone-100 my-6 mx-auto"></div>
+                <p class="text-[10px] text-stone-400 italic">Google Drive Album</p>
+            </a>
+
+            <a href="PASTE_DRIVE_LINK_FOR_NIKAH" target="_blank" class="album-card p-10 text-center border-rose-100 shadow-xl shadow-rose-100/10">
+                <div class="text-5xl mb-6">🕌</div>
+                <h3 class="playfair text-2xl font-bold text-stone-800">Nikah (Wedding)</h3>
+                <p class="text-rose-400 text-xs font-bold mt-2 tracking-widest">VIEW PHOTOS</p>
+                <div class="h-px w-12 bg-stone-100 my-6 mx-auto"></div>
+                <p class="text-[10px] text-stone-400 italic">Google Drive Album</p>
+            </a>
+
+            <a href="PASTE_DRIVE_LINK_FOR_VALIMA" target="_blank" class="album-card p-10 text-center">
+                <div class="text-5xl mb-6">🤵👰</div>
+                <h3 class="playfair text-2xl font-bold text-stone-800">Valima (Reception)</h3>
+                <p class="text-rose-400 text-xs font-bold mt-2 tracking-widest">VIEW PHOTOS</p>
+                <div class="h-px w-12 bg-stone-100 my-6 mx-auto"></div>
+                <p class="text-[10px] text-stone-400 italic">Google Drive Album</p>
+            </a>
+
+        </div>
+
+        <div class="text-center mt-20">
+            <a href="index.html" class="inline-block bg-stone-900 text-white px-10 py-4 rounded-full uppercase tracking-widest text-[10px] font-bold hover:bg-stone-700 transition">Back to Main Page</a>
+        </div>
+    </main>
+
+    <script>
+        // Password Logic
+        function checkPassword() {
+            const input = document.getElementById('passCode').value;
+            const secretCode = "1014"; // Change your password here
+            if (input === secretCode) {
+                document.getElementById('gallery-overlay').style.display = 'none';
+            } else {
+                alert("Wrong code! Please contact Tauseef for access.");
+                document.getElementById('passCode').value = '';
+            }
+        }
+
+        // Flower Shower
+        const petalContainer = document.getElementById('petal-container');
+        const count = window.innerWidth < 768 ? 40 : 80;
+        for (let i = 0; i < count; i++) {
+            const petal = document.createElement('div');
+            petal.className = 'petal';
+            petal.style.left = Math.random() * 100 + '%';
+            petal.style.animationDelay = Math.random() * 10 + 's';
+            petal.style.animationDuration = (6 + Math.random() * 10) + 's';
+            const size = (10 + Math.random() * 15) + 'px';
+            petal.style.width = size; petal.style.height = size;
+            petalContainer.appendChild(petal);
+        }
+    </script>
+</body>
+</html>
