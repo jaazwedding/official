@@ -51,6 +51,7 @@
             100% { transform: translateY(110vh) rotate(720deg) translateX(100px); opacity: 0; }
         }
 
+        /* Watermark Glow for Mobile Clarity */
         .dev-signature {
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(8px);
@@ -72,7 +73,7 @@
         <a href="contact.html" class="hover:text-rose-400 transition">Contact</a>
     </nav>
 
-    <main class="max-w-6xl mx-auto px-6 pb-40 relative z-40">
+    <main class="max-w-6xl mx-auto px-6 pb-24 relative z-40">
         
         <div class="text-center mt-4">
             <h1 class="playfair text-4xl md:text-7xl italic font-semibold text-stone-800 leading-tight">Jawad & Shabhistha</h1>
@@ -139,18 +140,7 @@
         </div>
     </main>
 
-    <div class="fixed bottom-24 right-4 md:bottom-28 md:right-6 z-[70] flex flex-col items-center">
-        <button id="music-toggle" class="w-12 h-12 bg-white/90 backdrop-blur-xl rounded-full shadow-2xl border border-rose-100 flex items-center justify-center transition-all active:scale-90 hover:shadow-rose-200/50 group">
-            <span id="music-icon" class="text-xl group-hover:scale-110 transition-transform">🔇</span>
-        </button>
-        <div id="music-wave" class="flex gap-1 mt-2 opacity-0 transition-opacity duration-500">
-            <div class="w-1 h-3 bg-rose-300 rounded-full animate-bounce"></div>
-            <div class="w-1 h-5 bg-rose-200 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
-            <div class="w-1 h-3 bg-rose-300 rounded-full animate-bounce" style="animation-delay: 0.4s"></div>
-        </div>
-    </div>
-
-    <div class="fixed bottom-3 left-3 md:bottom-6 md:right-32 z-[60]">
+    <div class="fixed bottom-3 right-3 md:bottom-6 md:right-6 z-[60]">
         <div class="dev-signature px-3 py-1.5 md:px-5 md:py-2.5 rounded-full">
             <p class="text-stone-500 text-[8px] md:text-[10px] font-bold uppercase tracking-[0.25em] whitespace-nowrap">
                 <span class="opacity-60 font-medium">Created by</span> Tauseef Shaik
@@ -158,51 +148,7 @@
         </div>
     </div>
 
-    <audio id="bg-music" loop>
-        <source src="music/wedding-theme.mp3" type="audio/mpeg">
-    </audio>
-
     <script>
-        const music = document.getElementById('bg-music');
-        const toggleBtn = document.getElementById('music-toggle');
-        const icon = document.getElementById('music-icon');
-        const wave = document.getElementById('music-wave');
-
-        function playMusic() {
-            music.play().then(() => {
-                icon.innerHTML = "🔊";
-                wave.classList.remove('opacity-0');
-                localStorage.setItem('weddingMusicStatus', 'unmuted');
-                document.querySelectorAll('.petal').forEach(p => p.style.animationDuration = '6s');
-            }).catch(err => console.log("User interaction required"));
-        }
-
-        function pauseMusic() {
-            music.pause();
-            icon.innerHTML = "🔇";
-            wave.classList.add('opacity-0');
-            localStorage.setItem('weddingMusicStatus', 'muted');
-            document.querySelectorAll('.petal').forEach(p => p.style.animationDuration = '10s');
-        }
-
-        toggleBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            if (music.paused) {
-                playMusic();
-            } else {
-                pauseMusic();
-            }
-        });
-
-        window.addEventListener('load', () => {
-            const status = localStorage.getItem('weddingMusicStatus');
-            if (status === 'unmuted') {
-                document.body.addEventListener('click', () => {
-                    if(music.paused) playMusic();
-                }, { once: true });
-            }
-        });
-
         const container = document.getElementById('petal-container');
         const petalCount = window.innerWidth < 768 ? 50 : 100; 
         for (let i = 0; i < petalCount; i++) {
@@ -246,4 +192,4 @@
         }, 1000);
     </script>
 </body>
-</html>
+</html> 
