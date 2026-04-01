@@ -51,7 +51,6 @@
             100% { transform: translateY(110vh) rotate(720deg) translateX(100px); opacity: 0; }
         }
 
-        /* Watermark Glow for Mobile Clarity */
         .dev-signature {
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(8px);
@@ -104,7 +103,6 @@
                 </div>
                 <div class="mt-6 pt-4 border-t border-stone-50 text-xs font-medium">
                     <span>📅 August 24, 2026</span>
-
                 </div>
             </div>
             
@@ -168,22 +166,22 @@
             container.appendChild(petal);
         }
 
-        const weddingDate = new Date("August 24, 2026 21:30:00");
-        const targetTime = weddingDate.getTime();
-        const ampm = weddingDate.getHours() >= 12 ? 'PM' : 'AM';
-        document.getElementById("ampm-label").innerHTML = ampm;
+        const weddingDate = new Date("August 24, 2026 21:30:00").getTime();
 
         setInterval(function() {
             const now = new Date().getTime();
-            const distance = targetTime - now;
+            const distance = weddingDate - now;
+            
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
             const d = days.toString().padStart(2, '0');
             const h = hours.toString().padStart(2, '0');
             const m = minutes.toString().padStart(2, '0');
             const s = seconds.toString().padStart(2, '0');
+            
             const countdownEl = document.getElementById("countdown");
             if (distance < 0) {
                 countdownEl.innerHTML = "00:00:00:00";
@@ -193,4 +191,4 @@
         }, 1000);
     </script>
 </body>
-</html> 
+</html>
