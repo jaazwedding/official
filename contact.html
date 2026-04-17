@@ -60,7 +60,7 @@
         import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
         const firebaseConfig = {
-            apiKey: "AIzaSyBt-AS0ViQ_vMB8Mor-nx6x7enr7BZmaU",
+            apiKey: "AIzaSyBt-AS0ViQ_vMB8Mor-nx6x7enr7BZzmaU",
             authDomain: "wedding-card-f3460.firebaseapp.com",
             databaseURL: "https://wedding-card-f3460-default-rtdb.firebaseio.com",
             projectId: "wedding-card-f3460",
@@ -77,45 +77,46 @@
         const urlParams = new URLSearchParams(window.location.search);
         const isAdmin = urlParams.get('admin') === 'true';
 
-        // STRICT GATEKEEPER LOGIC
+        // 1. STYRIC GATEKEEPER: CLEAR SESSION IF NOT ADMIN URL
         if (!isAdmin) {
-            localStorage.removeItem('admin_vip_pass'); // Clear any old sessions for guests
-        } else {
+            localStorage.removeItem('admin_vip_pass');
+        }
+
+        // 2. ADMIN INTERFACE SETUP
+        if (isAdmin) {
             window.addEventListener('DOMContentLoaded', () => {
-                const overlay = document.getElementById('maintenance-overlay');
-                const controls = document.getElementById('admin-controls');
-                overlay.style.setProperty('display', 'flex', 'important'); 
-                controls.classList.remove('hidden');
+                document.getElementById('maintenance-overlay').style.setProperty('display', 'flex', 'important');
+                document.getElementById('admin-controls').classList.remove('hidden');
             });
         }
 
         window.openPrivatePreview = () => {
-            localStorage.setItem('admin_vip_pass', 'active'); 
+            localStorage.setItem('admin_vip_pass', 'active');
             document.getElementById('maintenance-overlay').style.setProperty('display', 'none', 'important');
             document.getElementById('unboxing-container').style.display = 'flex';
         };
 
         window.updateGlobalMaintenance = (status) => {
-            set(maintenanceRef, status).then(() => alert("Global Status Updated!"));
+            set(maintenanceRef, status).then(() => alert("Global Status Updated to: " + (status ? "LOCKED" : "LIVE")));
         };
 
+        // 3. THE SMART REAL-TIME LISTENER
         onValue(maintenanceRef, (snapshot) => {
             const isLocked = snapshot.val();
             const hasVipPass = localStorage.getItem('admin_vip_pass') === 'active';
             const overlay = document.getElementById('maintenance-overlay');
             const unboxing = document.getElementById('unboxing-container');
 
-            if (isAdmin) return; // Admins handle overlay manually
-
             if (isLocked) {
-                if (!hasVipPass) {
+                // Guests see NOTHING but maintenance
+                if (!isAdmin && !hasVipPass) {
                     overlay.style.setProperty('display', 'flex', 'important');
-                    unboxing.style.display = 'none'; // Ensure content is hidden
+                    if(unboxing) unboxing.style.display = 'none'; 
                 }
             } else {
+                // If Live, hide overlay and show invitation
                 overlay.style.display = 'none';
-                // Only show unboxing if we haven't opened the main page yet
-                if (document.getElementById('main-page-wrapper').style.display !== 'block') {
+                if(unboxing && document.getElementById('main-page-wrapper').style.display !== 'block') {
                     unboxing.style.display = 'flex';
                 }
             }
@@ -131,7 +132,7 @@
             <div class="relative z-10">
                 <div class="text-5xl mb-6">🛠️</div>
                 <h1 class="playfair text-3xl font-bold text-stone-800 mb-4">Under Maintenance</h1>
-                <p class="montserrat text-sm text-stone-600 mb-8">We are currently refining the royal experience for Jawad & Shabistha's wedding. Please be patient as we prepare the grand reveal..</p>
+                <p class="montserrat text-sm text-stone-600 mb-8">Refining the royal experience for Jawad & Shabistha. Please be patient.</p>
                 
                 <div id="admin-controls" class="hidden mt-6 space-y-4 border-t pt-6">
                     <button onclick="window.openPrivatePreview()" class="w-full py-4 rounded-full bg-stone-800 text-white text-[10px] font-bold uppercase tracking-widest shadow-lg">Preview Site (Admin)</button>
