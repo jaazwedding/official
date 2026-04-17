@@ -129,6 +129,30 @@
 </head>
 <body class="montserrat">
 
+    <div id="maintenance-overlay" class="fixed inset-0 z-[500] flex items-center justify-center bg-black/80 backdrop-blur-xl px-6">
+        <div class="max-w-md w-full bg-[#fdfbf7] p-10 rounded-[3rem] border-2 border-[#d4af37] text-center shadow-2xl relative overflow-hidden">
+            <div class="absolute inset-0 opacity-5 pointer-events-none" style="background-image: url('https://www.transparenttextures.com/patterns/parchment.png');"></div>
+            <div class="relative z-10">
+                <div class="text-5xl mb-6">🛠️</div>
+                <h1 class="playfair text-3xl font-bold text-stone-800 mb-4">Under Maintenance</h1>
+                <p class="montserrat text-sm text-stone-600 leading-relaxed mb-8">
+                    We are currently refining the royal experience for Jawad & Shabistha's wedding. 
+                    Please be patient as we prepare the grand reveal.
+                </p>
+                <div class="h-px w-20 bg-[#d4af37] mx-auto mb-8"></div>
+                <p class="montserrat text-[10px] uppercase tracking-widest text-stone-400 font-bold mb-2">Contact Owner</p>
+                <p class="playfair text-xl text-stone-800 font-semibold mb-1">Tauseef Shaik</p>
+                <a href="tel:+919550791538" class="montserrat text-[#d4af37] font-bold hover:underline tracking-widest">+91 9550791538</a>
+
+                <button id="admin-dismiss-btn" onclick="document.getElementById('maintenance-overlay').style.display='none'" 
+                        class="hidden mt-10 w-full py-3 rounded-full bg-stone-800 text-white text-[10px] uppercase tracking-[0.3em] hover:bg-[#d4af37] transition shadow-lg">
+                    Unlock Site (Admin Only)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <img src="jaaz logo (3).png" class="fixed top-1/2 left-1/2 ...">
     <img src="jaaz logo (3).png" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] max-w-lg opacity-[0.05] pointer-events-none z-0">
 
     <div id="petal-container"></div>
@@ -265,6 +289,19 @@
             const el = document.getElementById("countdown");
             if(el) el.innerText = dist < 0 ? "00:00:00:00" : `${d}:${h}:${m}:${s}`;
         }, 1000);
-    </script>
+    // ... This is where your old countdown code ends ...
+        }, 1000);
+
+        // --- PASTE THE NEW PART HERE ---
+        window.addEventListener('load', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('admin') === 'true') {
+                const btn = document.getElementById('admin-dismiss-btn');
+                if(btn) btn.style.display = 'block';
+            }
+        });
+        // --- END OF NEW PART ---
+
+    </script> 
 </body>
 </html>
