@@ -12,139 +12,207 @@
         .playfair { font-family: 'Playfair Display', serif; }
         .montserrat { font-family: 'Montserrat', sans-serif; }
         
-        /* Glassmorphism for Album Cards */
+        /* Royal Background */
+        body { background-color: #2d241e; margin: 0; padding: 0; overflow: hidden; }
+
+        /* --- FIXED SCROLL FRAME (Matches Index) --- */
+        #main-page-wrapper {
+            position: fixed;
+            inset: 15px; 
+            background-color: #fdfbf7;
+            background-image: 
+                linear-gradient(to right, rgba(184, 134, 11, 0.08) 0%, transparent 10%, transparent 90%, rgba(184, 134, 11, 0.08) 100%),
+                url("https://www.transparenttextures.com/patterns/parchment.png");
+            border-radius: 3.5rem; 
+            border: 3px solid #d4af37;
+            box-shadow: 0 0 100px rgba(0,0,0,0.8), inset 0 0 40px rgba(184, 134, 11, 0.1);
+            z-index: 40;
+            overflow: hidden;
+        }
+
+        #scroll-content {
+            height: 100%;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding-bottom: 100px;
+        }
+        #scroll-content::-webkit-scrollbar { width: 0px; }
+
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: linear-gradient(to bottom, #fdfbf7 85%, transparent);
+            padding-top: 40px;
+            padding-bottom: 20px;
+        }
+
+        /* --- ALBUM CARDS --- */
         .album-card {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
             border-radius: 2.5rem;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.4s ease;
             cursor: pointer;
         }
-
         .album-card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-8px);
             background: white;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+            border-color: #d4af37;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
         }
 
-        /* Password Overlay */
+        /* Password Overlay Styled like Royal Card */
         #gallery-overlay {
             position: fixed; inset: 0;
-            background: rgba(217, 233, 242, 0.95);
-            backdrop-filter: blur(20px);
-            z-index: 100;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(15px);
+            z-index: 500;
             display: flex; align-items: center; justify-content: center;
             padding: 20px;
         }
-
         .lock-card {
-            background: white; padding: 3rem 2rem; border-radius: 3rem;
-            text-align: center; box-shadow: 0 40px 100px rgba(0,0,0,0.1);
-            max-width: 400px; width: 100%;
+            background: #fdfbf7;
+            background-image: url("https://www.transparenttextures.com/patterns/parchment.png");
+            padding: 3rem 2rem;
+            border-radius: 3rem;
+            text-align: center;
+            border: 2px solid #d4af37;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+            max-width: 400px;
+            width: 100%;
         }
 
-        /* Flower Shower */
-        .flower-container { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 10; }
-        .petal { 
-            position: absolute; background-color: #ffb7c5; border-radius: 150% 0 150% 0; 
-            opacity: 0; animation: shower 10s linear infinite; 
+        /* Petals */
+        #petal-container {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none; z-index: 60; overflow: hidden;
+        }
+        .petal {
+            position: absolute; background-color: #ffb7c5; border-radius: 150% 0 150% 0;
+            opacity: 0; will-change: transform;
         }
         @keyframes shower {
             0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
             10% { opacity: 0.8; }
-            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
         }
+
+        .floating { animation: float 3s ease-in-out infinite; }
+        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
     </style>
 </head>
-<body class="montserrat text-stone-700 min-h-screen relative bg-[#d9e9f2] overflow-x-hidden">
+<body class="montserrat">
 
-    <div id="petal-container" class="flower-container"></div>
+    <div id="petal-container"></div>
 
     <div id="gallery-overlay">
         <div class="lock-card">
-            <img src="jaaz logo (3).png" class="w-20 h-20 mx-auto mb-6" alt="Logo">
-            <h2 class="playfair text-2xl font-bold text-stone-800 mb-2">Private Gallery</h2>
-            <p class="text-stone-400 text-[10px] uppercase tracking-widest mb-8">Enter the 4-digit access code</p>
-            <input type="password" id="passCode" class="w-full p-4 border-2 border-stone-100 rounded-xl text-center text-2xl tracking-[0.5em] mb-6 outline-none focus:border-rose-300 transition" placeholder="••••">
-            <button onclick="checkPassword()" class="w-full py-4 bg-stone-900 text-white rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-stone-700 active:scale-95 transition">View Albums</button>
-            <a href="index.html" class="inline-block mt-6 text-[10px] text-stone-300 uppercase tracking-widest hover:text-stone-500">Back to Home</a>
+            <img src="jaaz logo (3).png" class="w-24 h-24 mx-auto mb-4 object-contain" alt="Logo">
+            <h1 class="playfair text-3xl font-bold text-stone-800 leading-tight">Private Gallery</h1>
+            <p class="text-stone-500 text-[9px] uppercase font-bold tracking-[0.2em] mt-2 mb-8">Enter the 4-digit access code</p>
+            
+            <input type="password" id="passCode" maxlength="4" class="w-full p-4 border-2 border-stone-200 rounded-2xl text-center text-3xl tracking-[0.5em] mb-6 outline-none focus:border-[#d4af37] transition bg-white/50" placeholder="••••">
+            
+            <button onclick="checkPassword()" class="w-full py-4 bg-stone-900 text-white rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-[#d4af37] transition-all shadow-lg">View Albums</button>
+            
+            <a href="index.html" class="inline-block mt-8 text-[9px] uppercase font-bold text-stone-400 hover:text-stone-800">← Back to Home</a>
         </div>
     </div>
 
-    <nav class="flex justify-center space-x-6 md:space-x-12 py-6 text-[10px] md:text-sm uppercase tracking-widest font-medium relative z-50">
-        <a href="index.html" class="hover:text-rose-400 transition">Home</a>
-        <a href="location.html" class="border-b-2 border-stone-800 pb-1">Location</a>
-        <a href="gallery.html" class="hover:text-rose-400 transition">Gallery</a>
-        <a href="contact.html" class="hover:text-rose-400 transition">Contact</a>
-    </nav>
-
-    <main class="max-w-5xl mx-auto px-6 py-12 relative z-20">
-        <div class="text-center mb-16">
-            <p class="playfair italic text-2xl text-stone-500 mb-2">Welcome to</p>
-            <h1 class="playfair text-4xl md:text-6xl font-bold text-stone-800 leading-tight">Jawad & Shabistha's<br>Wedding Gallery</h1>
-            <p class="mt-6 text-stone-400 text-[10px] uppercase tracking-[0.4em]">Tap an event to view photos on Drive</p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div id="main-page-wrapper">
+        <div id="scroll-content">
             
-            <a href="PASTE_DRIVE_LINK_FOR_SANCHAK" target="_blank" class="album-card p-10 text-center">
-                <div class="text-5xl mb-6">🌻</div>
-                <h3 class="playfair text-2xl font-bold text-stone-800">Sanchak (Haldi)</h3>
-                <p class="text-rose-400 text-xs font-bold mt-2 tracking-widest">VIEW PHOTOS</p>
-                <div class="h-px w-12 bg-stone-100 my-6 mx-auto"></div>
-                <p class="text-[10px] text-stone-400 italic">Google Drive Album</p>
-            </a>
+            <div class="sticky-header text-center px-4">
+                <nav class="flex justify-center gap-6 text-[10px] font-bold uppercase tracking-widest border-b border-stone-100 pb-4 max-w-xs mx-auto">
+                    <a href="index.html" class="hover:text-[#d4af37]">Event</a>
+                    <a href="location.html" class="hover:text-[#d4af37]">Location</a>
+                    <a href="gallery.html" class="text-[#d4af37] border-b border-[#d4af37]">Gallery</a>
+                    <a href="contact.html" class="hover:text-[#d4af37]">Contact</a>
+                </nav>
+            </div>
 
-            <a href="PASTE_DRIVE_LINK_FOR_NIKAH" target="_blank" class="album-card p-10 text-center border-rose-100 shadow-xl shadow-rose-100/10">
-                <div class="text-5xl mb-6">🕌</div>
-                <h3 class="playfair text-2xl font-bold text-stone-800">Nikah (Wedding)</h3>
-                <p class="text-rose-400 text-xs font-bold mt-2 tracking-widest">VIEW PHOTOS</p>
-                <div class="h-px w-12 bg-stone-100 my-6 mx-auto"></div>
-                <p class="text-[10px] text-stone-400 italic">Google Drive Album</p>
-            </a>
+            <main class="max-w-6xl mx-auto px-6 pt-10 text-center">
+                <h1 class="playfair text-4xl md:text-6xl italic font-semibold text-stone-800">Wedding Gallery</h1>
+                <p class="mt-4 text-stone-500 italic uppercase tracking-[0.2em] text-[10px]">Relive the beautiful moments</p>
 
-            <a href="PASTE_DRIVE_LINK_FOR_VALIMA" target="_blank" class="album-card p-10 text-center">
-                <div class="text-5xl mb-6">🤵👰</div>
-                <h3 class="playfair text-2xl font-bold text-stone-800">Valima (Reception)</h3>
-                <p class="text-rose-400 text-xs font-bold mt-2 tracking-widest">VIEW PHOTOS</p>
-                <div class="h-px w-12 bg-stone-100 my-6 mx-auto"></div>
-                <p class="text-[10px] text-stone-400 italic">Google Drive Album</p>
-            </a>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12 mb-16">
+                    
+                    <a href="PASTE_DRIVE_LINK_FOR_SANCHAK" target="_blank" class="album-card p-10 text-center">
+                        <div class="text-5xl mb-6 floating">🌻</div>
+                        <h3 class="playfair text-2xl font-bold text-stone-800 uppercase tracking-tight">Sanchak</h3>
+                        <p class="text-rose-400 font-bold text-[10px] mt-2 tracking-widest">VIEW MEMORIES</p>
+                        <div class="h-px w-12 bg-stone-200 my-6 mx-auto"></div>
+                        <p class="text-[9px] text-stone-400 italic">Click to open Google Drive</p>
+                    </a>
 
+                    <a href="PASTE_DRIVE_LINK_FOR_NIKAH" target="_blank" class="album-card p-10 text-center border-[#d4af37]/30 shadow-xl shadow-[#d4af37]/5">
+                        <div class="text-5xl mb-6 floating" style="animation-delay: 0.5s">🕌</div>
+                        <h3 class="playfair text-2xl font-bold text-stone-800 uppercase tracking-tight">Nikah</h3>
+                        <p class="text-rose-400 font-bold text-[10px] mt-2 tracking-widest">VIEW MEMORIES</p>
+                        <div class="h-px w-12 bg-stone-200 my-6 mx-auto"></div>
+                        <p class="text-[9px] text-stone-400 italic">Click to open Google Drive</p>
+                    </a>
+
+                    <a href="PASTE_DRIVE_LINK_FOR_VALIMA" target="_blank" class="album-card p-10 text-center">
+                        <div class="text-5xl mb-6 floating" style="animation-delay: 1s">🤵👰</div>
+                        <h3 class="playfair text-2xl font-bold text-stone-800 uppercase tracking-tight">Valima</h3>
+                        <p class="text-rose-400 font-bold text-[10px] mt-2 tracking-widest">VIEW MEMORIES</p>
+                        <div class="h-px w-12 bg-stone-200 my-6 mx-auto"></div>
+                        <p class="text-[9px] text-stone-400 italic">Click to open Google Drive</p>
+                    </a>
+
+                </div>
+
+                <div class="mb-20">
+                    <a href="index.html" class="inline-block bg-stone-900 text-white px-12 py-4 rounded-full text-[10px] font-bold uppercase tracking-[0.3em] shadow-xl hover:bg-[#d4af37] transition-all">
+                        Back to Home
+                    </a>
+                </div>
+            </main>
         </div>
-
-        <div class="text-center mt-20">
-            <a href="index.html" class="inline-block bg-stone-900 text-white px-10 py-4 rounded-full uppercase tracking-widest text-[10px] font-bold hover:bg-stone-700 transition">Back to Main Page</a>
-        </div>
-    </main>
+    </div>
 
     <script>
         // Password Logic
         function checkPassword() {
             const input = document.getElementById('passCode').value;
-            const secretCode = "1014"; // Change your password here
+            const secretCode = "1014"; 
             if (input === secretCode) {
                 document.getElementById('gallery-overlay').style.display = 'none';
+                initPetals(); // Start petals after entry
             } else {
-                alert("Wrong code! Please contact Tauseef for access.");
+                alert("Incorrect code. Please contact the family for access.");
                 document.getElementById('passCode').value = '';
             }
         }
 
-        // Flower Shower
-        const petalContainer = document.getElementById('petal-container');
-        const count = window.innerWidth < 768 ? 40 : 80;
-        for (let i = 0; i < count; i++) {
-            const petal = document.createElement('div');
-            petal.className = 'petal';
-            petal.style.left = Math.random() * 100 + '%';
-            petal.style.animationDelay = Math.random() * 10 + 's';
-            petal.style.animationDuration = (6 + Math.random() * 10) + 's';
-            const size = (10 + Math.random() * 15) + 'px';
-            petal.style.width = size; petal.style.height = size;
-            petalContainer.appendChild(petal);
+        // Petal Logic
+        function initPetals() {
+            const container = document.getElementById('petal-container');
+            const petalCount = window.innerWidth < 768 ? 40 : 80;
+            for (let i = 0; i < petalCount; i++) {
+                const petal = document.createElement('div');
+                petal.className = 'petal';
+                const size = 8 + Math.random() * 10;
+                petal.style.width = size + 'px';
+                petal.style.height = size + 'px';
+                petal.style.left = Math.random() * 100 + '%';
+                petal.style.backgroundColor = Math.random() > 0.5 ? '#fce4ec' : '#ffb7c5';
+                petal.style.animation = `shower ${6 + Math.random() * 10}s linear infinite`;
+                petal.style.animationDelay = `${Math.random() * 10}s`;
+                container.appendChild(petal);
+            }
         }
+
+        // Allow "Enter" key for password
+        document.getElementById('passCode').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
     </script>
 </body>
 </html>
