@@ -12,62 +12,90 @@
         .playfair { font-family: 'Playfair Display', serif; }
         .montserrat { font-family: 'Montserrat', sans-serif; }
         
-        /* --- 3D ENVELOPE STYLES --- */
-        #envelope-wrapper {
-            perspective: 1500px;
-            transition: all 1s ease-in-out;
+        /* --- PREMIUM WATERMARK --- */
+        .watermark {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 400px;
+            opacity: 0.05; /* Very subtle */
+            pointer-events: none;
+            z-index: 0;
         }
 
-        .envelope {
+        /* --- 3D ENVELOPE OPENING --- */
+        #unboxing-container {
+            perspective: 1000px;
+            background: #f4f1ee;
+            z-index: 200;
+        }
+
+        .envelope-wrapper {
             position: relative;
             width: 320px;
             height: 220px;
-            background: #e0d5c8; /* Outer envelope color */
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-            margin: auto;
+            background: #dcd0c0;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.12);
+            transition: transform 0.8s ease;
         }
 
-        /* The Triangle Flap */
-        .flap {
+        .envelope-flap {
             position: absolute;
             top: 0; left: 0; width: 0; height: 0;
             border-left: 160px solid transparent;
             border-right: 160px solid transparent;
-            border-top: 120px solid #d4c7b8; /* Flap color */
+            border-top: 120px solid #c9bbab;
             transform-origin: top;
             transition: transform 0.6s ease;
-            z-index: 3;
+            z-index: 30;
         }
 
-        /* Inner Pocket */
-        .pocket {
+        .envelope-pocket {
             position: absolute;
-            bottom: 0; left: 0; width: 100%; height: 100%;
-            background: #e0d5c8;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #dcd0c0;
             border-left: 160px solid #f5ede3;
             border-right: 160px solid #f5ede3;
             border-bottom: 110px solid #efe6da;
-            z-index: 2;
+            z-index: 20;
         }
 
-        /* The Button on the Flap (The Seal) */
-        .seal-btn {
+        /* The Seal Button */
+        #seal-container {
             position: absolute;
             top: 90px; left: 50%;
             transform: translateX(-50%);
-            z-index: 4;
-            transition: opacity 0.3s;
+            z-index: 40;
+            transition: opacity 0.4s ease;
         }
 
         /* Animation States */
-        .open-flap { transform: rotateX(180deg); z-index: 1; }
-        .envelope-fade-out { 
-            transform: translateY(100px) scale(0.5); 
-            opacity: 0; 
-            pointer-events: none;
+        .flap-open { transform: rotateX(180deg); z-index: 10; }
+        
+        .card-slide-out {
+            animation: slideOut 2.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
 
-        /* Original Content Styles */
+        @keyframes slideOut {
+            0% { transform: translateY(0) scale(0.9); opacity: 1; }
+            40% { transform: translateY(-120%) scale(0.9); opacity: 1; }
+            100% { transform: translateY(-120%) scale(4); opacity: 0; }
+        }
+
+        .fade-in-page {
+            animation: fadeInPage 1.5s ease forwards;
+            animation-delay: 1.2s;
+            opacity: 0;
+        }
+
+        @keyframes fadeInPage {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Standard Features */
         .card-shadow { box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05); }
         .halo-effect { box-shadow: 0 0 50px 15px rgba(103, 151, 169, 0.3); }
         .floating { animation: float 3s ease-in-out infinite; }
@@ -81,134 +109,142 @@
 <body class="montserrat text-stone-700 min-h-screen relative overflow-x-hidden" 
       style="background: linear-gradient(to bottom, #d9e9f2 0%, #d9e9f2 60%, #c5e1a5 100%);">
 
-    <div id="wedding-cover" class="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#f7f3f0]">
-        <p class="playfair text-xl mb-10 text-stone-500 italic">You have a special invitation...</p>
+    <img src="jaaz logo (3).png" class="watermark" alt="Watermark">
+
+    <div id="unboxing-container" class="fixed inset-0 flex flex-col items-center justify-center">
+        <p class="playfair text-xl mb-12 text-stone-500 italic tracking-wide">A Celebration of Love Awaits...</p>
         
-        <div id="envelope-wrapper" class="envelope">
-            <div id="flap" class="flap"></div>
+        <div id="envelope-main" class="envelope-wrapper">
+            <div id="flap" class="envelope-flap"></div>
             
-            <div id="seal" class="seal-btn">
-                <button onclick="handleOpen()" class="bg-stone-900 text-white w-20 h-20 rounded-full text-[9px] font-bold uppercase tracking-widest shadow-2xl hover:scale-110 transition border-4 border-double border-stone-700">
+            <div id="seal-container">
+                <button onclick="startUnboxing()" class="bg-stone-900 text-white w-20 h-20 rounded-full text-[9px] font-bold uppercase tracking-widest shadow-2xl hover:scale-110 transition border-4 border-double border-stone-700">
                     Open
                 </button>
             </div>
             
-            <div class="pocket"></div>
+            <div class="envelope-pocket"></div>
         </div>
         
-        <p class="montserrat text-[10px] tracking-[0.4em] mt-10 uppercase text-stone-400 font-bold">Jawad & Shabistha</p>
+        <p class="montserrat text-[10px] tracking-[0.5em] mt-12 uppercase text-stone-400 font-bold">Jawad & Shabistha</p>
     </div>
 
-    <div id="petal-container" class="flower-container"></div>
+    <div id="main-content" class="fade-in-page hidden">
+        <div id="petal-container" class="flower-container"></div>
 
-    <header class="relative z-50 text-center pt-8">
-        <p class="playfair text-2xl md:text-4xl text-stone-800 opacity-80">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
-        <p class="text-[9px] tracking-[0.3em] uppercase mt-2 text-stone-500 font-medium">In the name of Allah, the Most Gracious, the Most Merciful</p>
-    </header>
+        <header class="relative z-50 text-center pt-8">
+            <p class="playfair text-2xl md:text-4xl text-stone-800 opacity-80">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
+            <p class="text-[9px] tracking-[0.3em] uppercase mt-2 text-stone-500 font-medium">In the name of Allah, the Most Gracious, the Most Merciful</p>
+        </header>
 
-    <nav class="flex flex-wrap justify-center gap-4 md:gap-12 py-6 text-[10px] md:text-sm uppercase tracking-widest font-medium relative z-50 px-4">
-        <a href="index.html" class="border-b-2 border-stone-800 pb-1">Event</a>
-        <a href="location.html" class="hover:text-rose-400 transition">Location</a>
-        <a href="gallery.html" class="hover:text-rose-400 transition">Gallery</a>
-        <a href="contact.html" class="hover:text-rose-400 transition">Contact</a>
-    </nav>
+        <nav class="flex flex-wrap justify-center gap-4 md:gap-12 py-6 text-[10px] md:text-sm uppercase tracking-widest font-medium relative z-50 px-4">
+            <a href="index.html" class="border-b-2 border-stone-800 pb-1">Event</a>
+            <a href="location.html" class="hover:text-rose-400 transition">Location</a>
+            <a href="gallery.html" class="hover:text-rose-400 transition">Gallery</a>
+            <a href="contact.html" class="hover:text-rose-400 transition">Contact</a>
+        </nav>
 
-    <main class="max-w-6xl mx-auto px-6 pb-24 relative z-40">
-        <div class="text-center mt-4">
-            <h1 class="playfair text-4xl md:text-7xl italic font-semibold text-stone-800 leading-tight">Jawad & Shabistha</h1>
-            <h2 class="playfair text-xl md:text-3xl italic text-stone-600 mt-2">Wedding Invitation</h2>
-        </div>
+        <main class="max-w-6xl mx-auto px-6 pb-24 relative z-40">
+            <div class="text-center mt-4">
+                <h1 class="playfair text-4xl md:text-7xl italic font-semibold text-stone-800 leading-tight">Jawad & Shabistha</h1>
+                <h2 class="playfair text-xl md:text-3xl italic text-stone-600 mt-2">Wedding Invitation</h2>
+            </div>
 
-        <div class="relative flex justify-center items-center my-8 md:my-12 h-80 md:h-[550px]">
-            <img src="images/arch-left.png" class="hidden md:block absolute left-0 md:left-20 h-4/5 opacity-80 pointer-events-none z-10" alt="">
-            <div class="relative z-30 overflow-hidden rounded-[2.5rem] md:rounded-[4rem] h-full w-full max-w-[320px] md:max-w-none shadow-2xl halo-effect border-4 border-white/50">
-                <div class="absolute top-4 right-6 z-40 bg-white/20 backdrop-blur-sm px-4 py-1 rounded-full border border-white/30">
-                    <p class="playfair italic text-white text-lg">Mashallah</p>
+            <div class="relative flex justify-center items-center my-8 md:my-12 h-80 md:h-[550px]">
+                <img src="images/arch-left.png" class="hidden md:block absolute left-0 md:left-20 h-4/5 opacity-80 pointer-events-none z-10" alt="">
+                <div class="relative z-30 overflow-hidden rounded-[2.5rem] md:rounded-[4rem] h-full w-full max-w-[320px] md:max-w-none shadow-2xl halo-effect border-4 border-white/50">
+                    <div class="absolute top-4 right-6 z-40 bg-white/20 backdrop-blur-sm px-4 py-1 rounded-full border border-white/30">
+                        <p class="playfair italic text-white text-lg">Mashallah</p>
+                    </div>
+                    <img src="main page poster.png" class="h-full w-full object-cover" alt="Couple">
                 </div>
-                <img src="main page poster.png" class="h-full w-full object-cover" alt="Couple">
+                <img src="images/arch-right.png" class="hidden md:block absolute right-0 md:right-20 h-4/5 opacity-80 scale-x-[-1] pointer-events-none z-10" alt="">
             </div>
-            <img src="images/arch-right.png" class="hidden md:block absolute right-0 md:right-20 h-4/5 opacity-80 scale-x-[-1] pointer-events-none z-10" alt="">
-        </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 relative z-50">
-            <div class="bg-white/90 backdrop-blur-sm rounded-[2.5rem] p-8 text-center border border-stone-100 card-shadow order-first md:order-none">
-                <h3 class="font-semibold text-rose-400 uppercase tracking-widest text-[10px] mb-4">The Celebration Begins In</h3>
-                <div id="countdown" class="text-3xl md:text-4xl font-bold text-stone-800 tabular-nums tracking-tighter">00:00:00:00</div>
-                <div class="flex gap-4 text-[9px] text-stone-400 mt-2 uppercase justify-center tracking-[0.2em]">
-                    <span>Days</span><span>Hrs</span><span>Min</span><span>Sec</span>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 relative z-50">
+                <div class="bg-white/90 backdrop-blur-sm rounded-[2.5rem] p-8 text-center border border-stone-100 card-shadow order-first md:order-none">
+                    <h3 class="font-semibold text-rose-400 uppercase tracking-widest text-[10px] mb-4">The Celebration Begins In</h3>
+                    <div id="countdown" class="text-3xl md:text-4xl font-bold text-stone-800 tabular-nums tracking-tighter">00:00:00:00</div>
+                    <div class="flex gap-4 text-[9px] text-stone-400 mt-2 uppercase justify-center tracking-[0.2em]">
+                        <span>Days</span><span>Hrs</span><span>Min</span><span>Sec</span>
+                    </div>
                 </div>
-                <div class="mt-6 pt-4 border-t border-stone-50 text-xs font-medium"><span>⌛ August 22, 2026</span></div>
-            </div>
-            
-            <div class="bg-white/80 backdrop-blur-sm rounded-[2.5rem] p-8 text-center border border-stone-100 card-shadow transition hover:scale-105 duration-300">
-                <div class="text-5xl mb-4 floating">🌻</div>
-                <h2 class="playfair text-2xl font-bold text-stone-800">Sanchak (Haldi)</h2>
-                <p class="text-rose-400 font-semibold mt-1 text-sm">August 22, 2026</p>
-                <div class="h-px w-12 bg-stone-100 my-4 mx-auto"></div>
-                <p class="text-[10px] text-stone-400 uppercase tracking-widest leading-loose">The pre-wedding glow & Traditions</p>
+                
+                <div class="bg-white/80 backdrop-blur-sm rounded-[2.5rem] p-8 text-center border border-stone-100 card-shadow transition hover:scale-105 duration-300">
+                    <div class="text-5xl mb-4 floating">🌻</div>
+                    <h2 class="playfair text-2xl font-bold text-stone-800">Sanchak (Haldi)</h2>
+                    <p class="text-rose-400 font-semibold mt-1 text-sm">August 22, 2026</p>
+                    <p class="text-[10px] text-stone-400 uppercase tracking-widest leading-loose mt-4">The pre-wedding glow & Traditions</p>
+                </div>
+
+                <div class="bg-white/80 backdrop-blur-sm rounded-[2.5rem] p-8 text-center border border-stone-100 card-shadow transition hover:scale-105 duration-300 border-rose-100/50">
+                    <div class="text-5xl mb-4 floating" style="animation-delay: 0.5s;">🕌</div>
+                    <h2 class="playfair text-2xl font-bold text-stone-800">Nikah (Wedding)</h2>
+                    <p class="text-rose-400 font-semibold mt-1 text-sm">August 23, 2026</p>
+                    <p class="text-[10px] text-stone-400 uppercase tracking-widest leading-loose mt-4">The sacred bond of marriage</p>
+                </div>
+
+                <div class="bg-white/80 backdrop-blur-sm rounded-[2.5rem] p-8 text-center border border-stone-100 card-shadow transition hover:scale-105 duration-300">
+                    <div class="text-5xl mb-4 floating" style="animation-delay: 1s;">🤵👰</div>
+                    <h2 class="playfair text-2xl font-bold text-stone-800">Valima (Reception)</h2>
+                    <p class="text-rose-400 font-semibold mt-1 text-sm">August 24, 2026</p>
+                    <p class="text-[10px] text-stone-400 uppercase tracking-widest leading-loose mt-4">Celebration & Grand reception</p>
+                </div>
             </div>
 
-            <div class="bg-white/80 backdrop-blur-sm rounded-[2.5rem] p-8 text-center border border-stone-100 card-shadow transition hover:scale-105 duration-300 border-rose-100/50">
-                <div class="text-5xl mb-4 floating" style="animation-delay: 0.5s;">🕌</div>
-                <h2 class="playfair text-2xl font-bold text-stone-800">Nikah (Wedding)</h2>
-                <p class="text-rose-400 font-semibold mt-1 text-sm">August 23, 2026</p>
-                <div class="h-px w-12 bg-stone-100 my-4 mx-auto"></div>
-                <p class="text-[10px] text-stone-400 uppercase tracking-widest leading-loose">The sacred bond of marriage</p>
+            <div class="mt-12 text-center">
+                <a href="location.html" class="inline-block bg-stone-900 text-white px-12 py-4 rounded-full text-[10px] font-bold uppercase tracking-[0.3em] shadow-xl">
+                    View Event Locations
+                </a>
             </div>
+        </main>
 
-            <div class="bg-white/80 backdrop-blur-sm rounded-[2.5rem] p-8 text-center border border-stone-100 card-shadow transition hover:scale-105 duration-300">
-                <div class="text-5xl mb-4 floating" style="animation-delay: 1s;">🤵👰</div>
-                <h2 class="playfair text-2xl font-bold text-stone-800">Valima (Reception)</h2>
-                <p class="text-rose-400 font-semibold mt-1 text-sm">August 24, 2026</p>
-                <div class="h-px w-12 bg-stone-100 my-4 mx-auto"></div>
-                <p class="text-[10px] text-stone-400 uppercase tracking-widest leading-loose">Celebration & Grand reception</p>
+        <div class="fixed bottom-3 right-3 md:bottom-6 md:right-6 z-[60]">
+            <div class="dev-signature px-3 py-1.5 md:px-5 md:py-2.5 rounded-full">
+                <p class="text-stone-500 text-[8px] md:text-[10px] font-bold uppercase tracking-[0.25em] whitespace-nowrap text-center">
+                    <span class="opacity-60 font-medium">Created by</span> Tauseef Shaik
+                </p>
             </div>
-        </div>
-
-        <div class="mt-12 text-center">
-            <a href="location.html" class="inline-block bg-stone-900 text-white px-12 py-4 rounded-full text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-stone-700 transition shadow-xl active:scale-95">
-                View Event Locations
-            </a>
-        </div>
-    </main>
-
-    <div class="fixed bottom-3 right-3 md:bottom-6 md:right-6 z-[60]">
-        <div class="dev-signature px-3 py-1.5 md:px-5 md:py-2.5 rounded-full">
-            <p class="text-stone-500 text-[8px] md:text-[10px] font-bold uppercase tracking-[0.25em] whitespace-nowrap">
-                <span class="opacity-60 font-medium">Created by</span> Tauseef Shaik
-            </p>
         </div>
     </div>
 
     <script>
-        function handleOpen() {
-            // Step 1: Hide Seal and Open Flap
-            document.getElementById('seal').style.opacity = '0';
-            document.getElementById('flap').classList.add('open-flap');
-            
-            // Step 2: Fade out envelope and reveal main card
+        function startUnboxing() {
+            const seal = document.getElementById('seal-container');
+            const flap = document.getElementById('flap');
+            const envelope = document.getElementById('envelope-main');
+            const unboxingContainer = document.getElementById('unboxing-container');
+            const mainContent = document.getElementById('main-content');
+
+            // 1. Open flap
+            seal.style.opacity = '0';
+            flap.classList.add('flap-open');
+
+            // 2. Slide card up and expand
             setTimeout(() => {
-                document.getElementById('wedding-cover').classList.add('envelope-fade-out');
+                envelope.classList.add('card-slide-out');
+                
+                // 3. Reveal main page
                 setTimeout(() => {
-                    document.getElementById('wedding-cover').style.display = 'none';
-                }, 1000);
+                    unboxingContainer.style.display = 'none';
+                    mainContent.classList.remove('hidden');
+                    startPetals();
+                }, 1200);
             }, 600);
         }
 
-        const container = document.getElementById('petal-container');
-        for (let i = 0; i < 100; i++) {
-            const petal = document.createElement('div');
-            petal.className = 'petal';
-            const left = Math.random() * 100;
-            const delay = Math.random() * 12;
-            const size = 8 + Math.random() * 12;
-            petal.style.left = left + '%';
-            petal.style.animationDelay = delay + 's';
-            petal.style.animationDuration = (6 + Math.random() * 10) + 's';
-            petal.style.width = size + 'px';
-            petal.style.height = size + 'px';
-            petal.style.backgroundColor = Math.random() > 0.5 ? '#fce4ec' : '#ffb7c5';
-            container.appendChild(petal);
+        function startPetals() {
+            const container = document.getElementById('petal-container');
+            for (let i = 0; i < 100; i++) {
+                const petal = document.createElement('div');
+                petal.className = 'petal';
+                petal.style.left = Math.random() * 100 + '%';
+                petal.style.animationDelay = Math.random() * 12 + 's';
+                petal.style.animationDuration = (6 + Math.random() * 10) + 's';
+                petal.style.width = petal.style.height = (8 + Math.random() * 12) + 'px';
+                petal.style.backgroundColor = Math.random() > 0.5 ? '#fce4ec' : '#ffb7c5';
+                container.appendChild(petal);
+            }
         }
 
         const weddingDate = new Date("August 22, 2026 21:30:00").getTime();
@@ -219,7 +255,8 @@
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
             const seconds = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, '0');
-            document.getElementById("countdown").innerHTML = distance < 0 ? "00:00:00:00" : `${days}:${hours}:${minutes}:${seconds}`;
+            const el = document.getElementById("countdown");
+            if(el) el.innerHTML = distance < 0 ? "00:00:00:00" : `${days}:${hours}:${minutes}:${seconds}`;
         }, 1000);
     </script>
 </body>
