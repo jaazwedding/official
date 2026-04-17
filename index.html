@@ -57,15 +57,29 @@
             border: 1px solid rgba(255, 255, 255, 0.5);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
         }
+
+        /* CREATIVE ADDITION: Islamic Motif Background Layer */
+        .islamic-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l15 30-15 30L15 30z' fill='%23ffffff' fill-opacity='0.1'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 1;
+        }
     </style>
 </head>
 <body class="montserrat text-stone-700 min-h-screen relative overflow-x-hidden" 
       style="background: linear-gradient(to bottom, #d9e9f2 0%, #d9e9f2 60%, #c5e1a5 100%);">
 
+    <div class="islamic-bg"></div>
     <div id="petal-container" class="flower-container"></div>
 
+    <div class="relative z-50 text-center pt-8">
+        <p class="playfair text-2xl md:text-4xl text-stone-800 opacity-80">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
+        <p class="text-[9px] tracking-[0.3em] uppercase mt-2 text-stone-500">In the name of Allah, the Most Gracious, the Most Merciful</p>
+    </div>
+
     <nav class="flex flex-wrap justify-center gap-4 md:gap-12 py-6 text-[10px] md:text-sm uppercase tracking-widest font-medium relative z-50 px-4">
-       
         <a href="index.html" class="border-b-2 border-stone-800 pb-1">Event</a>
         <a href="location.html" class="hover:text-rose-400 transition">Location</a>
         <a href="gallery.html" class="hover:text-rose-400 transition">Gallery</a>
@@ -83,6 +97,10 @@
             <img src="images/arch-left.png" class="hidden md:block absolute left-0 md:left-20 h-4/5 opacity-80 pointer-events-none z-10" alt="">
             
             <div class="relative z-30 overflow-hidden rounded-[2.5rem] md:rounded-[4rem] h-full w-full max-w-[320px] md:max-w-none shadow-2xl halo-effect border-4 border-white/50">
+                <div class="absolute top-4 right-6 z-40 bg-white/20 backdrop-blur-sm px-4 py-1 rounded-full border border-white/30">
+                    <p class="playfair italic text-white text-lg">Mashallah</p>
+                </div>
+
                 <img src="main page poster.png" class="h-full w-full object-cover" alt="Couple">
             </div>
             
