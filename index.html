@@ -20,12 +20,13 @@
             width: 80%; max-width: 600px; opacity: 0.04; pointer-events: none; z-index: 0;
         }
 
-        /* --- LUXURY PREMIERE SCREEN --- */
+        /* --- ROYAL PREMIERE SCREEN --- */
         #premiere-screen {
             position: fixed; inset: 0; z-index: 800;
             background: radial-gradient(circle at center, #1a1a1a 0%, #0d1117 100%);
             display: none; flex-direction: column; align-items: center; justify-content: center;
             color: #fdfbf7; text-align: center; padding: 15px;
+            transition: opacity 1.5s ease;
         }
         #premiere-screen::before {
             content: ''; position: absolute; inset: 0;
@@ -33,7 +34,7 @@
             opacity: 0.3; pointer-events: none;
         }
         .premiere-frame {
-            position: relative; border: 2px solid #d4af37; padding: 2.5rem 1rem; border-radius: 3rem;
+            position: relative; border: 2px solid #d4af37; padding: 3rem 1rem; border-radius: 3.5rem;
             background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px);
             max-width: 450px; width: 100%; box-shadow: 0 0 50px rgba(0,0,0,0.5);
             animation: borderGlow 4s infinite alternate;
@@ -42,10 +43,7 @@
             0% { border-color: #d4af37; box-shadow: 0 0 20px rgba(212, 175, 55, 0.2); }
             100% { border-color: #f7e1ad; box-shadow: 0 0 40px rgba(212, 175, 55, 0.4); }
         }
-        .timer-box { 
-            font-size: 1.5rem; font-weight: 700; letter-spacing: 0.05em; color: #d4af37; 
-            text-shadow: 0 0 15px rgba(212, 175, 55, 0.5); width: 100%;
-        }
+        .timer-box { font-size: 1.5rem; font-weight: 700; letter-spacing: 0.05em; color: #d4af37; text-shadow: 0 0 15px rgba(212, 175, 55, 0.5); width: 100%; }
         @media (min-width: 768px) { .timer-box { font-size: 2.2rem; } }
 
         /* --- MAINTENANCE --- */
@@ -53,11 +51,18 @@
 
         /* --- ENVELOPE & UNBOXING --- */
         #unboxing-container { position: fixed; inset: 0; display: none; flex-direction: column; align-items: center; justify-content: center; background: #2d241e; z-index: 200; }
-        .envelope-wrapper { position: relative; width: 340px; height: 240px; background: #fdfbf7; background-image: url("https://www.transparenttextures.com/patterns/gray-floral.png"); border-radius: 30px; margin: 20px 0; box-shadow: 0 30px 60px rgba(0,0,0,0.4); }
+        .envelope-wrapper { position: relative; width: 340px; height: 260px; background: #fdfbf7; background-image: url("https://www.transparenttextures.com/patterns/gray-floral.png"); border-radius: 30px; margin: 20px 0; box-shadow: 0 30px 60px rgba(0,0,0,0.4); }
         .envelope-flap { position: absolute; top: -2px; width: 100%; height: 140px; background: #f9f5f0; clip-path: ellipse(50% 100% at 50% 0%); transform-origin: top; transition: transform 0.9s ease; z-index: 30; border-bottom: 1px solid rgba(184, 134, 11, 0.2); }
         .flap-open { transform: rotateX(180deg); z-index: 10; }
         .luxury-seal-group { position: absolute; top: 110px; left: 50%; transform: translateX(-50%); z-index: 45; display: flex; flex-direction: column; align-items: center; }
-        .luxury-seal { width: 85px; height: 85px; background: white; border: 3px solid #d4af37; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.4s ease; padding: 5px; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+        .luxury-seal { width: 85px; height: 85px; background: white; border: 3px solid #d4af37; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 5px; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+        .pulse-effect { position: absolute; width: 100%; height: 100%; border-radius: 50%; border: 2px solid #d4af37; animation: pulse 2.5s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(1.6); opacity: 0; } }
+
+        /* --- PETALS --- */
+        #petal-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 60; overflow: hidden; }
+        .petal { position: absolute; background-color: #ffb7c5; border-radius: 150% 0 150% 0; opacity: 0; will-change: transform; }
+        @keyframes shower { 0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
 
         /* --- MAIN PAGE --- */
         #main-page-wrapper {
@@ -73,10 +78,6 @@
         .scroll-revealed { animation: unfurl 1.8s cubic-bezier(0.19, 1, 0.22, 1) forwards; }
         @keyframes unfurl { 0% { transform: scaleY(0); opacity: 0; } 100% { transform: scaleY(1); opacity: 1; } }
 
-        /* --- DECORATIONS --- */
-        #petal-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 60; overflow: hidden; }
-        .petal { position: absolute; background-color: #ffb7c5; border-radius: 150% 0 150% 0; opacity: 0; will-change: transform; }
-        @keyframes shower { 0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
         .floating { animation: float 3s ease-in-out infinite; }
         @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
         .dev-signature { position: fixed; bottom: 20px; right: 20px; z-index: 150; background: rgba(255, 255, 255, 0.9); padding: 10px 20px; border-radius: 50px; border: 1px solid #d4af37; display: none; }
@@ -103,19 +104,20 @@
 
         const urlParams = new URLSearchParams(window.location.search);
         const isAdmin = urlParams.get('admin') === 'true';
-        const premiereDate = new Date("April 18, 2026 01:35:00").getTime();
-        let blastDone = false;
+        
+        const premiereDate = new Date("May 12, 2026 12:00:00").getTime();
+        let blastTriggered = false;
 
         if (!isAdmin) localStorage.removeItem('admin_vip_pass');
 
-        function triggerBlast() {
-            if (blastDone) return;
-            blastDone = true;
-            var duration = 5 * 1000;
-            var end = Date.now() + duration;
+        function triggerPaperBlast() {
+            if (blastTriggered) return;
+            blastTriggered = true;
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#d4af37', '#ffffff', '#ffb7c5'] });
+            var end = Date.now() + (4 * 1000);
             (function frame() {
-                confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#d4af37', '#f7e1ad'] });
-                confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#d4af37', '#f7e1ad'] });
+                confetti({ particleCount: 4, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#d4af37', '#ffb7c5'] });
+                confetti({ particleCount: 4, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#d4af37', '#ffb7c5'] });
                 if (Date.now() < end) requestAnimationFrame(frame);
             }());
         }
@@ -128,13 +130,16 @@
             const unboxing = document.getElementById('unboxing-container');
 
             if (dist < 0) {
-                triggerBlast();
-                setTimeout(() => {
-                    if (pScreen) pScreen.style.display = 'none';
-                    if (!isAdmin && unboxing.style.display === 'none' && document.getElementById('main-page-wrapper').style.display !== 'block') {
-                        unboxing.style.display = 'flex';
-                    }
-                }, 3000);
+                if (!isAdmin) {
+                    triggerPaperBlast();
+                    setTimeout(() => {
+                        pScreen.style.opacity = '0';
+                        setTimeout(() => {
+                            pScreen.style.display = 'none';
+                            unboxing.style.display = 'flex';
+                        }, 1000);
+                    }, 3000);
+                }
                 return true;
             }
             const d = Math.floor(dist / 86400000).toString().padStart(2, '0');
@@ -173,10 +178,8 @@
             } else {
                 mOverlay.style.display = 'none';
                 const finished = updatePremiere();
-                if (!finished) {
-                    pScreen.style.display = 'flex';
-                    unboxing.style.display = 'none';
-                }
+                if (!finished) { pScreen.style.display = 'flex'; unboxing.style.display = 'none'; }
+                else { pScreen.style.display = 'none'; if (document.getElementById('main-page-wrapper').style.display !== 'block') unboxing.style.display = 'flex'; }
             }
         });
     </script>
@@ -184,37 +187,28 @@
 <body class="montserrat">
 
     <img src="jaaz logo (3).png" class="watermark-bg" alt="Watermark">
+    <div id="petal-container"></div>
 
     <div id="maintenance-overlay">
         <div class="max-w-md w-full bg-white p-10 rounded-[3rem] text-center shadow-2xl mx-4 border-2 border-[#d4af37]">
             <div class="text-5xl mb-6">🛠️</div>
             <h1 class="playfair text-3xl font-bold text-stone-800 mb-4">Maintenance</h1>
-            <p class="text-stone-600 mb-8">We are currently refining the royal experience for Jawad & Shabistha's wedding. Please be patient as we prepare the grand reveal...</p>
+            <p class="text-stone-600 mb-8">Refining the royal experience. Please return shortly.</p>
             <div id="admin-controls" class="hidden mt-6 space-y-4 border-t pt-6">
-                <button onclick="window.openPrivatePreview()" class="w-full py-4 rounded-full bg-stone-800 text-white text-[10px] font-bold uppercase tracking-widest">Preview Site (Admin)</button>
-                <div class="grid grid-cols-2 gap-2">
-                    <button onclick="window.updateGlobalMaintenance(true)" class="py-3 rounded-full bg-red-600 text-white text-[9px] font-bold">Turn on the Maintenance mode globally</button>
-                    <button onclick="window.updateGlobalMaintenance(false)" class="py-3 rounded-full bg-green-600 text-white text-[9px] font-bold">Turn off the Maintenance mode globally</button>
-                </div>
+                <button onclick="window.openPrivatePreview()" class="w-full py-4 rounded-full bg-stone-800 text-white text-[10px] font-bold uppercase tracking-widest shadow-lg">Preview Site (Admin)</button>
             </div>
             <div class="h-px w-20 bg-rose-100 mx-auto my-8"></div>
-            <p class="montserrat text-[10px] uppercase text-stone-400 font-bold mb-2">For Technical Support</p>
             <a href="tel:+919550791538" class="montserrat text-rose-400 font-bold">+91 9550791538</a>
         </div>
     </div>
 
     <div id="premiere-screen">
         <div class="premiere-frame">
-            <img src="jaaz logo (3).png" class="w-20 h-20 mx-auto mb-6 floating" alt="Logo">
+            <img src="jaaz logo (3).png" class="w-20 h-20 mx-auto mb-6 floating">
             <p class="playfair italic text-xl text-stone-400 mb-2">Jawad & Shabistha's Wedding</p>
             <h1 class="playfair text-3xl md:text-5xl font-bold mb-8 uppercase tracking-widest">Grand Premiere</h1>
             <div id="premiere-timer" class="timer-box montserrat mb-8 whitespace-nowrap">00d : 00h : 00m : 00s</div>
-            <p class="text-[10px] uppercase tracking-[0.4em] text-stone-500 font-bold mb-4">Launching On</p>
             <p class="playfair text-2xl text-[#d4af37]">May 12, 2026 • 12:00 PM</p>
-            <div class="h-px w-20 bg-[#d4af37]/30 mx-auto my-10"></div>
-            <p class="text-[11px] uppercase font-bold tracking-widest text-stone-300">Prepare to witness a beautiful journey</p>
-           <p class="text-[10px] uppercase tracking-[0.4em] text-stone-500 font-bold mb-4">Jawad & Shabistha</p>
-
         </div>
     </div>
 
@@ -236,11 +230,8 @@
 
     <div id="main-page-wrapper">
         <div id="scroll-content">
-            <div id="petal-container"></div>
             <div class="sticky-header text-center">
-                <p class="playfair text-2xl text-stone-800">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
-                <p class="text-[9px] tracking-[0.3em] uppercase mt-2 text-stone-500 font-bold italic">In the name of Allah, the Most Gracious, the Most Merciful</p>
-                <h1 class="playfair text-4xl md:text-7xl italic font-semibold text-stone-800 mt-6 whitespace-nowrap">Jawad & Shabistha</h1>
+                <h1 class="playfair text-4xl md:text-7xl italic font-semibold text-stone-800 whitespace-nowrap">Jawad & Shabistha</h1>
                 <nav class="flex justify-center gap-6 mt-6 text-[10px] font-bold uppercase tracking-widest border-b pb-4 max-w-xs mx-auto">
                     <a href="#" onclick="navigateWithAdmin('index.html')" class="text-[#d4af37] border-b border-[#d4af37]">Event</a>
                     <a href="#" onclick="navigateWithAdmin('location.html')">Location</a>
@@ -281,16 +272,13 @@
                         <p class="text-[10px] text-stone-400 tracking-widest leading-loose">Celebration & Grand Reception</p>
                     </div>
                 </div>
-
                 <a href="#" onclick="navigateWithAdmin('location.html')" class="inline-block bg-stone-900 text-white px-16 py-5 rounded-full text-[10px] font-bold uppercase tracking-[0.3em] mb-20 shadow-xl">View Event Locations</a>
             </div>
         </div>
     </div>
 
     <div id="fixed-sig" class="dev-signature">
-        <p class="text-stone-500 text-[8px] md:text-[10px] font-bold uppercase tracking-[0.25em] whitespace-nowrap text-center">
-            <span class="opacity-60 font-medium">Created by</span> Tauseef Shaik
-        </p>
+        <p class="text-stone-500 text-[10px] font-bold uppercase tracking-widest text-center">Created by Tauseef Shaik</p>
     </div>
 
     <script>
@@ -300,29 +288,33 @@
         }
 
         function openInvitation() {
+            // PETALS TRIGGERED HERE IMMEDIATELY ON OPEN
+            initPetals();
+            
             document.getElementById('seal-group').style.opacity = '0';
             document.getElementById('flap').classList.add('flap-open');
             setTimeout(() => {
                 const env = document.getElementById('envelope-main');
                 env.style.transition = '1.6s ease-in-out';
-                env.style.transform = 'scale(5)';
+                env.style.transform = 'scale(4)';
                 env.style.opacity = '0';
                 setTimeout(() => {
                     document.getElementById('unboxing-container').style.display = 'none';
                     document.getElementById('main-page-wrapper').style.display = 'block';
                     document.getElementById('main-page-wrapper').classList.add('scroll-revealed');
                     document.getElementById('fixed-sig').style.display = 'block';
-                    initPetals();
                 }, 800);
             }, 600);
         }
 
         function initPetals() {
             const container = document.getElementById('petal-container');
+            container.innerHTML = ''; // Reset container
             for (let i = 0; i < 60; i++) {
                 const petal = document.createElement('div');
                 petal.className = 'petal';
-                petal.style.width = petal.style.height = (Math.random() * 10 + 8) + 'px';
+                petal.style.width = (Math.random() * 10 + 8) + 'px';
+                petal.style.height = (Math.random() * 10 + 8) + 'px';
                 petal.style.left = Math.random() * 100 + '%';
                 petal.style.animation = `shower ${Math.random() * 10 + 6}s linear infinite`;
                 petal.style.animationDelay = Math.random() * 10 + 's';
