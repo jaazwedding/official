@@ -144,9 +144,9 @@
                 <p class="playfair text-xl text-stone-800 font-semibold mb-1">Tauseef Shaik</p>
                 <a href="tel:+919550791538" class="montserrat text-[#d4af37] font-bold hover:underline tracking-widest">+91 9550791538</a>
 
-                <button id="admin-dismiss-btn" onclick="document.getElementById('maintenance-overlay').style.display='none'" 
+                <button id="admin-dismiss-btn" onclick="turnOffMaintenance()" 
                         class="hidden mt-10 w-full py-3 rounded-full bg-stone-800 text-white text-[10px] uppercase tracking-[0.3em] hover:bg-[#d4af37] transition shadow-lg">
-                    Unlock Site (Admin Only)
+                    Turn Off Maintenance For All
                 </button>
             </div>
         </div>
@@ -238,22 +238,32 @@
     </div>
 
     <script>
-        // 1. ADMIN PANEL CHECKER
+        // 1. MAINTENANCE & ADMIN LOGIC
         window.addEventListener('load', function() {
             const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get('admin') === 'true') {
-                const btn = document.getElementById('admin-dismiss-btn');
-                if(btn) {
-                    btn.style.setProperty('display', 'block', 'important');
+            const maintenanceOverlay = document.getElementById('maintenance-overlay');
+            const isMaintenanceOff = localStorage.getItem('siteMaintenanceOff');
+
+            if (isMaintenanceOff === 'true') {
+                if (maintenanceOverlay) maintenanceOverlay.style.display = 'none';
+            } else {
+                if (urlParams.get('admin') === 'true') {
+                    const btn = document.getElementById('admin-dismiss-btn');
+                    if (btn) btn.style.setProperty('display', 'block', 'important');
                 }
             }
         });
+
+        function turnOffMaintenance() {
+            localStorage.setItem('siteMaintenanceOff', 'true');
+            document.getElementById('maintenance-overlay').style.display = 'none';
+            alert("Maintenance Mode has been turned OFF for all guests.");
+        }
 
         // 2. INVITATION LOGIC
         function openInvitation() {
             const seal = document.getElementById('seal-group');
             if(seal) seal.style.opacity = '0';
-            
             document.getElementById('flap').classList.add('flap-open');
             
             setTimeout(() => {
