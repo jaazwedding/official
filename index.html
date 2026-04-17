@@ -14,7 +14,7 @@
         
         body { background-color: #2d241e; margin: 0; padding: 0; overflow: hidden; }
 
-        /* --- FIXED SCROLL FRAME (Main Page) --- */
+        /* --- FIXED SCROLL FRAME --- */
         #main-page-wrapper {
             position: fixed;
             inset: 15px; 
@@ -31,17 +31,14 @@
             overflow: hidden;
         }
 
-        /* INTERNAL SCROLLABLE AREA */
         #scroll-content {
             height: 100%;
             overflow-y: auto;
             overflow-x: hidden;
             padding-bottom: 100px;
-            scrollbar-width: none; /* Firefox */
         }
-        #scroll-content::-webkit-scrollbar { width: 0px; display: none; }
+        #scroll-content::-webkit-scrollbar { width: 0px; }
 
-        /* STICKY HEADER (Keeps names visible) */
         .sticky-header {
             position: sticky;
             top: 0;
@@ -54,76 +51,49 @@
         .scroll-revealed { animation: unfurl 1.8s cubic-bezier(0.19, 1, 0.22, 1) forwards; }
         @keyframes unfurl { 0% { transform: scaleY(0); opacity: 0; } 100% { transform: scaleY(1); opacity: 1; } }
 
-        /* --- LUXURY ENVELOPE DESIGN --- */
-        #unboxing-container { 
-            position: fixed; inset: 0; 
-            display: flex; flex-direction: column; align-items: center; justify-content: center; 
-            background: #2d241e; z-index: 200; 
-        }
-        
-        .envelope-wrapper { 
-            position: relative; 
-            width: 360px; height: 260px; 
-            background: #fdfbf7; 
-            background-image: url("https://www.transparenttextures.com/patterns/gray-floral.png"); 
-            box-shadow: 0 40px 80px rgba(0,0,0,0.5); 
-            border-radius: 6px;
-        }
-
-        .envelope-flap { 
-            position: absolute; top: 0; left: 0; width: 0; height: 0; 
-            border-left: 180px solid transparent; 
-            border-right: 180px solid transparent; 
-            border-top: 140px solid #f9f5f0; 
-            transform-origin: top; 
-            transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1); 
-            z-index: 30; 
-            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.15));
-        }
-
+        /* --- LUXURY ENVELOPE --- */
+        #unboxing-container { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #2d241e; z-index: 200; }
+        .envelope-wrapper { position: relative; width: 360px; height: 260px; background: #fdfbf7; background-image: url("https://www.transparenttextures.com/patterns/gray-floral.png"); box-shadow: 0 40px 80px rgba(0,0,0,0.5); border-radius: 6px; }
+        .envelope-flap { position: absolute; top: 0; left: 0; width: 0; height: 0; border-left: 180px solid transparent; border-right: 180px solid transparent; border-top: 140px solid #f9f5f0; transform-origin: top; transition: transform 0.9s ease; z-index: 30; }
         .flap-open { transform: rotateX(180deg); z-index: 10; }
-
-        /* PREMIUM WAX SEAL */
-        .luxury-seal-group {
-            position: absolute; top: 110px; left: 50%;
-            transform: translateX(-50%); z-index: 45;
-            display: flex; flex-direction: column; align-items: center;
-        }
-
-        .luxury-seal {
-            position: relative; width: 85px; height: 85px; 
-            background: white; border: 3px solid #d4af37; 
-            border-radius: 50%; display: flex; align-items: center; 
-            justify-content: center; cursor: pointer; 
-            transition: all 0.4s ease; box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-            padding: 5px;
-        }
-
-        .luxury-seal:hover { transform: scale(1.1); box-shadow: 0 15px 30px rgba(0,0,0,0.4); }
-        .luxury-seal img { width: 100%; height: auto; object-fit: contain; }
-
-        .pulse-effect {
-            position: absolute; width: 100%; height: 100%;
-            border-radius: 50%; border: 2px solid #d4af37;
-            animation: pulse 2.5s infinite; pointer-events: none;
-        }
-
+        
+        .luxury-seal-group { position: absolute; top: 110px; left: 50%; transform: translateX(-50%); z-index: 45; display: flex; flex-direction: column; align-items: center; }
+        .luxury-seal { position: relative; width: 85px; height: 85px; background: white; border: 3px solid #d4af37; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.4s ease; padding: 5px; }
+        .luxury-seal img { width: 100%; object-fit: contain; }
+        .pulse-effect { position: absolute; width: 100%; height: 100%; border-radius: 50%; border: 2px solid #d4af37; animation: pulse 2.5s infinite; }
         @keyframes pulse { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(1.6); opacity: 0; } }
-
-        .open-label {
-            color: #d4af37; font-size: 10px; font-weight: 700;
-            text-transform: uppercase; letter-spacing: 0.3em; margin-top: 15px;
-            pointer-events: none;
-        }
+        .open-label { color: #d4af37; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3em; margin-top: 15px; }
 
         .envelope-zoom-out { animation: envelopeExit 1.6s forwards; }
         @keyframes envelopeExit { 100% { transform: scale(4); opacity: 0; visibility: hidden; } }
 
-        /* --- UI ELEMENTS --- */
-        .flower-container { position: fixed; inset: 0; pointer-events: none; z-index: 35; }
-        .petal { position: absolute; border-radius: 150% 0 150% 0; opacity: 0; will-change: transform; }
-        @keyframes shower { 0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
-        
+        /* --- THE FALLING PETALS --- */
+        #petal-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 45; /* Falling in front of parchment but behind text/nav if needed */
+        }
+
+        .petal {
+            position: absolute;
+            background-color: #ffb7c5;
+            border-radius: 150% 0 150% 0;
+            opacity: 0;
+            will-change: transform;
+            pointer-events: none;
+        }
+
+        @keyframes shower {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+        }
+
         .floating { animation: float 3s ease-in-out infinite; }
         @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
 
@@ -133,27 +103,16 @@
             border: 1px solid #d4af37; padding: 10px 20px; border-radius: 50px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
-        
-        /* Watermark style */
-        .bg-watermark {
-            position: fixed; top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 70%; max-width: 450px;
-            opacity: 0.05; pointer-events: none; z-index: 0;
-        }
     </style>
 </head>
 <body class="montserrat">
 
-    <img src="jaaz logo (3).png" class="bg-watermark" alt="Logo">
+    <img src="jaaz logo (3).png" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] max-w-lg opacity-[0.05] pointer-events-none z-0">
 
     <div id="unboxing-container">
         <p class="playfair text-xl mb-12 text-stone-400 italic text-center">A Royal message awaits...</p>
         <div id="envelope-main" class="envelope-wrapper mx-auto">
-            <img src="jaaz logo (3).png" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 opacity-5 grayscale" alt="">
-            
             <div id="flap" class="envelope-flap"></div>
-            
             <div id="seal-group" class="luxury-seal-group">
                 <div class="luxury-seal" onclick="openInvitation()">
                     <div class="pulse-effect"></div>
@@ -161,37 +120,31 @@
                 </div>
                 <p class="open-label">Open Invitation</p>
             </div>
-
             <div class="absolute inset-0 bg-[#fdfbf7] border-x-[180px] border-x-[#f5ede3] border-b-[140px] border-b-[#efe6da] z-20 shadow-inner"></div>
         </div>
         <p class="montserrat text-[10px] tracking-[0.5em] mt-12 uppercase text-stone-400 font-bold text-center">Jawad & Shabhistha</p>
     </div>
 
     <div id="main-page-wrapper">
-        <div id="petal-container" class="flower-container"></div>
+        <div id="petal-container"></div>
 
         <div id="scroll-content">
             <div class="sticky-header text-center">
                 <p class="playfair text-2xl md:text-3xl text-stone-800">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
                 <p class="text-[9px] tracking-[0.3em] uppercase mt-2 text-stone-500 font-bold italic">In the name of Allah, the Most Gracious, the Most Merciful</p>
-                
                 <h1 class="playfair text-4xl md:text-7xl italic font-semibold text-stone-800 mt-6">Jawad & Shabhistha</h1>
                 <h2 class="playfair text-lg md:text-2xl text-stone-600 mt-2">Wedding Invitation</h2>
-                
-                <nav class="flex flex-wrap justify-center gap-4 md:gap-8 mt-6 text-[10px] font-bold uppercase tracking-widest border-b border-stone-100 pb-4 max-w-sm mx-auto px-4">
+                <nav class="flex justify-center gap-6 mt-6 text-[10px] font-bold uppercase tracking-widest border-b border-stone-100 pb-4 max-w-xs mx-auto">
                     <a href="index.html" class="text-[#d4af37] border-b border-[#d4af37]">Event</a>
                     <a href="location.html" class="hover:text-[#d4af37]">Location</a>
                     <a href="gallery.html" class="hover:text-[#d4af37]">Gallery</a>
-                    <a href="contact.html" class="hover:text-[#d4af37]">Contact</a>
                 </nav>
             </div>
 
             <div class="max-w-6xl mx-auto px-6 text-center">
-                
                 <div class="relative flex justify-center items-center my-12">
                     <div class="relative z-30 overflow-hidden rounded-t-full h-[500px] w-full max-w-[400px] shadow-2xl border-[10px] border-white">
-                        <img src="main page poster.png" class="h-full w-full object-cover" alt="Couple">
-                        
+                        <img src="main page poster.png" class="h-full w-full object-cover">
                         <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-40 bg-black/30 backdrop-blur-md px-8 py-2 rounded-full border border-white/20">
                             <p class="playfair italic text-white text-2xl">Mashallah</p>
                         </div>
@@ -200,42 +153,30 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
                     <div class="bg-white/90 p-8 rounded-3xl border border-stone-100 shadow-sm flex flex-col justify-center items-center">
-                        <h3 class="font-bold text-rose-400 text-[10px] uppercase mb-4 tracking-widest">The Celebration Begins In</h3>
-                        <div id="countdown" class="text-3xl font-bold text-stone-800 tabular-nums tracking-tighter">00:00:00:00</div>
-                        <div class="flex gap-4 text-[9px] text-stone-400 mt-2 uppercase tracking-[0.2em]">
-                            <span>Days</span><span>Hrs</span><span>Min</span><span>Sec</span>
-                        </div>
-                        <div class="mt-4 pt-4 border-t border-stone-50 text-xs font-medium text-stone-500">
-                             📅 August 24, 2026
-                        </div>
+                        <h3 class="font-bold text-rose-400 text-[10px] uppercase mb-4 tracking-widest">Countdown</h3>
+                        <div id="countdown" class="text-3xl font-bold text-stone-800 tabular-nums">00:00:00:00</div>
                     </div>
-
                     <div class="p-6 bg-white/40 rounded-3xl transition hover:scale-105">
                         <div class="text-5xl mb-4 floating">🌻</div>
-                        <h2 class="playfair text-2xl font-bold text-stone-800">Sanchak (Haldi)</h2>
-                        <p class="text-rose-400 font-semibold text-sm">August 22, 2026</p>
-                        <div class="h-px w-12 bg-stone-200 my-4 mx-auto"></div>
-                        <p class="text-[10px] text-stone-400 uppercase tracking-widest leading-loose">The pre-wedding glow & traditions</p>
+                        <h2 class="playfair text-2xl font-bold">Sanchak</h2>
+                        <p class="text-rose-400 font-bold text-sm">Aug 22, 2026</p>
+                        <p class="text-[10px] uppercase mt-4 leading-loose">The pre-wedding traditions</p>
                     </div>
-
-                    <div class="p-6 bg-white/40 rounded-3xl transition hover:scale-105 border-rose-100/50 border">
+                    <div class="p-6 bg-white/40 rounded-3xl transition hover:scale-105">
                         <div class="text-5xl mb-4 floating" style="animation-delay: 0.5s">🕌</div>
-                        <h2 class="playfair text-2xl font-bold text-stone-800">Nikah (Wedding)</h2>
-                        <p class="text-rose-400 font-semibold text-sm">August 23, 2026</p>
-                        <div class="h-px w-12 bg-stone-200 my-4 mx-auto"></div>
-                        <p class="text-[10px] text-stone-400 uppercase tracking-widest leading-loose">The sacred bond of marriage</p>
+                        <h2 class="playfair text-2xl font-bold">Nikah</h2>
+                        <p class="text-rose-400 font-bold text-sm">Aug 23, 2026</p>
+                        <p class="text-[10px] uppercase mt-4 leading-loose">The sacred bond</p>
                     </div>
-
                     <div class="p-6 bg-white/40 rounded-3xl transition hover:scale-105">
                         <div class="text-5xl mb-4 floating" style="animation-delay: 1s">🤵👰</div>
-                        <h2 class="playfair text-2xl font-bold text-stone-800">Valima (Reception)</h2>
-                        <p class="text-rose-400 font-semibold text-sm">August 24, 2026</p>
-                        <div class="h-px w-12 bg-stone-200 my-4 mx-auto"></div>
-                        <p class="text-[10px] text-stone-400 uppercase tracking-widest leading-loose">Celebration & grand reception</p>
+                        <h2 class="playfair text-2xl font-bold">Valima</h2>
+                        <p class="text-rose-400 font-bold text-sm">Aug 24, 2026</p>
+                        <p class="text-[10px] uppercase mt-4 leading-loose">Grand Reception</p>
                     </div>
                 </div>
 
-                <a href="location.html" class="inline-block bg-stone-900 text-white px-16 py-5 rounded-full text-[11px] font-bold uppercase tracking-[0.4em] shadow-xl hover:bg-[#d4af37] transition-all mb-20 active:scale-95">
+                <a href="location.html" class="inline-block bg-stone-900 text-white px-16 py-5 rounded-full text-[11px] font-bold uppercase tracking-[0.4em] shadow-xl hover:bg-[#d4af37] transition-all mb-20">
                     View Event Locations
                 </a>
             </div>
@@ -243,14 +184,13 @@
     </div>
 
     <div id="fixed-sig" class="dev-signature hidden">
-        <p class="text-stone-600 text-[9px] font-bold uppercase tracking-widest">
-            <span class="opacity-50 font-medium">Created by</span> Tauseef Shaik
+        <p class="text-stone-600 text-[9px] font-bold uppercase tracking-widest text-center">
+            <span class="opacity-40 font-medium">Created by</span> Tauseef Shaik
         </p>
     </div>
 
     <script>
         function openInvitation() {
-            // Animation sequence
             document.getElementById('seal-group').style.opacity = '0';
             document.getElementById('flap').classList.add('flap-open');
             
@@ -262,6 +202,8 @@
                     main.style.display = 'block';
                     main.classList.add('scroll-revealed');
                     document.getElementById('fixed-sig').style.display = 'block';
+                    
+                    // START THE PETALS FALLING
                     initPetals();
                 }, 800);
             }, 600);
@@ -270,38 +212,42 @@
         function initPetals() {
             const container = document.getElementById('petal-container');
             const petalCount = window.innerWidth < 768 ? 40 : 100;
+            
             for (let i = 0; i < petalCount; i++) {
                 const petal = document.createElement('div');
                 petal.className = 'petal';
+                
+                // Randomize appearance
                 const size = 8 + Math.random() * 12;
                 petal.style.width = size + 'px';
                 petal.style.height = size + 'px';
                 petal.style.left = Math.random() * 100 + '%';
+                
+                // Varied petal colors (pink to light pink)
                 petal.style.backgroundColor = Math.random() > 0.5 ? '#fce4ec' : '#ffb7c5';
-                petal.style.animation = `shower ${6 + Math.random() * 10}s linear infinite`;
-                petal.style.animationDelay = Math.random() * 10 + 's';
+                
+                // Randomize animation duration and delay for natural look
+                const duration = 6 + Math.random() * 10;
+                const delay = Math.random() * 12;
+                
+                petal.style.animation = `shower ${duration}s linear infinite`;
+                petal.style.animationDelay = `${delay}s`;
+                
                 container.appendChild(petal);
             }
         }
 
-        // Countdown Logic (Target: August 24, 2026)
+        // Countdown Logic
         const weddingDate = new Date("August 24, 2026 21:30:00").getTime();
         setInterval(() => {
             const now = new Date().getTime();
             const dist = weddingDate - now;
-            
-            if (dist < 0) {
-                document.getElementById("countdown").innerText = "00:00:00:00";
-                return;
-            }
-
             const d = Math.floor(dist / 86400000).toString().padStart(2, '0');
             const h = Math.floor((dist % 86400000) / 3600000).toString().padStart(2, '0');
             const m = Math.floor((dist % 3600000) / 60000).toString().padStart(2, '0');
             const s = Math.floor((dist % 60000) / 1000).toString().padStart(2, '0');
-            
             const el = document.getElementById("countdown");
-            if(el) el.innerText = `${d}:${h}:${m}:${s}`;
+            if(el) el.innerText = dist < 0 ? "00:00:00:00" : `${d}:${h}:${m}:${s}`;
         }, 1000);
     </script>
 </body>
