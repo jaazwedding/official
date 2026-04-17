@@ -14,39 +14,38 @@
         
         body { background-color: #2d241e; margin: 0; padding: 0; }
 
-        /* --- PREMIUM SCROLL DESIGN --- */
+        /* --- LUXURY CURVED SCROLL DESIGN --- */
         .scroll-container {
             background-color: #fdfbf7;
-            /* Parchment texture + Edge Shadow Gradient for "Rolled" feel */
             background-image: 
-                linear-gradient(to right, rgba(0,0,0,0.05) 0%, transparent 5%, transparent 95%, rgba(0,0,0,0.05) 100%),
+                linear-gradient(to right, rgba(184, 134, 11, 0.05) 0%, transparent 10%, transparent 90%, rgba(184, 134, 11, 0.05) 100%),
                 url("https://www.transparenttextures.com/patterns/parchment.png");
             
             position: relative;
-            border: 2px solid #d4af37; /* Thin Gold Foil Frame */
+            /* Deep Curved Edges */
+            border-radius: 3rem; 
+            border: 2px solid #d4af37;
             box-shadow: 
-                0 0 50px rgba(0,0,0,0.6), 
-                inset 0 0 15px rgba(184, 134, 11, 0.2);
+                0 30px 60px rgba(0,0,0,0.7), 
+                inset 0 0 30px rgba(184, 134, 11, 0.1);
             transform-origin: top;
             transition: all 1.8s cubic-bezier(0.19, 1, 0.22, 1);
+            overflow: hidden;
         }
 
-        /* Ornate Corner Elements */
-        .scroll-container::before, .scroll-container::after,
-        .corner-bottom-l, .corner-bottom-r {
+        /* Ornate Corners */
+        .scroll-container::before, .scroll-container::after {
             content: "";
             position: absolute;
-            width: 80px; height: 80px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M10 10 Q 50 10 50 50 Q 10 50 10 10' fill='none' stroke='%23d4af37' stroke-width='2'/%3E%3Cpath d='M20 20 Q 40 20 40 40 Q 20 40 20 20' fill='%23d4af37'/%3E%3C/svg%3E");
+            width: 100px; height: 100px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M10 10 Q 50 10 50 50 Q 10 50 10 10' fill='none' stroke='%23d4af37' stroke-width='1.5'/%3E%3Ccircle cx='20' cy='20' r='2' fill='%23d4af37'/%3E%3C/svg%3E");
             background-size: contain;
             background-repeat: no-repeat;
             z-index: 50;
-            opacity: 0.8;
+            opacity: 0.6;
         }
-        .scroll-container::before { top: 10px; left: 10px; } /* Top Left */
-        .scroll-container::after { top: 10px; right: 10px; transform: rotate(90deg); } /* Top Right */
-        .corner-bottom-l { bottom: 10px; left: 10px; transform: rotate(-90deg); position: absolute;}
-        .corner-bottom-r { bottom: 10px; right: 10px; transform: rotate(180deg); position: absolute;}
+        .scroll-container::before { top: 20px; left: 20px; }
+        .scroll-container::after { top: 20px; right: 20px; transform: rotate(90deg); }
 
         .scroll-hidden { transform: scaleY(0); opacity: 0; }
         .scroll-revealed { transform: scaleY(1); opacity: 1; }
@@ -56,7 +55,7 @@
         .envelope-wrapper {
             position: relative; width: 360px; height: 260px; background: #dcd0c0;
             background-image: url("https://www.transparenttextures.com/patterns/gray-floral.png");
-            box-shadow: 0 40px 80px rgba(0,0,0,0.4);
+            box-shadow: 0 40px 80px rgba(0,0,0,0.5);
         }
         .envelope-flap {
             position: absolute; top: 0; left: 0; width: 0; height: 0;
@@ -65,11 +64,14 @@
             transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1); z-index: 30;
         }
         .flap-open { transform: rotateX(180deg); z-index: 10; }
+        
+        /* Pulse & Seal */
         .luxury-seal-container { position: absolute; top: 110px; left: 50%; transform: translateX(-50%); z-index: 45; display: flex; flex-direction: column; align-items: center; }
         .luxury-seal { position: relative; width: 80px; height: 80px; background: white; border: 3px solid #d4af37; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.4s ease; box-shadow: 0 10px 25px rgba(0,0,0,0.2); padding: 5px; margin-bottom: 12px; }
         .luxury-seal img { width: 100%; object-fit: contain; }
         .pulse-effect { position: absolute; width: 100%; height: 100%; border-radius: 50%; border: 2px solid #d4af37; animation: pulse 2.5s infinite; pointer-events: none; }
         @keyframes pulse { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(1.6); opacity: 0; } }
+        
         .envelope-zoom-out { animation: envelopeExit 1.6s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
         @keyframes envelopeExit { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(4); opacity: 0; visibility: hidden; } }
 
@@ -80,12 +82,12 @@
 
         .floating { animation: float 3s ease-in-out infinite; }
         @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
-        .dev-signature { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(8px); border: 1px solid #d4af37; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .dev-signature { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(8px); border: 1px solid #d4af37; }
     </style>
 </head>
 <body class="montserrat text-stone-700 min-h-screen relative overflow-x-hidden">
 
-    <img src="jaaz logo (3).png" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] max-w-lg opacity-[0.05] pointer-events-none z-0" alt="Logo">
+    <img src="jaaz logo (3).png" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] max-w-lg opacity-[0.05] pointer-events-none z-0">
 
     <div id="unboxing-container" class="fixed inset-0 flex flex-col items-center justify-center">
         <p class="playfair text-xl mb-12 text-stone-400 italic">A royal message awaits...</p>
@@ -98,20 +100,17 @@
                 </div>
                 <p class="text-[#d4af37] text-[10px] font-bold uppercase tracking-[0.3em] pointer-events-none">Open Invitation</p>
             </div>
-            <div class="absolute inset-0 bg-[#dcd0c0] border-x-[180px] border-x-[#f5ede3] border-b-[140px] border-b-[#efe6da] z-20"></div>
+            <div class="absolute inset-0 bg-[#dcd0c0] border-x-[180px] border-x-[#f5ede3] border-b-[140px] border-b-[#efe6da] z-20 shadow-inner"></div>
         </div>
         <p class="montserrat text-[10px] tracking-[0.5em] mt-12 uppercase text-stone-400 font-bold">Jawad & Shabistha</p>
     </div>
 
-    <div id="main-page" class="scroll-container scroll-hidden max-w-5xl mx-auto my-10 relative z-40 p-6 md:p-16 min-h-[95vh]">
-        <div class="corner-bottom-l"></div>
-        <div class="corner-bottom-r"></div>
-        
+    <div id="main-page" class="scroll-container scroll-hidden max-w-5xl mx-auto my-10 relative z-40 p-6 md:p-16 min-h-[90vh]">
         <div id="petal-container" class="flower-container"></div>
 
-        <header class="text-center pt-10">
+        <header class="text-center pt-8">
             <p class="playfair text-2xl md:text-4xl text-stone-800">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
-            <p class="text-[10px] tracking-[0.4em] uppercase mt-4 text-stone-500 font-semibold italic">In the name of Allah, the Most Gracious, the Most Merciful</p>
+            <p class="text-[10px] tracking-[0.3em] uppercase mt-4 text-stone-500 font-semibold italic">In the name of Allah, the Most Gracious, the Most Merciful</p>
         </header>
 
         <nav class="flex justify-center gap-6 md:gap-12 py-10 text-[10px] md:text-xs uppercase tracking-[0.3em] font-bold border-b border-stone-200 w-fit mx-auto">
@@ -127,10 +126,11 @@
 
             <div class="relative flex justify-center items-center my-14">
                 <div class="relative z-30 overflow-hidden rounded-t-full h-80 md:h-[600px] w-full max-w-[350px] md:max-w-[480px] shadow-2xl border-[10px] border-white">
-                    <div class="absolute top-4 right-6 z-40 bg-white/20 backdrop-blur-md px-5 py-2 rounded-full border border-white/30">
-                        <p class="playfair italic text-white text-lg">Mashallah</p>
+                    <img src="main page poster.png" class="h-full w-full object-cover">
+                    
+                    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-40 bg-black/30 backdrop-blur-md px-6 py-2 rounded-full border border-white/30 shadow-lg">
+                        <p class="playfair italic text-white text-xl md:text-2xl">Mashallah</p>
                     </div>
-                    <img src="main page poster.png" class="h-full w-full object-cover" alt="Couple">
                 </div>
             </div>
 
@@ -164,15 +164,15 @@
             </div>
 
             <div class="mt-20 pb-16">
-                <a href="location.html" class="inline-block bg-stone-900 text-white px-20 py-6 rounded-full text-[11px] font-bold uppercase tracking-[0.4em] shadow-2xl hover:bg-[#d4af37] transition-all duration-500 active:scale-95">
+                <a href="location.html" class="inline-block bg-stone-900 text-white px-20 py-6 rounded-full text-[11px] font-bold uppercase tracking-[0.4em] shadow-2xl hover:bg-[#d4af37] transition-all">
                     View Event Locations
                 </a>
             </div>
         </main>
 
         <div class="fixed bottom-6 right-6 z-[60]">
-            <div class="dev-signature px-6 py-3 rounded-full shadow-xl">
-                <p class="text-stone-600 text-[10px] font-bold uppercase tracking-[0.2em] text-center">
+            <div class="dev-signature px-6 py-3 rounded-full shadow-lg">
+                <p class="text-stone-600 text-[10px] font-bold uppercase tracking-widest">
                     <span class="opacity-40 font-medium">Created by</span> Tauseef Shaik
                 </p>
             </div>
