@@ -27,81 +27,112 @@
             position: absolute;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 120px;
-            opacity: 0.08;
+            width: 140px;
+            opacity: 0.07;
             filter: grayscale(100%);
             pointer-events: none;
             z-index: 5;
         }
 
-        /* --- LUXURY ENVELOPE & SEAL --- */
+        /* --- LUXURY ENVELOPE (Ivory & Gold Texture) --- */
         #unboxing-container {
-            perspective: 1200px;
-            background: #f8f6f3;
+            perspective: 1500px;
+            background-color: #f7f3f0; /* Soft parchment background */
+            background-image: url("https://www.transparenttextures.com/patterns/p6.png"); /* Subtle textured pattern */
             z-index: 200;
         }
 
         .envelope-wrapper {
             position: relative;
-            width: 340px; height: 240px;
-            background: #dcd0c0;
-            box-shadow: 0 40px 80px rgba(0,0,0,0.15);
-            overflow: visible;
+            width: 360px; height: 260px;
+            background: #fdfbf7; /* Ivory/Off-white */
+            /* Paper Texture & Gold Pattern */
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l15 30-15 30L15 30z' fill='%23d4af37' fill-opacity='0.05'/%3E%3C/svg%3E");
+            box-shadow: 0 40px 80px rgba(0,0,0,0.15), inset 0 0 40px rgba(0,0,0,0.02);
+            border-radius: 6px;
         }
 
         .envelope-flap {
             position: absolute;
             top: 0; left: 0; width: 0; height: 0;
-            border-left: 170px solid transparent;
-            border-right: 170px solid transparent;
-            border-top: 130px solid #c9bbab;
+            border-left: 180px solid transparent;
+            border-right: 180px solid transparent;
+            border-top: 140px solid #f9f5f0; /* Slightly different ivory */
             transform-origin: top;
-            transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 30;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.15));
         }
 
         .flap-open { transform: rotateX(180deg); z-index: 10; }
 
-        /* Premium Wax Seal Button */
-        .luxury-seal {
+        /* Premium Wax Seal Button (Golden Frame) */
+        .luxury-seal-container {
             position: absolute;
-            top: 105px; left: 50%;
+            top: 110px; left: 50%;
             transform: translateX(-50%);
             z-index: 45;
-            width: 75px; height: 75px;
-            background: #1c1917; /* Luxury Dark Stone */
-            border: 2px solid #d4af37; /* Gold Border */
+            text-align: center;
+        }
+
+        .luxury-seal {
+            width: 80px; height: 80px;
+            background: #d4af37; /* Gold Backing */
+            border: 4px solid #b8860b; /* Deep Gold Border */
             border-radius: 50%;
             display: flex;
             align-items: center; justify-content: center;
             cursor: pointer;
             transition: all 0.4s ease;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            margin-bottom: 12px;
         }
 
         .luxury-seal:hover {
-            transform: translateX(-50%) scale(1.1);
-            background: #262220;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+            transform: scale(1.1);
+            filter: brightness(1.1);
         }
 
+        /* Original Logo in its full colors */
         .luxury-seal img {
-            width: 45px;
-            filter: brightness(0) invert(1); /* Makes logo white/gold look */
-            opacity: 0.9;
+            width: 50px;
+            filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2));
+        }
+
+        .open-text {
+            color: #b8860b; /* Deep gold */
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            font-weight: bold;
+            display: block;
+            pointer-events: none;
         }
 
         .pulse-effect {
             position: absolute;
-            width: 100%; height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 80px; /* Only pulses the circular seal */
             border-radius: 50%;
             border: 2px solid #d4af37;
-            animation: pulse 2s infinite;
+            animation: pulse 2.5s infinite;
         }
 
         @keyframes pulse {
             0% { transform: scale(1); opacity: 0.8; }
-            100% { transform: scale(1.7); opacity: 0; }
+            100% { transform: scale(1.6); opacity: 0; }
+        }
+
+        /* Envelope Inner Visuals */
+        .pocket-visual {
+            position: absolute;
+            inset: 0;
+            background: #fdfbf7;
+            border-left: 180px solid rgba(255, 255, 255, 0.2);
+            border-right: 180px solid rgba(255, 255, 255, 0.2);
+            border-bottom: 130px solid rgba(0, 0, 0, 0.05);
+            z-index: 20;
+            shadow-inner: 0 0 20px rgba(0,0,0,0.05);
         }
 
         /* Animation: Zoom Reveal */
@@ -111,28 +142,13 @@
 
         @keyframes envelopeExit {
             0% { transform: scale(1); opacity: 1; }
-            100% { transform: scale(4); opacity: 0; visibility: hidden; }
+            100% { transform: scale(5); opacity: 0; visibility: hidden; }
         }
 
-        /* --- FALLING PETALS --- */
-        .flower-container {
-            position: fixed; width: 100vw; height: 100vh;
-            top: 0; left: 0; overflow: hidden;
-            pointer-events: none; z-index: 30;
-        }
-
-        .petal {
-            position: absolute; border-radius: 150% 0 150% 0; opacity: 0; will-change: transform;
-        }
-
-        @keyframes shower {
-            0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.8; }
-            90% { opacity: 0.8; }
-            100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
-        }
-
-        /* Content UI Styling */
+        /* Original Content Styling restored */
+        .flower-container { position: fixed; width: 100vw; height: 100vh; top: 0; left: 0; overflow: hidden; pointer-events: none; z-index: 30; }
+        .petal { position: absolute; border-radius: 150% 0 150% 0; opacity: 0; will-change: transform; }
+        @keyframes shower { 0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; } 10% { opacity: 0.8; } 90% { opacity: 0.8; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
         .card-shadow { box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05); }
         .halo-effect { box-shadow: 0 0 50px 15px rgba(103, 151, 169, 0.2); }
         .floating { animation: float 3s ease-in-out infinite; }
@@ -153,15 +169,18 @@
             
             <div id="flap" class="envelope-flap"></div>
             
-            <div id="seal" class="luxury-seal" onclick="openInvitation()">
-                <div class="pulse-effect"></div>
-                <img src="jaaz logo (3).png" alt="Logo Seal">
+            <div id="seal-group" class="luxury-seal-container" onclick="openInvitation()">
+                <div class="luxury-seal">
+                    <div class="pulse-effect"></div>
+                    <img src="jaaz logo (3).png" alt="Logo Seal">
+                </div>
+                <span class="open-text montserrat">Open Invitation</span>
             </div>
             
-            <div class="absolute inset-0 bg-[#dcd0c0] border-x-[170px] border-x-[#f5ede3] border-b-[130px] border-b-[#efe6da] z-20 shadow-inner"></div>
+            <div class="pocket-visual"></div>
         </div>
         
-        <p class="montserrat text-[10px] tracking-[0.5em] mt-12 uppercase text-stone-400 font-bold">Jawad & Shabistha</p>
+        <p class="montserrat text-[10px] tracking-[0.5em] mt-16 uppercase text-stone-400 font-bold">Jawad & Shabistha</p>
     </div>
 
     <div id="main-page" class="opacity-0 transition-opacity duration-1000">
@@ -219,7 +238,7 @@
                     <p class="text-[10px] text-stone-400 uppercase mt-4 leading-loose tracking-wide">The sacred bond of marriage</p>
                 </div>
 
-                <div class="bg-white/80 backdrop-blur-sm rounded-[2.5rem] p-8 text-center card-shadow transition hover:scale-105 duration-300">
+                <div class="bg-white/80 backdrop-blur-sm rounded-[2.5rem] p-8 text-center border border-stone-100 card-shadow transition hover:scale-105 duration-300">
                     <div class="text-5xl mb-4 floating" style="animation-delay: 1s;">🤵👰</div>
                     <h2 class="playfair text-2xl font-bold text-stone-800">Valima (Reception)</h2>
                     <p class="text-rose-400 font-semibold text-sm">August 24, 2026</p>
@@ -239,13 +258,18 @@
 
     <script>
         function openInvitation() {
-            // 1. Open Flap
-            document.getElementById('seal').style.opacity = '0';
-            document.getElementById('flap').classList.add('flap-open');
+            // 1. Open Flap and Hide Text
+            const group = document.getElementById('seal-group');
+            const flap = document.getElementById('flap');
+            const main = document.getElementById('envelope-main');
+
+            flap.classList.add('flap-open');
+            group.style.opacity = '0';
+            group.style.pointerEvents = 'none';
 
             // 2. Zoom reveal effect
             setTimeout(() => {
-                document.getElementById('envelope-main').classList.add('envelope-zoom-out');
+                main.classList.add('envelope-zoom-out');
                 
                 setTimeout(() => {
                     document.getElementById('unboxing-container').style.display = 'none';
