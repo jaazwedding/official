@@ -11,111 +11,100 @@
     <style>
         .playfair { font-family: 'Playfair Display', serif; }
         .montserrat { font-family: 'Montserrat', sans-serif; }
-        .card-shadow { box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), inset 0 2px 4px 0 rgba(0, 0, 0, 0.02); }
-
-        .halo-effect {
-            box-shadow: 0 0 50px 15px rgba(103, 151, 169, 0.3);
+        
+        /* --- 3D ENVELOPE STYLES --- */
+        #envelope-wrapper {
+            perspective: 1500px;
+            transition: all 1s ease-in-out;
         }
 
-        .tabular-nums {
-            font-variant-numeric: tabular-nums;
-            letter-spacing: -1px;
+        .envelope {
+            position: relative;
+            width: 320px;
+            height: 220px;
+            background: #e0d5c8; /* Outer envelope color */
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            margin: auto;
         }
 
-        .floating {
-            animation: float 3s ease-in-out infinite;
-        }
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
-
-        .flower-container {
-            position: fixed; width: 100vw; height: 100vh;
-            top: 0; left: 0; overflow: hidden;
-            pointer-events: none; z-index: 25;
+        /* The Triangle Flap */
+        .flap {
+            position: absolute;
+            top: 0; left: 0; width: 0; height: 0;
+            border-left: 160px solid transparent;
+            border-right: 160px solid transparent;
+            border-top: 120px solid #d4c7b8; /* Flap color */
+            transform-origin: top;
+            transition: transform 0.6s ease;
+            z-index: 3;
         }
 
-        .petal {
-            position: absolute; background-color: #ffb7c5; 
-            border-radius: 150% 0 150% 0; opacity: 0; 
-            filter: drop-shadow(0 0 5px rgba(255,183,197,0.5));
-            animation: shower 10s linear infinite;
+        /* Inner Pocket */
+        .pocket {
+            position: absolute;
+            bottom: 0; left: 0; width: 100%; height: 100%;
+            background: #e0d5c8;
+            border-left: 160px solid #f5ede3;
+            border-right: 160px solid #f5ede3;
+            border-bottom: 110px solid #efe6da;
+            z-index: 2;
         }
 
-        @keyframes shower {
-            0% { transform: translateY(-10vh) rotate(0deg) translateX(0); opacity: 0; }
-            5% { opacity: 0.9; }
-            95% { opacity: 0.9; }
-            100% { transform: translateY(110vh) rotate(720deg) translateX(100px); opacity: 0; }
+        /* The Button on the Flap (The Seal) */
+        .seal-btn {
+            position: absolute;
+            top: 90px; left: 50%;
+            transform: translateX(-50%);
+            z-index: 4;
+            transition: opacity 0.3s;
         }
 
-        .dev-signature {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-        }
-
-        /* CIRCULAR COVER ANIMATION */
-        #wedding-cover {
-            transition: all 1.2s cubic-bezier(0.7, 0, 0.3, 1);
-        }
-        .cover-open {
-            transform: scale(3);
-            opacity: 0;
-            filter: blur(20px);
+        /* Animation States */
+        .open-flap { transform: rotateX(180deg); z-index: 1; }
+        .envelope-fade-out { 
+            transform: translateY(100px) scale(0.5); 
+            opacity: 0; 
             pointer-events: none;
         }
 
-        .circular-card {
-            width: 450px;
-            height: 450px;
-            border-radius: 50%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid rgba(212, 175, 55, 0.3);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
-        }
-
-        @media (max-width: 640px) {
-            .circular-card { width: 320px; height: 320px; }
-        }
-
-        .islamic-bg {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l15 30-15 30L15 30z' fill='%23ffffff' fill-opacity='0.1'/%3E%3C/svg%3E");
-            pointer-events: none;
-            z-index: 1;
-        }
+        /* Original Content Styles */
+        .card-shadow { box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05); }
+        .halo-effect { box-shadow: 0 0 50px 15px rgba(103, 151, 169, 0.3); }
+        .floating { animation: float 3s ease-in-out infinite; }
+        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
+        .flower-container { position: fixed; width: 100vw; height: 100vh; top: 0; left: 0; overflow: hidden; pointer-events: none; z-index: 25; }
+        .petal { position: absolute; border-radius: 150% 0 150% 0; animation: shower 10s linear infinite; }
+        @keyframes shower { 0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; } 5% { opacity: 0.9; } 95% { opacity: 0.9; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
+        .dev-signature { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.5); }
     </style>
 </head>
 <body class="montserrat text-stone-700 min-h-screen relative overflow-x-hidden" 
       style="background: linear-gradient(to bottom, #d9e9f2 0%, #d9e9f2 60%, #c5e1a5 100%);">
 
-    <div id="wedding-cover" class="fixed inset-0 z-[100] flex items-center justify-center bg-[#fdfbf7]">
-        <div class="circular-card bg-white p-8 text-center relative z-10">
-            <p class="playfair text-xl text-stone-600 italic mb-2">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
-            <h2 class="playfair text-3xl font-bold text-stone-800 mb-6">The Wedding Invitation</h2>
-            <div class="w-16 h-px bg-stone-300 mx-auto mb-6"></div>
-            <p class="montserrat text-[10px] tracking-[0.3em] uppercase mb-8 text-stone-500">Jawad & Shabistha</p>
-            <button onclick="openCard()" class="bg-stone-900 text-white px-10 py-4 rounded-full text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-rose-400 transition-all duration-500 shadow-xl active:scale-95">
-                Open Invitation
-            </button>
+    <div id="wedding-cover" class="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#f7f3f0]">
+        <p class="playfair text-xl mb-10 text-stone-500 italic">You have a special invitation...</p>
+        
+        <div id="envelope-wrapper" class="envelope">
+            <div id="flap" class="flap"></div>
+            
+            <div id="seal" class="seal-btn">
+                <button onclick="handleOpen()" class="bg-stone-900 text-white w-20 h-20 rounded-full text-[9px] font-bold uppercase tracking-widest shadow-2xl hover:scale-110 transition border-4 border-double border-stone-700">
+                    Open
+                </button>
+            </div>
+            
+            <div class="pocket"></div>
         </div>
+        
+        <p class="montserrat text-[10px] tracking-[0.4em] mt-10 uppercase text-stone-400 font-bold">Jawad & Shabistha</p>
     </div>
 
-    <div class="islamic-bg"></div>
     <div id="petal-container" class="flower-container"></div>
 
-    <div class="relative z-50 text-center pt-8">
+    <header class="relative z-50 text-center pt-8">
         <p class="playfair text-2xl md:text-4xl text-stone-800 opacity-80">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
         <p class="text-[9px] tracking-[0.3em] uppercase mt-2 text-stone-500 font-medium">In the name of Allah, the Most Gracious, the Most Merciful</p>
-    </div>
+    </header>
 
     <nav class="flex flex-wrap justify-center gap-4 md:gap-12 py-6 text-[10px] md:text-sm uppercase tracking-widest font-medium relative z-50 px-4">
         <a href="index.html" class="border-b-2 border-stone-800 pb-1">Event</a>
@@ -125,7 +114,6 @@
     </nav>
 
     <main class="max-w-6xl mx-auto px-6 pb-24 relative z-40">
-        
         <div class="text-center mt-4">
             <h1 class="playfair text-4xl md:text-7xl italic font-semibold text-stone-800 leading-tight">Jawad & Shabistha</h1>
             <h2 class="playfair text-xl md:text-3xl italic text-stone-600 mt-2">Wedding Invitation</h2>
@@ -133,32 +121,23 @@
 
         <div class="relative flex justify-center items-center my-8 md:my-12 h-80 md:h-[550px]">
             <img src="images/arch-left.png" class="hidden md:block absolute left-0 md:left-20 h-4/5 opacity-80 pointer-events-none z-10" alt="">
-            
             <div class="relative z-30 overflow-hidden rounded-[2.5rem] md:rounded-[4rem] h-full w-full max-w-[320px] md:max-w-none shadow-2xl halo-effect border-4 border-white/50">
                 <div class="absolute top-4 right-6 z-40 bg-white/20 backdrop-blur-sm px-4 py-1 rounded-full border border-white/30">
                     <p class="playfair italic text-white text-lg">Mashallah</p>
                 </div>
                 <img src="main page poster.png" class="h-full w-full object-cover" alt="Couple">
             </div>
-            
             <img src="images/arch-right.png" class="hidden md:block absolute right-0 md:right-20 h-4/5 opacity-80 scale-x-[-1] pointer-events-none z-10" alt="">
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6 relative z-50">
-            
             <div class="bg-white/90 backdrop-blur-sm rounded-[2.5rem] p-8 text-center border border-stone-100 card-shadow order-first md:order-none">
                 <h3 class="font-semibold text-rose-400 uppercase tracking-widest text-[10px] mb-4">The Celebration Begins In</h3>
-                <div class="flex flex-col items-center justify-center">
-                    <div id="countdown" class="text-3xl md:text-4xl font-bold text-stone-800 tabular-nums tracking-tighter">
-                        00:00:00:00
-                    </div>
-                    <div class="flex gap-4 text-[9px] text-stone-400 mt-2 uppercase tracking-[0.2em]">
-                        <span>Days</span><span>Hrs</span><span>Min</span><span>Sec</span>
-                    </div>
+                <div id="countdown" class="text-3xl md:text-4xl font-bold text-stone-800 tabular-nums tracking-tighter">00:00:00:00</div>
+                <div class="flex gap-4 text-[9px] text-stone-400 mt-2 uppercase justify-center tracking-[0.2em]">
+                    <span>Days</span><span>Hrs</span><span>Min</span><span>Sec</span>
                 </div>
-                <div class="mt-6 pt-4 border-t border-stone-50 text-xs font-medium">
-                    <span>⌛ August 22, 2026</span>
-                </div>
+                <div class="mt-6 pt-4 border-t border-stone-50 text-xs font-medium"><span>⌛ August 22, 2026</span></div>
             </div>
             
             <div class="bg-white/80 backdrop-blur-sm rounded-[2.5rem] p-8 text-center border border-stone-100 card-shadow transition hover:scale-105 duration-300">
@@ -184,7 +163,6 @@
                 <div class="h-px w-12 bg-stone-100 my-4 mx-auto"></div>
                 <p class="text-[10px] text-stone-400 uppercase tracking-widest leading-loose">Celebration & Grand reception</p>
             </div>
-
         </div>
 
         <div class="mt-12 text-center">
@@ -203,25 +181,33 @@
     </div>
 
     <script>
-        function openCard() {
-            document.getElementById('wedding-cover').classList.add('cover-open');
+        function handleOpen() {
+            // Step 1: Hide Seal and Open Flap
+            document.getElementById('seal').style.opacity = '0';
+            document.getElementById('flap').classList.add('open-flap');
+            
+            // Step 2: Fade out envelope and reveal main card
+            setTimeout(() => {
+                document.getElementById('wedding-cover').classList.add('envelope-fade-out');
+                setTimeout(() => {
+                    document.getElementById('wedding-cover').style.display = 'none';
+                }, 1000);
+            }, 600);
         }
 
         const container = document.getElementById('petal-container');
-        const petalCount = window.innerWidth < 768 ? 50 : 100; // Restored original 100 count
-        for (let i = 0; i < petalCount; i++) {
+        for (let i = 0; i < 100; i++) {
             const petal = document.createElement('div');
             petal.className = 'petal';
             const left = Math.random() * 100;
             const delay = Math.random() * 12;
-            const duration = 6 + Math.random() * 10;
             const size = 8 + Math.random() * 12;
             petal.style.left = left + '%';
             petal.style.animationDelay = delay + 's';
-            petal.style.animationDuration = duration + 's';
+            petal.style.animationDuration = (6 + Math.random() * 10) + 's';
             petal.style.width = size + 'px';
             petal.style.height = size + 'px';
-            if(Math.random() > 0.5) petal.style.backgroundColor = '#fce4ec';
+            petal.style.backgroundColor = Math.random() > 0.5 ? '#fce4ec' : '#ffb7c5';
             container.appendChild(petal);
         }
 
@@ -229,16 +215,11 @@
         setInterval(function() {
             const now = new Date().getTime();
             const distance = weddingDate - now;
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-            const countdownEl = document.getElementById("countdown");
-            if (distance < 0) {
-                countdownEl.innerHTML = "00:00:00:00";
-            } else {
-                countdownEl.innerHTML = `${days.toString().padStart(2, '0')}:${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            }
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, '0');
+            document.getElementById("countdown").innerHTML = distance < 0 ? "00:00:00:00" : `${days}:${hours}:${minutes}:${seconds}`;
         }, 1000);
     </script>
 </body>
