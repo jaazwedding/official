@@ -54,7 +54,7 @@
         import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
         const firebaseConfig = {
-            apiKey: "AIzaSyBt-AS0ViQ_vMB8Mor-nx6x7enr7BZzmaU",
+            apiKey: "AIzaSyBt-AS0ViQ_vMB8Mor-nx6x7enr7BZmaU",
             authDomain: "wedding-card-f3460.firebaseapp.com",
             databaseURL: "https://wedding-card-f3460-default-rtdb.firebaseio.com",
             projectId: "wedding-card-f3460",
@@ -71,6 +71,7 @@
         const urlParams = new URLSearchParams(window.location.search);
         const isAdmin = urlParams.get('admin') === 'true';
 
+        // Show Admin Controls immediately if URL has ?admin=true
         if (isAdmin) {
             window.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('maintenance-overlay').style.display = 'flex';
@@ -78,18 +79,31 @@
             });
         }
 
+        // 1. PRIVATE PREVIEW (Memory Fix)
+        window.openPrivatePreview = () => {
+            localStorage.setItem('admin_vip_pass', 'active'); // Save preference
+            document.getElementById('maintenance-overlay').style.display = 'none';
+        };
+
+        // 2. GLOBAL TOGGLE
         window.updateGlobalMaintenance = (status) => {
             set(maintenanceRef, status).then(() => alert("Global Status Updated!"));
         };
 
-        window.openPrivatePreview = () => {
-            document.getElementById('maintenance-overlay').style.display = 'none';
-        };
-
+        // 3. SMART LISTENER
         onValue(maintenanceRef, (snapshot) => {
             const isLocked = snapshot.val();
-            if (!isAdmin) {
-                document.getElementById('maintenance-overlay').style.display = isLocked ? 'flex' : 'none';
+            const hasVipPass = localStorage.getItem('admin_vip_pass') === 'active';
+            
+            if (isLocked) {
+                // Only show overlay if user is NOT admin URL AND doesn't have the saved preview pass
+                if (!isAdmin && !hasVipPass) {
+                    document.getElementById('maintenance-overlay').style.display = 'flex';
+                }
+            } else {
+                // If site is LIVE, clear the preview pass and hide overlay
+                localStorage.removeItem('admin_vip_pass');
+                document.getElementById('maintenance-overlay').style.display = 'none';
             }
         });
     </script>
@@ -101,14 +115,13 @@
             <div class="relative z-10">
                 <div class="text-5xl mb-6">🛠️</div>
                 <h1 class="playfair text-3xl font-bold text-stone-800 mb-4">Under Maintenance</h1>
-                <p class="montserrat text-sm text-stone-600 mb-8">We are currently refining the royal experience for Jawad & Shabistha's wedding. 
-                    Please be patient as we prepare the grand reveal..</p>
+                <p class="montserrat text-sm text-stone-600 mb-8">Refining the royal experience for Jawad & Shabistha. Please be patient.</p>
                 
                 <div id="admin-controls" class="hidden mt-6 space-y-4 border-t pt-6">
-                    <button onclick="window.openPrivatePreview()" class="w-full py-4 rounded-full bg-stone-800 text-white text-[10px] font-bold uppercase tracking-widest">Preview Site (Admin)</button>
+                    <button onclick="window.openPrivatePreview()" class="w-full py-4 rounded-full bg-stone-800 text-white text-[10px] font-bold uppercase tracking-widest shadow-lg">Preview Site (Admin)</button>
                     <div class="grid grid-cols-2 gap-2">
-                        <button onclick="window.updateGlobalMaintenance(true)" class="py-3 rounded-full bg-red-600 text-white text-[9px] font-bold">Turn On Global Maintenance</button>
-                        <button onclick="window.updateGlobalMaintenance(false)" class="py-3 rounded-full bg-green-600 text-white text-[9px] font-bold">Turn Off Global Maintenance</button>
+                        <button onclick="window.updateGlobalMaintenance(true)" class="py-3 rounded-full bg-red-600 text-white text-[9px] font-bold">Lock Global</button>
+                        <button onclick="window.updateGlobalMaintenance(false)" class="py-3 rounded-full bg-green-600 text-white text-[9px] font-bold">Launch Global</button>
                     </div>
                 </div>
                 <div class="h-px w-20 bg-rose-100 mx-auto my-8"></div>
@@ -140,14 +153,15 @@
             <div id="petal-container"></div>
             <div class="sticky-header text-center">
                 <p class="playfair text-2xl text-stone-800">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
-               <p class="text-[9px] tracking-[0.3em] uppercase mt-2 text-stone-500 font-bold italic">In the name of Allah, the Most Gracious, the Most Merciful</p>
-              <h1 class="playfair text-4xl md:text-7xl italic font-semibold text-stone-800 mt-6">Jawad & Shabistha</h1>
-              <h2 class="playfair text-xl md:text-3xl italic text-stone-600 mt-2">Wedding Invitation</h2>
+                <p class="text-[9px] tracking-[0.3em] uppercase mt-2 text-stone-500 font-bold italic">In the name of Allah, the Most Gracious, the Most Merciful</p>
+                <h1 class="playfair text-4xl md:text-7xl italic font-semibold text-stone-800 mt-6">Jawad & Shabistha</h1>
+                <h2 class="playfair text-xl md:text-3xl italic text-stone-600 mt-2">Wedding Invitation</h2>
+                
                 <nav class="flex justify-center gap-6 mt-6 text-[10px] font-bold uppercase tracking-widest border-b pb-4 max-w-xs mx-auto">
-                    <a href="index.html" class="text-[#d4af37] border-b border-[#d4af37]">Event</a>
-                    <a href="location.html">Location</a>
-                    <a href="contact.html">Contact</a>
-                    <a href="gallery.html">Gallery</a>
+                    <a href="#" onclick="navigateWithAdmin('index.html')" class="text-[#d4af37] border-b border-[#d4af37]">Event</a>
+                    <a href="#" onclick="navigateWithAdmin('location.html')">Location</a>
+                    <a href="#" onclick="navigateWithAdmin('contact.html')">Contact</a>
+                    <a href="#" onclick="navigateWithAdmin('gallery.html')">Gallery</a>
                 </nav>
             </div>
 
@@ -160,46 +174,49 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
                     <div class="bg-white p-8 rounded-[2rem] shadow-sm border">
-                        <h3 class="text-rose-400 text-[10px] uppercase font-bold mb-4">The Celebration Begins In</h3>
+                        <h3 class="text-rose-400 text-[10px] uppercase font-bold mb-4">Celebration Begins In</h3>
                         <div id="countdown" class="text-3xl font-bold tabular-nums">00:00:00:00</div>
-                        <span>⏳August 24, 2026</span>
-
+                        <span class="text-[9px] text-stone-400">⏳ August 24, 2026</span>
                     </div>
                     <div class="bg-white/60 p-6 rounded-[2rem] border">
                         <div class="text-4xl mb-2 floating">🌻</div>
                         <h2 class="playfair text-xl font-bold">Sanchak</h2>
                         <p class="text-rose-400 text-sm">Aug 22, 2026</p>
-                        <p class="text-[10px] text-stone-400 uppercase tracking-widest leading-loose">The pre-wedding glow & traditions</p>
-
                     </div>
                     <div class="bg-white/60 p-6 rounded-[2rem] border">
                         <div class="text-4xl mb-2 floating" style="animation-delay: 0.5s">🕌</div>
                         <h2 class="playfair text-xl font-bold">Nikkah</h2>
                         <p class="text-rose-400 text-sm">Aug 23, 2026</p>
-                        <p class="text-[10px] text-stone-400 uppercase tracking-widest leading-loose">The sacred bond of marriage</p>
-
                     </div>
                     <div class="bg-white/60 p-6 rounded-[2rem] border">
                         <div class="text-4xl mb-2 floating" style="animation-delay: 1s">🤵👰</div>
                         <h2 class="playfair text-xl font-bold">Valima</h2>
                         <p class="text-rose-400 text-sm">Aug 24, 2026</p>
-                        <p class="text-[10px] text-stone-400 uppercase tracking-widest leading-loose">Celebration & grand reception</p>
-
                     </div>
                 </div>
 
-                <a href="location.html" class="inline-block bg-stone-900 text-white px-16 py-5 rounded-full text-[10px] font-bold uppercase tracking-[0.3em] mb-20 shadow-xl">View Event Locations</a>
+                <a href="#" onclick="navigateWithAdmin('location.html')" class="inline-block bg-stone-900 text-white px-16 py-5 rounded-full text-[10px] font-bold uppercase tracking-[0.3em] mb-20 shadow-xl">View Event Locations</a>
             </div>
         </div>
     </div>
 
     <div id="fixed-sig" class="dev-signature">
-        <p class="text-stone-500 text-[8px] md:text-[10px] font-bold uppercase tracking-[0.25em] whitespace-nowrap">
-                <span class="opacity-60 font-medium">Created by</span> Tauseef Shaik
+        <p class="text-stone-500 text-[8px] md:text-[10px] font-bold uppercase tracking-[0.25em] whitespace-nowrap text-center">
+            <span class="opacity-60 font-medium">Created by</span> Tauseef Shaik
         </p>
     </div>
 
     <script>
+        // NAVIGATION HELPER
+        function navigateWithAdmin(page) {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('admin') === 'true') {
+                window.location.href = page + "?admin=true";
+            } else {
+                window.location.href = page;
+            }
+        }
+
         function openInvitation() {
             document.getElementById('seal-group').style.opacity = '0';
             document.getElementById('flap').classList.add('flap-open');
@@ -210,9 +227,8 @@
                 env.style.opacity = '0';
                 setTimeout(() => {
                     document.getElementById('unboxing-container').style.display = 'none';
-                    const main = document.getElementById('main-page-wrapper');
-                    main.style.display = 'block';
-                    main.classList.add('scroll-revealed');
+                    document.getElementById('main-page-wrapper').style.display = 'block';
+                    document.getElementById('main-page-wrapper').classList.add('scroll-revealed');
                     document.getElementById('fixed-sig').style.display = 'block';
                     initPetals();
                 }, 800);
