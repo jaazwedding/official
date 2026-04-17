@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jawad & Shabistha's Wedding - Premiere</title>
+    <title>Jawad & Shabistha's Wedding</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400;1,700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="jaaz logo (3).png">
@@ -47,20 +47,38 @@
         /* --- MAINTENANCE --- */
         #maintenance-overlay { position: fixed; inset: 0; z-index: 1000; background: rgba(0,0,0,0.92); backdrop-blur: 25px; display: none; align-items: center; justify-content: center; }
 
-        /* --- ENVELOPE --- */
+        /* --- ENVELOPE & UNBOXING --- */
         #unboxing-container { position: fixed; inset: 0; display: none; flex-direction: column; align-items: center; justify-content: center; background: #2d241e; z-index: 200; }
-        .envelope-wrapper { position: relative; width: 340px; height: 240px; background: #fdfbf7; border-radius: 30px; margin: 20px 0; box-shadow: 0 30px 60px rgba(0,0,0,0.4); }
-        .envelope-flap { position: absolute; top: -2px; width: 100%; height: 140px; background: #f9f5f0; clip-path: ellipse(50% 100% at 50% 0%); transform-origin: top; transition: transform 0.9s ease; z-index: 30; }
+        .envelope-wrapper { position: relative; width: 360px; height: 260px; background: #fdfbf7; background-image: url("https://www.transparenttextures.com/patterns/gray-floral.png"); box-shadow: 0 40px 80px rgba(0,0,0,0.5); border-radius: 30px; margin: 20px 0; }
+        .envelope-flap { position: absolute; top: -2px; left: 0; width: 100%; height: 150px; background: #f9f5f0; clip-path: ellipse(50% 100% at 50% 0%); transform-origin: top; transition: transform 0.9s ease; z-index: 30; border-bottom: 1px solid rgba(184, 134, 11, 0.2); }
         .flap-open { transform: rotateX(180deg); z-index: 10; }
-        .luxury-seal { width: 85px; height: 85px; background: white; border: 3px solid #d4af37; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.4s ease; padding: 5px; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+        .luxury-seal-group { position: absolute; top: 110px; left: 50%; transform: translateX(-50%); z-index: 45; display: flex; flex-direction: column; align-items: center; }
+        .luxury-seal { position: relative; width: 85px; height: 85px; background: white; border: 3px solid #d4af37; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.4s ease; padding: 5px; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+        .luxury-seal img { width: 100%; object-fit: contain; }
+        .pulse-effect { position: absolute; width: 100%; height: 100%; border-radius: 50%; border: 2px solid #d4af37; animation: pulse 2.5s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(1.6); opacity: 0; } }
 
         /* --- MAIN PAGE --- */
-        #main-page-wrapper { position: fixed; inset: 15px; background: #fdfbf7; border-radius: 3.5rem; border: 3px solid #d4af37; z-index: 40; display: none; overflow: hidden; }
+        #main-page-wrapper {
+            position: fixed; inset: 15px; background-color: #fdfbf7;
+            background-image: linear-gradient(to right, rgba(184, 134, 11, 0.08) 0%, transparent 10%, transparent 90%, rgba(184, 134, 11, 0.08) 100%),
+                url("https://www.transparenttextures.com/patterns/parchment.png");
+            border-radius: 3.5rem; border: 3px solid #d4af37;
+            box-shadow: 0 0 100px rgba(0,0,0,0.8);
+            z-index: 40; display: none; transform-origin: top; overflow: hidden;
+        }
         #scroll-content { height: 100%; overflow-y: auto; overflow-x: hidden; padding-bottom: 100px; }
         .sticky-header { position: sticky; top: 0; z-index: 100; background: linear-gradient(to bottom, #fdfbf7 85%, transparent); padding: 40px 20px 20px; }
-        
+        .scroll-revealed { animation: unfurl 1.8s cubic-bezier(0.19, 1, 0.22, 1) forwards; }
+        @keyframes unfurl { 0% { transform: scaleY(0); opacity: 0; } 100% { transform: scaleY(1); opacity: 1; } }
+
+        /* --- DECORATIONS --- */
+        #petal-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 60; overflow: hidden; }
+        .petal { position: absolute; background-color: #ffb7c5; border-radius: 150% 0 150% 0; opacity: 0; will-change: transform; }
+        @keyframes shower { 0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
         .floating { animation: float 3s ease-in-out infinite; }
         @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
+        .dev-signature { position: fixed; bottom: 20px; right: 20px; z-index: 150; background: rgba(255, 255, 255, 0.9); padding: 10px 20px; border-radius: 50px; border: 1px solid #d4af37; display: none; }
     </style>
 
     <script type="module">
@@ -74,7 +92,8 @@
             projectId: "wedding-card-f3460",
             storageBucket: "wedding-card-f3460.firebasestorage.app",
             messagingSenderId: "266632299451",
-            appId: "1:266632299451:web:aad01460dc6ac057e8ba9e"
+            appId: "1:266632299451:web:aad01460dc6ac057e8ba9e",
+            measurementId: "G-0E0QNW263Y"
         };
 
         const app = initializeApp(firebaseConfig);
@@ -83,7 +102,7 @@
 
         const urlParams = new URLSearchParams(window.location.search);
         const isAdmin = urlParams.get('admin') === 'true';
-        const premiereDate = new Date("May 12, 2026 12:00:00").getTime();
+        const premiereDate = new Date("April 18, 2026 00:58:00").getTime();
 
         if (!isAdmin) localStorage.removeItem('admin_vip_pass');
 
@@ -91,17 +110,16 @@
             const now = new Date().getTime();
             const distance = premiereDate - now;
             const timerEl = document.getElementById('premiere-timer');
-            const premiereScreen = document.getElementById('premiere-screen');
+            const pScreen = document.getElementById('premiere-screen');
             const unboxing = document.getElementById('unboxing-container');
 
             if (distance < 0) {
-                if (premiereScreen) premiereScreen.style.display = 'none';
+                if (pScreen) pScreen.style.display = 'none';
                 if (!isAdmin && unboxing.style.display === 'none' && document.getElementById('main-page-wrapper').style.display !== 'block') {
                     unboxing.style.display = 'flex';
                 }
                 return true;
             }
-
             const d = Math.floor(distance / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
             const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
             const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
@@ -109,7 +127,6 @@
             if (timerEl) timerEl.innerText = `${d}d : ${h}h : ${m}m : ${s}s`;
             return false;
         }
-
         setInterval(updatePremiere, 1000);
 
         window.openPrivatePreview = () => {
@@ -127,7 +144,7 @@
             const unboxing = document.getElementById('unboxing-container');
 
             if (isAdmin) {
-                mOverlay.style.display = 'flex';
+                mOverlay.style.setProperty('display', 'flex', 'important');
                 document.getElementById('admin-controls').classList.remove('hidden');
                 return;
             }
@@ -157,19 +174,17 @@
     <div id="maintenance-overlay">
         <div class="max-w-md w-full bg-white p-10 rounded-[3rem] text-center shadow-2xl mx-4 border-2 border-[#d4af37]">
             <div class="text-5xl mb-6">🛠️</div>
-            <h1 class="playfair text-3xl font-bold text-stone-800 mb-4">Maintenance</h1>
-            <p class="text-stone-600 mb-8">We are polishing the royal experience. Please return shortly.</p>
-            
+            <h1 class="playfair text-3xl font-bold text-stone-800 mb-4">Under Maintenance</h1>
+            <p class="text-stone-600 mb-8">We are currently refining the royal experience for Jawad & Shabistha's wedding. Please be patient as we prepare the grand reveal...</p>
             <div id="admin-controls" class="hidden mt-6 space-y-4 border-t pt-6">
-                <button onclick="window.openPrivatePreview()" class="w-full py-4 rounded-full bg-stone-800 text-white text-[10px] font-bold uppercase tracking-widest">Preview Site (Admin)</button>
+                <button onclick="window.openPrivatePreview()" class="w-full py-4 rounded-full bg-stone-800 text-white text-[10px] font-bold uppercase tracking-widest">Preview Site (Admin only)</button>
                 <div class="grid grid-cols-2 gap-2">
-                    <button onclick="window.updateGlobalMaintenance(true)" class="py-3 rounded-full bg-red-600 text-white text-[9px] font-bold">Lock Site</button>
-                    <button onclick="window.updateGlobalMaintenance(false)" class="py-3 rounded-full bg-green-600 text-white text-[9px] font-bold">Live Site</button>
+                    <button onclick="window.updateGlobalMaintenance(true)" class="py-3 rounded-full bg-red-600 text-white text-[9px] font-bold">Turn on Maintenance Mode Globally</button>
+                    <button onclick="window.updateGlobalMaintenance(false)" class="py-3 rounded-full bg-green-600 text-white text-[9px] font-bold">Turn off Maintenance Mode Globally</button>
                 </div>
             </div>
-
             <div class="h-px w-20 bg-rose-100 mx-auto my-8"></div>
-            <p class="montserrat text-[10px] uppercase text-stone-400 font-bold mb-2">Technical Support</p>
+            <p class="montserrat text-[10px] uppercase text-stone-400 font-bold mb-2"> For Technical Support</p>
             <a href="tel:+919550791538" class="montserrat text-rose-400 font-bold">+91 9550791538</a>
         </div>
     </div>
@@ -188,23 +203,29 @@
     </div>
 
     <div id="unboxing-container">
-        <p class="montserrat text-[10px] tracking-[0.5em] uppercase text-stone-400 font-bold mb-4">Jawad & Shabistha</p>
+        <p class="montserrat text-[10px] tracking-[0.5em] uppercase text-stone-400 font-bold text-center">Jawad & Shabistha</p>
+        <h2 class="playfair text-lg md:text-2xl text-stone-500 italic mt-2 text-center">Wedding Invitation</h2>
         <div id="envelope-main" class="envelope-wrapper mx-auto">
             <div id="flap" class="envelope-flap"></div>
-            <div class="flex flex-col items-center justify-center h-full pt-10 relative z-20">
+            <div id="seal-group" class="luxury-seal-group">
                 <div class="luxury-seal" onclick="openInvitation()">
+                    <div class="pulse-effect"></div>
                     <img src="jaaz logo (3).png" alt="Seal">
                 </div>
                 <p class="montserrat text-[10px] font-bold uppercase text-[#d4af37] mt-4 tracking-widest">Open Invitation</p>
             </div>
-            <div class="absolute inset-0 bg-white rounded-[30px] z-10 shadow-inner"></div>
+            <div class="absolute inset-0 bg-[#fdfbf7] shadow-inner rounded-[30px]" style="z-index: 5;"></div>
         </div>
+        <p class="playfair text-xl text-stone-400 italic mt-4">A Royal Message Awaits For You...</p>
     </div>
 
     <div id="main-page-wrapper">
         <div id="scroll-content">
-            <div class="sticky-header text-center p-10">
-                <h1 class="playfair text-4xl md:text-7xl italic font-semibold text-stone-800 whitespace-nowrap">Jawad & Shabistha</h1>
+            <div id="petal-container"></div>
+            <div class="sticky-header text-center">
+                <p class="playfair text-2xl text-stone-800">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
+                <p class="text-[9px] tracking-[0.3em] uppercase mt-2 text-stone-500 font-bold italic">In the name of Allah, the Most Gracious, the Most Merciful</p>
+                <h1 class="playfair text-4xl md:text-7xl italic font-semibold text-stone-800 mt-6 whitespace-nowrap">Jawad & Shabistha</h1>
                 <nav class="flex justify-center gap-6 mt-6 text-[10px] font-bold uppercase tracking-widest border-b pb-4 max-w-xs mx-auto">
                     <a href="#" onclick="navigateWithAdmin('index.html')" class="text-[#d4af37] border-b border-[#d4af37]">Event</a>
                     <a href="#" onclick="navigateWithAdmin('location.html')">Location</a>
@@ -212,15 +233,49 @@
                     <a href="#" onclick="navigateWithAdmin('gallery.html')">Gallery</a>
                 </nav>
             </div>
-            <div class="max-w-md mx-auto px-6 text-center">
-                <img src="main page poster.png" class="rounded-[3rem] shadow-2xl border-8 border-white mb-20">
-                <div class="bg-white p-8 rounded-[2rem] shadow-sm border mb-10">
-                    <h3 class="text-rose-400 text-[10px] uppercase font-bold mb-4">Celebration Begins In</h3>
-                    <div id="wedding-countdown" class="text-3xl font-bold tabular-nums">00:00:00:00</div>
-                    <span class="text-[9px] text-stone-400">⏳ August 22, 2026</span>
+
+            <div class="max-w-6xl mx-auto px-6 text-center">
+                <div class="relative flex justify-center items-center my-12 h-80 md:h-[500px]">
+                    <div class="relative z-30 overflow-hidden rounded-[3rem] h-full w-full max-w-[350px] shadow-2xl border-8 border-white">
+                        <img src="main page poster.png" class="h-full w-full object-cover">
+                    </div>
                 </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+                    <div class="bg-white p-8 rounded-[2rem] shadow-sm border">
+                        <h3 class="text-rose-400 text-[10px] uppercase font-bold mb-4">Celebration Begins In</h3>
+                        <div id="countdown" class="text-3xl font-bold tabular-nums">00:00:00:00</div>
+                        <span class="text-[9px] text-stone-400">⏳ August 22, 2026</span>
+                    </div>
+                    <div class="bg-white/60 p-6 rounded-[2rem] border">
+                        <div class="text-4xl mb-2 floating">🌻</div>
+                        <h2 class="playfair text-xl font-bold">Sanchak</h2>
+                        <p class="text-rose-400 text-sm">Aug 22, 2026</p>
+                        <p class="text-[10px] text-stone-400 tracking-widest leading-loose">The Pre-wedding Glow & Traditions</p>
+                    </div>
+                    <div class="bg-white/60 p-6 rounded-[2rem] border">
+                        <div class="text-4xl mb-2 floating" style="animation-delay: 0.5s">🕌</div>
+                        <h2 class="playfair text-xl font-bold">Nikkah</h2>
+                        <p class="text-rose-400 text-sm">Aug 23, 2026</p>
+                        <p class="text-[10px] text-stone-400 tracking-widest leading-loose">The Sacred Bond of Marriage</p>
+                    </div>
+                    <div class="bg-white/60 p-6 rounded-[2rem] border">
+                        <div class="text-4xl mb-2 floating" style="animation-delay: 1s">🤵👰</div>
+                        <h2 class="playfair text-xl font-bold">Valima</h2>
+                        <p class="text-rose-400 text-sm">Aug 24, 2026</p>
+                        <p class="text-[10px] text-stone-400 tracking-widest leading-loose">Celebration & Grand Reception</p>
+                    </div>
+                </div>
+
+                <a href="#" onclick="navigateWithAdmin('location.html')" class="inline-block bg-stone-900 text-white px-16 py-5 rounded-full text-[10px] font-bold uppercase tracking-[0.3em] mb-20 shadow-xl">View Event Locations</a>
             </div>
         </div>
+    </div>
+
+    <div id="fixed-sig" class="dev-signature">
+        <p class="text-stone-500 text-[8px] md:text-[10px] font-bold uppercase tracking-[0.25em] whitespace-nowrap text-center">
+            <span class="opacity-60 font-medium">Created by</span> Tauseef Shaik
+        </p>
     </div>
 
     <script>
@@ -230,17 +285,35 @@
         }
 
         function openInvitation() {
+            document.getElementById('seal-group').style.opacity = '0';
             document.getElementById('flap').classList.add('flap-open');
             setTimeout(() => {
                 const env = document.getElementById('envelope-main');
-                env.style.transition = '1.2s ease-in-out';
-                env.style.transform = 'scale(5)';
+                env.style.transition = '1.6s ease-in-out';
+                env.style.transform = 'scale(4)';
                 env.style.opacity = '0';
                 setTimeout(() => {
                     document.getElementById('unboxing-container').style.display = 'none';
                     document.getElementById('main-page-wrapper').style.display = 'block';
-                }, 700);
-            }, 500);
+                    document.getElementById('main-page-wrapper').classList.add('scroll-revealed');
+                    document.getElementById('fixed-sig').style.display = 'block';
+                    initPetals();
+                }, 800);
+            }, 600);
+        }
+
+        function initPetals() {
+            const container = document.getElementById('petal-container');
+            for (let i = 0; i < 60; i++) {
+                const petal = document.createElement('div');
+                petal.className = 'petal';
+                petal.style.width = petal.style.height = (Math.random() * 10 + 8) + 'px';
+                petal.style.left = Math.random() * 100 + '%';
+                petal.style.animation = `shower ${Math.random() * 10 + 6}s linear infinite`;
+                petal.style.animationDelay = Math.random() * 10 + 's';
+                petal.style.backgroundColor = Math.random() > 0.5 ? '#fce4ec' : '#ffb7c5';
+                container.appendChild(petal);
+            }
         }
 
         const weddingDate = new Date("August 22, 2026 00:00:00").getTime();
@@ -250,8 +323,8 @@
             const h = Math.floor((dist % 86400000) / 3600000).toString().padStart(2, '0');
             const m = Math.floor((dist % 3600000) / 60000).toString().padStart(2, '0');
             const s = Math.floor((dist % 60000) / 1000).toString().padStart(2, '0');
-            const el = document.getElementById("wedding-countdown");
-            if (el) el.innerText = dist < 0 ? "00:00:00:00" : `${d}:${h}:${m}:${s}`;
+            const cd = document.getElementById("countdown");
+            if(cd) cd.innerText = dist < 0 ? "00:00:00:00" : `${d}:${h}:${m}:${s}`;
         }, 1000);
     </script>
 </body>
