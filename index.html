@@ -20,7 +20,7 @@
             width: 80%; max-width: 600px; opacity: 0.04; pointer-events: none; z-index: 0;
         }
 
-        /* --- ROYAL PREMIERE SCREEN --- */
+        /* --- LUXURY PREMIERE SCREEN --- */
         #premiere-screen {
             position: fixed; inset: 0; z-index: 800;
             background: radial-gradient(circle at center, #1a1a1a 0%, #0d1117 100%);
@@ -59,10 +59,10 @@
         .pulse-effect { position: absolute; width: 100%; height: 100%; border-radius: 50%; border: 2px solid #d4af37; animation: pulse 2.5s infinite; }
         @keyframes pulse { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(1.6); opacity: 0; } }
 
-        /* --- PETALS --- */
+        /* --- PETALS (Matches Gallery exactly) --- */
         #petal-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 60; overflow: hidden; }
         .petal { position: absolute; background-color: #ffb7c5; border-radius: 150% 0 150% 0; opacity: 0; will-change: transform; }
-        @keyframes shower { 0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
+        @keyframes shower { 0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; } 10% { opacity: 0.8; } 90% { opacity: 0.8; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
 
         /* --- MAIN PAGE --- */
         #main-page-wrapper {
@@ -73,7 +73,7 @@
             box-shadow: 0 0 100px rgba(0,0,0,0.8);
             z-index: 40; display: none; transform-origin: top; overflow: hidden;
         }
-        #scroll-content { height: 100%; overflow-y: auto; overflow-x: hidden; padding-bottom: 100px; }
+        #scroll-content { height: 100%; overflow-y: auto; overflow-x: hidden; padding-bottom: 100px; position: relative; z-index: 70; }
         .sticky-header { position: sticky; top: 0; z-index: 100; background: linear-gradient(to bottom, #fdfbf7 85%, transparent); padding: 40px 20px 20px; }
         .scroll-revealed { animation: unfurl 1.8s cubic-bezier(0.19, 1, 0.22, 1) forwards; }
         @keyframes unfurl { 0% { transform: scaleY(0); opacity: 0; } 100% { transform: scaleY(1); opacity: 1; } }
@@ -105,7 +105,7 @@
         const urlParams = new URLSearchParams(window.location.search);
         const isAdmin = urlParams.get('admin') === 'true';
         
-        const premiereDate = new Date("May 12, 2026 12:00:00").getTime();
+        const premiereDate = new Date("April 18, 2026 01:54:00").getTime();
         let blastTriggered = false;
 
         if (!isAdmin) localStorage.removeItem('admin_vip_pass');
@@ -192,23 +192,30 @@
     <div id="maintenance-overlay">
         <div class="max-w-md w-full bg-white p-10 rounded-[3rem] text-center shadow-2xl mx-4 border-2 border-[#d4af37]">
             <div class="text-5xl mb-6">🛠️</div>
-            <h1 class="playfair text-3xl font-bold text-stone-800 mb-4">Maintenance</h1>
-            <p class="text-stone-600 mb-8">Refining the royal experience. Please return shortly.</p>
+            <h1 class="playfair text-3xl font-bold text-stone-800 mb-4">Under Maintenance</h1>
+            <p class="text-stone-600 mb-8">We are currently refining the royal experience for Jawad & Shabistha's wedding. Please be patient as we prepare the grand reveal..</p>
             <div id="admin-controls" class="hidden mt-6 space-y-4 border-t pt-6">
                 <button onclick="window.openPrivatePreview()" class="w-full py-4 rounded-full bg-stone-800 text-white text-[10px] font-bold uppercase tracking-widest shadow-lg">Preview Site (Admin)</button>
+                <button onclick="window.updateGlobalMaintenance(true)" class="py-3 rounded-full bg-red-600 text-white text-[9px] font-bold">Lock Site</button>
+                    <button onclick="window.updateGlobalMaintenance(false)" class="py-3 rounded-full bg-green-600 text-white text-[9px] font-bold">Live Site</button>
+
             </div>
             <div class="h-px w-20 bg-rose-100 mx-auto my-8"></div>
-            <a href="tel:+919550791538" class="montserrat text-rose-400 font-bold">+91 9550791538</a>
+            <a href="tel:+919550791538" class="text-rose-400 font-bold">+91 9550791538</a>
         </div>
     </div>
 
     <div id="premiere-screen">
         <div class="premiere-frame">
             <img src="jaaz logo (3).png" class="w-20 h-20 mx-auto mb-6 floating">
-            <p class="playfair italic text-xl text-stone-400 mb-2">Jawad & Shabistha's Wedding</p>
             <h1 class="playfair text-3xl md:text-5xl font-bold mb-8 uppercase tracking-widest">Grand Premiere</h1>
             <div id="premiere-timer" class="timer-box montserrat mb-8 whitespace-nowrap">00d : 00h : 00m : 00s</div>
+            <p class="text-[10px] uppercase tracking-[0.4em] text-stone-500 font-bold mb-4">Launching On</p>
             <p class="playfair text-2xl text-[#d4af37]">May 12, 2026 • 12:00 PM</p>
+            <p class="text-[11px] uppercase font-bold tracking-widest text-stone-300">Prepare to witness a beautiful journey of</p>
+            <p class="text-[10px] uppercase tracking-[0.4em] text-stone-500 font-bold mb-4">Jawad & Shabistha</p>
+
+
         </div>
     </div>
 
@@ -225,13 +232,14 @@
             </div>
             <div class="absolute inset-0 bg-[#fdfbf7] shadow-inner rounded-[30px]" style="z-index: 5;"></div>
         </div>
-        <p class="playfair text-xl text-stone-400 italic mt-4 text-center">A Royal Message Awaits For You...</p>
     </div>
 
     <div id="main-page-wrapper">
         <div id="scroll-content">
             <div class="sticky-header text-center">
-                <h1 class="playfair text-4xl md:text-7xl italic font-semibold text-stone-800 whitespace-nowrap">Jawad & Shabistha</h1>
+                <p class="playfair text-2xl text-stone-800">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
+                <p class="text-[9px] tracking-[0.3em] uppercase mt-2 text-stone-500 font-bold italic">In the name of Allah, the Most Gracious, the Most Merciful</p>
+                <h1 class="playfair text-4xl md:text-7xl italic font-semibold text-stone-800 mt-6 whitespace-nowrap">Jawad & Shabistha</h1>
                 <nav class="flex justify-center gap-6 mt-6 text-[10px] font-bold uppercase tracking-widest border-b pb-4 max-w-xs mx-auto">
                     <a href="#" onclick="navigateWithAdmin('index.html')" class="text-[#d4af37] border-b border-[#d4af37]">Event</a>
                     <a href="#" onclick="navigateWithAdmin('location.html')">Location</a>
@@ -241,12 +249,8 @@
             </div>
 
             <div class="max-w-6xl mx-auto px-6 text-center">
-                <div class="relative flex justify-center items-center my-12 h-80 md:h-[500px]">
-                    <div class="relative z-30 overflow-hidden rounded-[3rem] h-full w-full max-w-[350px] shadow-2xl border-8 border-white">
-                        <img src="main page poster.png" class="h-full w-full object-cover">
-                    </div>
-                </div>
-
+                <img src="main page poster.png" class="rounded-[3rem] shadow-2xl border-8 border-white mx-auto my-12 max-w-[350px]">
+                
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
                     <div class="bg-white p-8 rounded-[2rem] shadow-sm border">
                         <h3 class="text-rose-400 text-[10px] uppercase font-bold mb-4">Celebration Begins In</h3>
@@ -288,9 +292,9 @@
         }
 
         function openInvitation() {
-            // PETALS TRIGGERED HERE IMMEDIATELY ON OPEN
+            // TRIGGER PETALS
             initPetals();
-            
+
             document.getElementById('seal-group').style.opacity = '0';
             document.getElementById('flap').classList.add('flap-open');
             setTimeout(() => {
@@ -309,16 +313,19 @@
 
         function initPetals() {
             const container = document.getElementById('petal-container');
-            container.innerHTML = ''; // Reset container
-            for (let i = 0; i < 60; i++) {
+            container.innerHTML = ''; 
+            const petalCount = window.innerWidth < 768 ? 40 : 80;
+            for (let i = 0; i < petalCount; i++) {
                 const petal = document.createElement('div');
                 petal.className = 'petal';
-                petal.style.width = (Math.random() * 10 + 8) + 'px';
-                petal.style.height = (Math.random() * 10 + 8) + 'px';
+                const size = 8 + Math.random() * 10;
+                petal.style.width = size + 'px'; 
+                petal.style.height = size + 'px';
                 petal.style.left = Math.random() * 100 + '%';
-                petal.style.animation = `shower ${Math.random() * 10 + 6}s linear infinite`;
-                petal.style.animationDelay = Math.random() * 10 + 's';
                 petal.style.backgroundColor = Math.random() > 0.5 ? '#fce4ec' : '#ffb7c5';
+                // Animation from top (-10vh to 110vh)
+                petal.style.animation = `shower ${6 + Math.random() * 10}s linear infinite`;
+                petal.style.animationDelay = `${Math.random() * 10}s`;
                 container.appendChild(petal);
             }
         }
