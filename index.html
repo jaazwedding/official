@@ -11,65 +11,48 @@
     <style>
         .playfair { font-family: 'Playfair Display', serif; }
         .montserrat { font-family: 'Montserrat', sans-serif; }
-        .card-shadow { box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), inset 0 2px 4px 0 rgba(0, 0, 0, 0.02); }
-
-        .halo-effect {
-            box-shadow: 0 0 50px 15px rgba(103, 151, 169, 0.3);
+        
+        /* THE COVER ANIMATION */
+        #wedding-cover {
+            transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s ease;
         }
-
-        .tabular-nums {
-            font-variant-numeric: tabular-nums;
-            letter-spacing: -1px;
-        }
-
-        /* Speed Optimization: Using transform for better performance */
-        .floating {
-            animation: float 3s ease-in-out infinite;
-            will-change: transform;
-        }
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .flower-container {
-            position: fixed; width: 100vw; height: 100vh;
-            top: 0; left: 0; overflow: hidden;
-            pointer-events: none; z-index: 25;
-        }
-
-        .petal {
-            position: absolute; background-color: #ffb7c5; 
-            border-radius: 150% 0 150% 0; opacity: 0; 
-            filter: drop-shadow(0 0 5px rgba(255,183,197,0.3));
-            animation: shower 10s linear infinite;
-            will-change: transform, opacity;
-        }
-
-        @keyframes shower {
-            0% { transform: translateY(-10vh) rotate(0deg) translateX(0); opacity: 0; }
-            5% { opacity: 0.8; }
-            95% { opacity: 0.8; }
-            100% { transform: translateY(110vh) rotate(720deg) translateX(100px); opacity: 0; }
-        }
-
-        .dev-signature {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-        }
-
-        .islamic-bg {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l15 30-15 30L15 30z' fill='%23ffffff' fill-opacity='0.1'/%3E%3C/svg%3E");
+        .cover-open {
+            transform: translateY(-100%);
+            opacity: 0;
             pointer-events: none;
-            z-index: 1;
         }
+
+        /* Original Styles */
+        .card-shadow { box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), inset 0 2px 4px 0 rgba(0, 0, 0, 0.02); }
+        .halo-effect { box-shadow: 0 0 50px 15px rgba(103, 151, 169, 0.3); }
+        .tabular-nums { font-variant-numeric: tabular-nums; letter-spacing: -1px; }
+        .floating { animation: float 3s ease-in-out infinite; will-change: transform; }
+        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
+
+        .flower-container { position: fixed; width: 100vw; height: 100vh; top: 0; left: 0; overflow: hidden; pointer-events: none; z-index: 25; }
+        .petal { position: absolute; background-color: #ffb7c5; border-radius: 150% 0 150% 0; opacity: 0; filter: drop-shadow(0 0 5px rgba(255,183,197,0.3)); animation: shower 10s linear infinite; will-change: transform, opacity; }
+        @keyframes shower { 0% { transform: translateY(-10vh) rotate(0deg) translateX(0); opacity: 0; } 5% { opacity: 0.8; } 95% { opacity: 0.8; } 100% { transform: translateY(110vh) rotate(720deg) translateX(100px); opacity: 0; } }
+
+        .dev-signature { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.5); }
+        .islamic-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l15 30-15 30L15 30z' fill='%23ffffff' fill-opacity='0.1'/%3E%3C/svg%3E"); pointer-events: none; z-index: 1; }
     </style>
 </head>
 <body class="montserrat text-stone-700 min-h-screen relative overflow-x-hidden" 
       style="background: linear-gradient(to bottom, #d9e9f2 0%, #d9e9f2 60%, #c5e1a5 100%);">
+
+    <div id="wedding-cover" class="fixed inset-0 z-[100] flex items-center justify-center bg-[#fdfbf7] border-8 border-white shadow-inner">
+        <div class="islamic-bg" style="z-index: -1;"></div>
+        <div class="text-center p-10 bg-white/50 backdrop-blur-md rounded-[3rem] shadow-2xl border border-stone-100 max-w-sm mx-4">
+            <p class="playfair text-xl text-stone-600 italic mb-2">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
+            <h2 class="playfair text-3xl font-bold text-stone-800 mb-6">The Wedding Invitation</h2>
+            <div class="w-16 h-px bg-stone-300 mx-auto mb-6"></div>
+            <p class="montserrat text-[10px] tracking-[0.3em] uppercase mb-8 text-stone-500">Jawad & Shabistha</p>
+            
+            <button onclick="openCard()" class="bg-stone-900 text-white px-10 py-4 rounded-full text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-rose-400 transition-all duration-500 shadow-xl active:scale-95">
+                Open Invitation
+            </button>
+        </div>
+    </div>
 
     <div class="islamic-bg"></div>
     <div id="petal-container" class="flower-container"></div>
@@ -87,7 +70,6 @@
     </nav>
 
     <main class="max-w-6xl mx-auto px-6 pb-24 relative z-40">
-        
         <div class="text-center mt-4">
             <h1 class="playfair text-4xl md:text-7xl italic font-semibold text-stone-800 leading-tight">Jawad & Shabistha</h1>
             <h2 class="playfair text-xl md:text-3xl italic text-stone-600 mt-2">Wedding Invitation</h2>
@@ -95,14 +77,12 @@
 
         <div class="relative flex justify-center items-center my-8 md:my-12 h-80 md:h-[550px]">
             <img src="images/arch-left.png" loading="lazy" class="hidden md:block absolute left-0 md:left-20 h-4/5 opacity-80 pointer-events-none z-10" alt="">
-            
             <div class="relative z-30 overflow-hidden rounded-[2.5rem] md:rounded-[4rem] h-full w-full max-w-[320px] md:max-w-none shadow-2xl halo-effect border-4 border-white/50">
                 <div class="absolute top-4 right-6 z-40 bg-white/20 backdrop-blur-sm px-4 py-1 rounded-full border border-white/30">
                     <p class="playfair italic text-white text-lg">Mashallah</p>
                 </div>
                 <img src="main page poster.png" class="h-full w-full object-cover" alt="Couple">
             </div>
-            
             <img src="images/arch-right.png" loading="lazy" class="hidden md:block absolute right-0 md:right-20 h-4/5 opacity-80 scale-x-[-1] pointer-events-none z-10" alt="">
         </div>
 
@@ -161,9 +141,13 @@
     </div>
 
     <script>
-        // Optimization: Create petals in a small batch then stop to save CPU
+        // Trigger the Opening Animation
+        function openCard() {
+            document.getElementById('wedding-cover').classList.add('cover-open');
+        }
+
         const container = document.getElementById('petal-container');
-        const petalCount = window.innerWidth < 768 ? 30 : 60; // Reduced count for speed
+        const petalCount = window.innerWidth < 768 ? 30 : 60; 
         
         function createPetal() {
             const petal = document.createElement('div');
@@ -172,20 +156,16 @@
             const delay = Math.random() * 5;
             const duration = 8 + Math.random() * 7;
             const size = 6 + Math.random() * 10;
-            
             petal.style.left = left + '%';
             petal.style.animationDelay = delay + 's';
             petal.style.animationDuration = duration + 's';
             petal.style.width = size + 'px';
             petal.style.height = size + 'px';
             if(Math.random() > 0.5) petal.style.backgroundColor = '#fce4ec';
-            
             container.appendChild(petal);
         }
 
-        for (let i = 0; i < petalCount; i++) {
-            createPetal();
-        }
+        for (let i = 0; i < petalCount; i++) { createPetal(); }
 
         const weddingDate = new Date("August 22, 2026 21:30:00").getTime();
         const countdownEl = document.getElementById("countdown");
@@ -193,17 +173,11 @@
         setInterval(function() {
             const now = new Date().getTime();
             const distance = weddingDate - now;
-            
-            if (distance < 0) {
-                countdownEl.innerHTML = "00:00:00:00";
-                return;
-            }
-
+            if (distance < 0) { countdownEl.innerHTML = "00:00:00:00"; return; }
             const d = Math.floor(distance / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
             const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
             const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
             const s = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, '0');
-            
             countdownEl.innerHTML = `${d}:${h}:${m}:${s}`;
         }, 1000);
     </script>
