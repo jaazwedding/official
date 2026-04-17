@@ -34,3 +34,245 @@
         #main-page-wrapper {
             position: fixed; inset: 15px; background-color: #fdfbf7;
             background-image: linear-gradient(to right, rgba(184, 134, 11, 0.08) 0%, transparent 10%, transparent 90%, rgba(184, 134, 11, 0.08) 100%),
+                url("https://www.transparenttextures.com/patterns/parchment.png");
+            border-radius: 3.5rem; border: 3px solid #d4af37;
+            box-shadow: 0 0 100px rgba(0,0,0,0.8);
+            z-index: 40; display: none; transform-origin: top; overflow: hidden;
+        }
+        #scroll-content { height: 100%; overflow-y: auto; overflow-x: hidden; padding-bottom: 100px; }
+        .sticky-header { position: sticky; top: 0; z-index: 100; background: linear-gradient(to bottom, #fdfbf7 85%, transparent); padding: 40px 20px 20px; }
+        .scroll-revealed { animation: unfurl 1.8s cubic-bezier(0.19, 1, 0.22, 1) forwards; }
+        @keyframes unfurl { 0% { transform: scaleY(0); opacity: 0; } 100% { transform: scaleY(1); opacity: 1; } }
+
+        /* --- PETALS --- */
+        #petal-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 60; overflow: hidden; }
+        .petal { position: absolute; background-color: #ffb7c5; border-radius: 150% 0 150% 0; opacity: 0; will-change: transform; }
+        @keyframes shower { 0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
+        
+        .floating { animation: float 3s ease-in-out infinite; }
+        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
+
+        .dev-signature { position: fixed; bottom: 20px; right: 20px; z-index: 150; background: rgba(255, 255, 255, 0.9); padding: 10px 20px; border-radius: 50px; border: 1px solid #d4af37; display: none; }
+    </style>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBt-AS0ViQ_vMB8Mor-nx6x7enr7BZzmaU",
+            authDomain: "wedding-card-f3460.firebaseapp.com",
+            databaseURL: "https://wedding-card-f3460-default-rtdb.firebaseio.com",
+            projectId: "wedding-card-f3460",
+            storageBucket: "wedding-card-f3460.firebasestorage.app",
+            messagingSenderId: "266632299451",
+            appId: "1:266632299451:web:aad01460dc6ac057e8ba9e",
+            measurementId: "G-0E0QNW263Y"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const maintenanceRef = ref(db, 'isMaintenance');
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const isAdmin = urlParams.get('admin') === 'true';
+
+        // 1. STYRIC GATEKEEPER: CLEAR SESSION IF NOT ADMIN URL
+        if (!isAdmin) {
+            localStorage.removeItem('admin_vip_pass');
+        }
+
+        // 2. ADMIN INTERFACE SETUP
+        if (isAdmin) {
+            window.addEventListener('DOMContentLoaded', () => {
+                document.getElementById('maintenance-overlay').style.setProperty('display', 'flex', 'important');
+                document.getElementById('admin-controls').classList.remove('hidden');
+            });
+        }
+
+        window.openPrivatePreview = () => {
+            localStorage.setItem('admin_vip_pass', 'active');
+            document.getElementById('maintenance-overlay').style.setProperty('display', 'none', 'important');
+            document.getElementById('unboxing-container').style.display = 'flex';
+        };
+
+        window.updateGlobalMaintenance = (status) => {
+            set(maintenanceRef, status).then(() => alert("Global Status Updated to: " + (status ? "LOCKED" : "LIVE")));
+        };
+
+        // 3. THE SMART REAL-TIME LISTENER
+        onValue(maintenanceRef, (snapshot) => {
+            const isLocked = snapshot.val();
+            const hasVipPass = localStorage.getItem('admin_vip_pass') === 'active';
+            const overlay = document.getElementById('maintenance-overlay');
+            const unboxing = document.getElementById('unboxing-container');
+
+            if (isLocked) {
+                // Guests see NOTHING but maintenance
+                if (!isAdmin && !hasVipPass) {
+                    overlay.style.setProperty('display', 'flex', 'important');
+                    if(unboxing) unboxing.style.display = 'none'; 
+                }
+            } else {
+                // If Live, hide overlay and show invitation
+                overlay.style.display = 'none';
+                if(unboxing && document.getElementById('main-page-wrapper').style.display !== 'block') {
+                    unboxing.style.display = 'flex';
+                }
+            }
+        });
+    </script>
+</head>
+<body class="montserrat">
+
+    <img src="jaaz logo (3).png" class="watermark-bg" alt="Watermark">
+
+    <div id="maintenance-overlay" class="fixed inset-0 z-[500] flex items-center justify-center bg-black/80 backdrop-blur-xl px-6" style="display: none;">
+        <div class="max-w-md w-full bg-white/95 p-10 rounded-[3rem] border-2 border-rose-100 text-center shadow-2xl relative overflow-hidden">
+            <div class="relative z-10">
+                <div class="text-5xl mb-6">🛠️</div>
+                <h1 class="playfair text-3xl font-bold text-stone-800 mb-4">Under Maintenance</h1>
+                <p class="montserrat text-sm text-stone-600 mb-8">We are currently refining the royal experience for Jawad & Shabistha's wedding. Please be patient as we prepare the grand reveal..</p>
+                
+                <div id="admin-controls" class="hidden mt-6 space-y-4 border-t pt-6">
+                    <button onclick="window.openPrivatePreview()" class="w-full py-4 rounded-full bg-stone-800 text-white text-[10px] font-bold uppercase tracking-widest shadow-lg">Preview Site (Admin)</button>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="window.updateGlobalMaintenance(true)" class="py-3 rounded-full bg-red-600 text-white text-[9px] font-bold">Lock Global</button>
+                        <button onclick="window.updateGlobalMaintenance(false)" class="py-3 rounded-full bg-green-600 text-white text-[9px] font-bold">Launch Global</button>
+                    </div>
+                </div>
+                <div class="h-px w-20 bg-rose-100 mx-auto my-8"></div>
+                <p class="montserrat text-[10px] uppercase text-stone-400 font-bold mb-2">Technical Support</p>
+                <a href="tel:+919550791538" class="montserrat text-rose-400 font-bold">+91 9550791538</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="unboxing-container">
+        <p class="montserrat text-[10px] tracking-[0.5em] uppercase text-stone-400 font-bold text-center">Jawad & Shabistha</p>
+        <h2 class="playfair text-lg md:text-2xl text-stone-500 italic mt-2 text-center">Wedding Invitation</h2>
+        <div id="envelope-main" class="envelope-wrapper mx-auto">
+            <div id="flap" class="envelope-flap"></div>
+            <div id="seal-group" class="luxury-seal-group">
+                <div class="luxury-seal" onclick="openInvitation()">
+                    <div class="pulse-effect"></div>
+                    <img src="jaaz logo (3).png" alt="Seal">
+                </div>
+                <p class="montserrat text-[10px] font-bold uppercase text-[#d4af37] mt-4 tracking-widest">Open Invitation</p>
+            </div>
+            <div class="absolute inset-0 bg-[#fdfbf7] shadow-inner rounded-[30px]" style="z-index: 5;"></div>
+        </div>
+        <p class="playfair text-xl text-stone-400 italic mt-4">A Royal Message Awaits For You...</p>
+    </div>
+
+    <div id="main-page-wrapper">
+        <div id="scroll-content">
+            <div id="petal-container"></div>
+            <div class="sticky-header text-center">
+                <p class="playfair text-2xl text-stone-800">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
+                <p class="text-[9px] tracking-[0.3em] uppercase mt-2 text-stone-500 font-bold italic">In the name of Allah, the Most Gracious, the Most Merciful</p>
+                <h1 class="playfair text-4xl md:text-7xl italic font-semibold text-stone-800 mt-6 whitespace-nowrap">Jawad & Shabistha</h1>
+                <h2 class="playfair text-xl md:text-3xl italic text-stone-600 mt-2">Wedding Invitation</h2>
+                
+                <nav class="flex justify-center gap-6 mt-6 text-[10px] font-bold uppercase tracking-widest border-b pb-4 max-w-xs mx-auto">
+                    <a href="#" onclick="navigateWithAdmin('index.html')" class="text-[#d4af37] border-b border-[#d4af37]">Event</a>
+                    <a href="#" onclick="navigateWithAdmin('location.html')">Location</a>
+                    <a href="#" onclick="navigateWithAdmin('contact.html')">Contact</a>
+                    <a href="#" onclick="navigateWithAdmin('gallery.html')">Gallery</a>
+                </nav>
+            </div>
+
+            <div class="max-w-6xl mx-auto px-6 text-center">
+                <div class="relative flex justify-center items-center my-12 h-80 md:h-[500px]">
+                    <div class="relative z-30 overflow-hidden rounded-[3rem] h-full w-full max-w-[350px] shadow-2xl border-8 border-white">
+                        <img src="main page poster.png" class="h-full w-full object-cover">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+                    <div class="bg-white p-8 rounded-[2rem] shadow-sm border">
+                        <h3 class="text-rose-400 text-[10px] uppercase font-bold mb-4">Celebration Begins In</h3>
+                        <div id="countdown" class="text-3xl font-bold tabular-nums">00:00:00:00</div>
+                        <span class="text-[9px] text-stone-400">⏳ August 24, 2026</span>
+                    </div>
+                    <div class="bg-white/60 p-6 rounded-[2rem] border">
+                        <div class="text-4xl mb-2 floating">🌻</div>
+                        <h2 class="playfair text-xl font-bold">Sanchak</h2>
+                        <p class="text-rose-400 text-sm">Aug 22, 2026</p>
+                        <p class="text-[10px] text-stone-400 tracking-widest leading-loose">The Pre-wedding glow & Traditions</p>
+                    </div>
+                    <div class="bg-white/60 p-6 rounded-[2rem] border">
+                        <div class="text-4xl mb-2 floating" style="animation-delay: 0.5s">🕌</div>
+                        <h2 class="playfair text-xl font-bold">Nikkah</h2>
+                        <p class="text-rose-400 text-sm">Aug 23, 2026</p>
+                        <p class="text-[10px] text-stone-400 tracking-widest leading-loose">The Sacred Bond of Marriage</p>
+                    </div>
+                    <div class="bg-white/60 p-6 rounded-[2rem] border">
+                        <div class="text-4xl mb-2 floating" style="animation-delay: 1s">🤵👰</div>
+                        <h2 class="playfair text-xl font-bold">Valima</h2>
+                        <p class="text-rose-400 font-bold text-sm">Aug 24, 2026</p>
+                        <p class="text-[10px] text-stone-400 tracking-widest leading-loose">Celebration & Grand Reception</p>
+                    </div>
+                </div>
+
+                <a href="#" onclick="navigateWithAdmin('location.html')" class="inline-block bg-stone-900 text-white px-16 py-5 rounded-full text-[10px] font-bold uppercase tracking-[0.3em] mb-20 shadow-xl">View Event Locations</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="fixed-sig" class="dev-signature">
+        <p class="text-stone-500 text-[8px] md:text-[10px] font-bold uppercase tracking-[0.25em] whitespace-nowrap text-center">
+            <span class="opacity-60 font-medium">Created by</span> Tauseef Shaik
+        </p>
+    </div>
+
+    <script>
+        function navigateWithAdmin(page) {
+            const urlParams = new URLSearchParams(window.location.search);
+            window.location.href = (urlParams.get('admin') === 'true') ? page + "?admin=true" : page;
+        }
+
+        function openInvitation() {
+            document.getElementById('seal-group').style.opacity = '0';
+            document.getElementById('flap').classList.add('flap-open');
+            setTimeout(() => {
+                const env = document.getElementById('envelope-main');
+                env.style.transition = '1.6s ease-in-out';
+                env.style.transform = 'scale(4)';
+                env.style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('unboxing-container').style.display = 'none';
+                    document.getElementById('main-page-wrapper').style.display = 'block';
+                    document.getElementById('main-page-wrapper').classList.add('scroll-revealed');
+                    document.getElementById('fixed-sig').style.display = 'block';
+                    initPetals();
+                }, 800);
+            }, 600);
+        }
+
+        function initPetals() {
+            const container = document.getElementById('petal-container');
+            for (let i = 0; i < 60; i++) {
+                const petal = document.createElement('div');
+                petal.className = 'petal';
+                petal.style.width = petal.style.height = (Math.random() * 10 + 8) + 'px';
+                petal.style.left = Math.random() * 100 + '%';
+                petal.style.animation = `shower ${Math.random() * 10 + 6}s linear infinite`;
+                petal.style.animationDelay = Math.random() * 10 + 's';
+                petal.style.backgroundColor = Math.random() > 0.5 ? '#fce4ec' : '#ffb7c5';
+                container.appendChild(petal);
+            }
+        }
+
+        const weddingDate = new Date("August 22, 2026 00:00:00").getTime();
+        setInterval(() => {
+            const dist = weddingDate - new Date().getTime();
+            const d = Math.floor(dist / 86400000).toString().padStart(2, '0');
+            const h = Math.floor((dist % 86400000) / 3600000).toString().padStart(2, '0');
+            const m = Math.floor((dist % 3600000) / 60000).toString().padStart(2, '0');
+            const s = Math.floor((dist % 60000) / 1000).toString().padStart(2, '0');
+            document.getElementById("countdown").innerText = dist < 0 ? "00:00:00:00" : `${d}:${h}:${m}:${s}`;
+        }, 1000);
+    </script>
+</body>
+</html>
