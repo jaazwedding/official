@@ -152,7 +152,6 @@
         </div>
     </div>
 
-    <img src="jaaz logo (3).png" class="fixed top-1/2 left-1/2 ...">
     <img src="jaaz logo (3).png" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] max-w-lg opacity-[0.05] pointer-events-none z-0">
 
     <div id="petal-container"></div>
@@ -185,7 +184,7 @@
                 <nav class="flex justify-center gap-6 mt-6 text-[10px] font-bold uppercase tracking-widest border-b border-stone-100 pb-4 max-w-xs mx-auto">
                     <a href="index.html" class="text-[#d4af37] border-b border-[#d4af37]">Event</a>
                     <a href="location.html" class="hover:text-[#d4af37]">Location</a>
-                    <a href="contact.html" class="hover:text-[#d4af37]">Conatact</a>
+                    <a href="contact.html" class="hover:text-[#d4af37]">Contact</a>
                     <a href="gallery.html" class="hover:text-[#d4af37]">Gallery</a>
                 </nav>
             </div>
@@ -210,23 +209,18 @@
                         <h2 class="playfair text-2xl font-bold">Sanchak</h2>
                         <p class="text-rose-400 font-bold text-sm">Aug 22, 2026 (4:00 PM)</p>
                         <p class="text-[9px] uppercase mt-2 opacity-60">The Pre-wedding Glow & Traditions</p>
-                        
-
-
                     </div>
                     <div class="p-6 bg-white/40 rounded-3xl transition hover:scale-105">
                         <div class="text-5xl mb-4 floating" style="animation-delay: 0.5s">🕌</div>
                         <h2 class="playfair text-2xl font-bold">Nikah</h2>
                         <p class="text-rose-400 font-bold text-sm">Aug 23, 2026</p>
                         <p class="text-[9px] uppercase mt-2 opacity-60">The Sacred bond of Marriage</p>
-
                     </div>
                     <div class="p-6 bg-white/40 rounded-3xl transition hover:scale-105">
                         <div class="text-5xl mb-4 floating" style="animation-delay: 1s">🤵👰</div>
                         <h2 class="playfair text-2xl font-bold">Valima</h2>
                         <p class="text-rose-400 font-bold text-sm">Aug 24, 2026</p>
                         <p class="text-[9px] uppercase mt-2 opacity-60">Celebration & Grand Reception</p>
-
                     </div>
                 </div>
 
@@ -244,8 +238,22 @@
     </div>
 
     <script>
+        // 1. ADMIN PANEL CHECKER
+        window.addEventListener('load', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('admin') === 'true') {
+                const btn = document.getElementById('admin-dismiss-btn');
+                if(btn) {
+                    btn.style.setProperty('display', 'block', 'important');
+                }
+            }
+        });
+
+        // 2. INVITATION LOGIC
         function openInvitation() {
-            document.getElementById('seal-group').style.opacity = '0';
+            const seal = document.getElementById('seal-group');
+            if(seal) seal.style.opacity = '0';
+            
             document.getElementById('flap').classList.add('flap-open');
             
             setTimeout(() => {
@@ -261,6 +269,7 @@
             }, 600);
         }
 
+        // 3. PETALS LOGIC
         function initPetals() {
             const container = document.getElementById('petal-container');
             const petalCount = window.innerWidth < 768 ? 40 : 100;
@@ -278,6 +287,7 @@
             }
         }
 
+        // 4. COUNTDOWN LOGIC
         const weddingDate = new Date("August 22, 2026 00:00:00").getTime();
         setInterval(() => {
             const now = new Date().getTime();
@@ -289,19 +299,6 @@
             const el = document.getElementById("countdown");
             if(el) el.innerText = dist < 0 ? "00:00:00:00" : `${d}:${h}:${m}:${s}`;
         }, 1000);
-    // ... This is where your old countdown code ends ...
-        }, 1000);
-
-        // --- PASTE THE NEW PART HERE ---
-        window.addEventListener('load', function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get('admin') === 'true') {
-                const btn = document.getElementById('admin-dismiss-btn');
-                if(btn) btn.style.display = 'block';
-            }
-        });
-        // --- END OF NEW PART ---
-
     </script> 
 </body>
 </html>
