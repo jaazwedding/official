@@ -12,18 +12,23 @@
         .playfair { font-family: 'Playfair Display', serif; }
         .montserrat { font-family: 'Montserrat', sans-serif; }
         
-        /* --- PREMIUM WATERMARKS --- */
-        .bg-watermark {
-            position: fixed;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 70%; max-width: 450px;
-            opacity: 0.04;
-            pointer-events: none;
-            z-index: 0;
+        /* --- ANCIENT SCROLL & PAGE STYLES --- */
+        .scroll-container {
+            background-color: #fdfbf7;
+            background-image: url("https://www.transparenttextures.com/patterns/parchment.png");
+            border: 15px solid transparent;
+            border-image: url("https://img.freepik.com/free-vector/vintage-golden-frame-collection_23-2148100523.jpg") 30 round; /* Decorative border */
+            border-style: double;
+            box-shadow: 0 0 40px rgba(0,0,0,0.1), inset 0 0 100px rgba(184, 134, 11, 0.05);
+            transform-origin: top;
+            transition: all 1.5s cubic-bezier(0.19, 1, 0.22, 1);
         }
 
-        /* --- LUXURY ENVELOPE DESIGN --- */
+        /* Unfurling Animation */
+        .scroll-hidden { transform: scaleY(0); opacity: 0; }
+        .scroll-revealed { transform: scaleY(1); opacity: 1; }
+
+        /* --- ENVELOPE DESIGN --- */
         #unboxing-container {
             perspective: 1200px;
             background: #f8f6f3;
@@ -34,10 +39,8 @@
             position: relative;
             width: 360px; height: 260px;
             background: #dcd0c0;
-            /* Added premium damask pattern overlay */
             background-image: url("https://www.transparenttextures.com/patterns/gray-floral.png");
             box-shadow: 0 40px 80px rgba(0,0,0,0.15);
-            border: 1px solid rgba(255,255,255,0.3);
         }
 
         .envelope-flap {
@@ -49,71 +52,26 @@
             transform-origin: top;
             transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 30;
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
         }
 
         .flap-open { transform: rotateX(180deg); z-index: 10; }
 
-        /* Premium Seal with ORIGINAL LOGO COLORS */
         .luxury-seal-container {
-            position: absolute;
-            top: 115px; left: 50%;
-            transform: translateX(-50%);
-            z-index: 45;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
+            position: absolute; top: 115px; left: 50%;
+            transform: translateX(-50%); z-index: 45;
+            display: flex; flex-direction: column; align-items: center; gap: 10px;
         }
 
         .luxury-seal {
-            width: 85px; height: 85px;
-            background: white; 
-            border: 3px solid #d4af37; /* Gold Frame */
-            border-radius: 50%;
-            display: flex;
-            align-items: center; justify-content: center;
-            cursor: pointer;
-            transition: all 0.4s ease;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-            padding: 5px;
+            width: 85px; height: 85px; background: white; 
+            border: 3px solid #d4af37; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.4s ease;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2); padding: 5px;
         }
 
-        .luxury-seal:hover {
-            transform: scale(1.1);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
-        }
+        .luxury-seal img { width: 100%; object-fit: contain; }
 
-        .luxury-seal img {
-            width: 100%;
-            height: auto;
-            /* Removed filters to keep original colors */
-            object-fit: contain;
-        }
-
-        .open-label {
-            color: #b8860b;
-            font-size: 10px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.3em;
-            text-shadow: 0 1px 1px white;
-        }
-
-        .pulse-effect {
-            position: absolute;
-            width: 100%; height: 100%;
-            border-radius: 50%;
-            border: 2px solid #d4af37;
-            animation: pulse 2.5s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 0.8; }
-            100% { transform: scale(1.6); opacity: 0; }
-        }
-
-        /* Animation: Zoom Reveal */
         .envelope-zoom-out {
             animation: envelopeExit 1.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
@@ -123,129 +81,105 @@
             100% { transform: scale(4); opacity: 0; visibility: hidden; }
         }
 
-        /* --- FALLING PETALS --- */
-        .flower-container {
-            position: fixed; width: 100vw; height: 100vh;
-            top: 0; left: 0; overflow: hidden;
-            pointer-events: none; z-index: 30;
-        }
+        /* --- PETALS --- */
+        .flower-container { position: fixed; width: 100vw; height: 100vh; top: 0; left: 0; overflow: hidden; pointer-events: none; z-index: 30; }
+        .petal { position: absolute; border-radius: 150% 0 150% 0; opacity: 0; will-change: transform; }
+        @keyframes shower { 0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; } 10% { opacity: 0.8; } 90% { opacity: 0.8; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
 
-        .petal {
-            position: absolute; border-radius: 150% 0 150% 0; opacity: 0; will-change: transform;
-        }
-
-        @keyframes shower {
-            0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.8; }
-            90% { opacity: 0.8; }
-            100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
-        }
-
-        /* --- CONTENT STYLES --- */
-        .card-shadow { box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05); }
-        .halo-effect { box-shadow: 0 0 50px 15px rgba(103, 151, 169, 0.2); }
+        /* UI Helpers */
+        .card-shadow { box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05); }
         .floating { animation: float 3s ease-in-out infinite; }
         @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
-        .dev-signature { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(8px); border: 1px solid rgba(0,0,0,0.05); }
+        .dev-signature { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(8px); border: 1px solid #d4af37; }
     </style>
 </head>
-<body class="montserrat text-stone-700 min-h-screen relative overflow-x-hidden" 
-      style="background: linear-gradient(to bottom, #d9e9f2 0%, #d9e9f2 60%, #c5e1a5 100%);">
+<body class="montserrat text-stone-700 min-h-screen relative overflow-x-hidden bg-[#f4f1ee]">
 
-    <img src="jaaz logo (3).png" class="bg-watermark" alt="Logo">
+    <img src="jaaz logo (3).png" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] max-w-lg opacity-[0.03] pointer-events-none z-0" alt="Logo">
 
     <div id="unboxing-container" class="fixed inset-0 flex flex-col items-center justify-center">
-        <p class="playfair text-xl mb-12 text-stone-400 italic tracking-widest">An invitation for you...</p>
-        
+        <p class="playfair text-xl mb-12 text-stone-400 italic">A royal message awaits...</p>
         <div id="envelope-main" class="envelope-wrapper">
-            <img src="jaaz logo (3).png" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 opacity-5 grayscale" alt="">
-            
             <div id="flap" class="envelope-flap"></div>
-            
             <div id="seal-area" class="luxury-seal-container">
                 <div class="luxury-seal" onclick="openInvitation()">
-                    <div class="pulse-effect"></div>
                     <img src="jaaz logo (3).png" alt="Logo Seal">
                 </div>
-                <p class="open-label">Open Invitation</p>
+                <p class="text-[#b8860b] text-[10px] font-bold uppercase tracking-[0.3em]">Open Scroll</p>
             </div>
-            
-            <div class="absolute inset-0 bg-[#dcd0c0] border-x-[180px] border-x-[#f5ede3] border-b-[140px] border-b-[#efe6da] z-20 shadow-inner overflow-hidden">
-                <div class="absolute inset-0 opacity-10" style="background-image: url('https://www.transparenttextures.com/patterns/gold-scale.png');"></div>
-            </div>
+            <div class="absolute inset-0 bg-[#dcd0c0] border-x-[180px] border-x-[#f5ede3] border-b-[140px] border-b-[#efe6da] z-20"></div>
         </div>
-        
         <p class="montserrat text-[10px] tracking-[0.5em] mt-12 uppercase text-stone-400 font-bold">Jawad & Shabistha</p>
     </div>
 
-    <div id="main-page" class="opacity-0 transition-opacity duration-1000">
+    <div id="main-page" class="scroll-container scroll-hidden max-w-5xl mx-auto my-10 relative z-40 p-4 md:p-12 min-h-[90vh]">
         <div id="petal-container" class="flower-container"></div>
 
-        <header class="relative z-50 text-center pt-8">
+        <header class="text-center pt-8">
             <p class="playfair text-2xl md:text-4xl text-stone-800">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
-            <p class="text-[9px] tracking-[0.3em] uppercase mt-2 text-stone-500 font-medium">In the name of Allah, the Most Gracious, the Most Merciful</p>
+            <p class="text-[9px] tracking-[0.3em] uppercase mt-4 text-stone-500 font-medium italic">By the Grace of Allah (SWT)</p>
         </header>
 
-        <nav class="flex justify-center gap-6 md:gap-12 py-6 text-[10px] md:text-sm uppercase tracking-widest font-semibold relative z-50">
-            <a href="index.html" class="border-b-2 border-stone-800 pb-1">Event</a>
-            <a href="location.html" class="hover:text-rose-400 transition">Location</a>
-            <a href="gallery.html" class="hover:text-rose-400 transition">Gallery</a>
-            <a href="contact.html" class="hover:text-rose-400 transition">Contact</a>
+        <nav class="flex justify-center gap-6 md:gap-12 py-8 text-[10px] md:text-sm uppercase tracking-widest font-bold">
+            <a href="index.html" class="border-b-2 border-[#d4af37] pb-1">Event</a>
+            <a href="location.html" class="hover:text-rose-400">Location</a>
+            <a href="gallery.html" class="hover:text-rose-400">Gallery</a>
+            <a href="contact.html" class="hover:text-rose-400">Contact</a>
         </nav>
 
-        <main class="max-w-6xl mx-auto px-6 pb-24 relative z-40">
-            <div class="text-center mt-4">
-                <h1 class="playfair text-4xl md:text-7xl italic font-semibold text-stone-800">Jawad & Shabistha</h1>
-                <h2 class="playfair text-xl md:text-3xl italic text-stone-600 mt-2">Wedding Invitation</h2>
-            </div>
+        <main class="text-center">
+            <h1 class="playfair text-5xl md:text-8xl italic font-semibold text-stone-800 leading-tight">Jawad & Shabistha</h1>
+            <h2 class="playfair text-xl md:text-3xl italic text-stone-600 mt-4 border-b border-stone-200 w-fit mx-auto pb-2">The Royal Nikkah Decree</h2>
 
-            <div class="relative flex justify-center items-center my-12 h-80 md:h-[550px]">
-                <img src="images/arch-left.png" class="hidden md:block absolute left-0 md:left-20 h-4/5 opacity-80 pointer-events-none z-10">
-                <div class="relative z-30 overflow-hidden rounded-[2.5rem] md:rounded-[4rem] h-full w-full max-w-[320px] md:max-w-none shadow-2xl halo-effect border-4 border-white">
+            <div class="relative flex justify-center items-center my-12 h-80 md:h-[600px]">
+                <div class="relative z-30 overflow-hidden rounded-t-full h-full w-full max-w-[350px] md:max-w-[450px] shadow-2xl border-8 border-white">
                     <div class="absolute top-4 right-6 z-40 bg-white/20 backdrop-blur-sm px-4 py-1 rounded-full border border-white/30">
                         <p class="playfair italic text-white text-lg">Mashallah</p>
                     </div>
                     <img src="main page poster.png" class="h-full w-full object-cover">
                 </div>
-                <img src="images/arch-right.png" class="hidden md:block absolute right-0 md:right-20 h-4/5 opacity-80 scale-x-[-1] pointer-events-none z-10">
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 relative z-50">
-                <div class="bg-white/90 backdrop-blur-sm rounded-[2.5rem] p-8 text-center card-shadow">
-                    <h3 class="font-semibold text-rose-400 uppercase tracking-widest text-[10px] mb-4">The Celebration Begins In</h3>
-                    <div id="countdown" class="text-3xl md:text-4xl font-bold text-stone-800 tabular-nums">00:00:00:00</div>
-                    <div class="flex gap-4 text-[9px] text-stone-400 mt-2 uppercase justify-center tracking-[0.2em]">
-                        <span>Days</span><span>Hrs</span><span>Min</span><span>Sec</span>
-                    </div>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 px-4">
+                <div class="bg-white/60 p-8 rounded-xl border border-stone-100">
+                    <h3 class="font-bold text-[#d4af37] uppercase tracking-widest text-[10px] mb-4">Countdown to Nikkah</h3>
+                    <div id="countdown" class="text-3xl font-bold text-stone-800 tabular-nums">00:00:00:00</div>
+                    <div class="text-[9px] text-stone-400 mt-2 uppercase tracking-widest">Days : Hrs : Min : Sec</div>
                 </div>
                 
-                <div class="bg-white/80 backdrop-blur-sm rounded-[2.5rem] p-8 text-center card-shadow transition hover:scale-105 duration-300">
-                    <div class="text-5xl mb-4 floating">🌻</div>
-                    <h2 class="playfair text-2xl font-bold text-stone-800">Sanchak (Haldi)</h2>
-                    <p class="text-rose-400 font-semibold text-sm">August 22, 2026</p>
-                    <p class="text-[10px] text-stone-400 uppercase mt-4 leading-loose tracking-wide">The pre-wedding glow & Traditions</p>
+                <div class="p-6 transition hover:scale-105">
+                    <div class="text-4xl mb-4 floating">🌻</div>
+                    <h2 class="playfair text-2xl font-bold">Sanchak</h2>
+                    <p class="text-rose-400 font-bold text-sm">August 22, 2026</p>
+                    <p class="text-[10px] text-stone-400 uppercase mt-2">Traditional Glow</p>
                 </div>
 
-                <div class="bg-white/80 backdrop-blur-sm rounded-[2.5rem] p-8 text-center card-shadow transition hover:scale-105 duration-300 border-rose-100/50">
-                    <div class="text-5xl mb-4 floating" style="animation-delay: 0.5s;">🕌</div>
-                    <h2 class="playfair text-2xl font-bold text-stone-800">Nikah (Wedding)</h2>
-                    <p class="text-rose-400 font-semibold text-sm">August 23, 2026</p>
-                    <p class="text-[10px] text-stone-400 uppercase mt-4 leading-loose tracking-wide">The sacred bond of marriage</p>
+                <div class="p-6 transition hover:scale-105">
+                    <div class="text-4xl mb-4 floating" style="animation-delay: 0.5s;">🕌</div>
+                    <h2 class="playfair text-2xl font-bold">Nikah</h2>
+                    <p class="text-rose-400 font-bold text-sm">August 23, 2026</p>
+                    <p class="text-[10px] text-stone-400 uppercase mt-2">The Sacred Bond</p>
                 </div>
 
-                <div class="bg-white/80 backdrop-blur-sm rounded-[2.5rem] p-8 text-center card-shadow transition hover:scale-105 duration-300">
-                    <div class="text-5xl mb-4 floating" style="animation-delay: 1s;">🤵👰</div>
-                    <h2 class="playfair text-2xl font-bold text-stone-800">Valima (Reception)</h2>
-                    <p class="text-rose-400 font-semibold text-sm">August 24, 2026</p>
-                    <p class="text-[10px] text-stone-400 uppercase mt-4 leading-loose tracking-wide">Celebration & Grand reception</p>
+                <div class="p-6 transition hover:scale-105">
+                    <div class="text-4xl mb-4 floating" style="animation-delay: 1s;">🤵👰</div>
+                    <h2 class="playfair text-2xl font-bold">Valima</h2>
+                    <p class="text-rose-400 font-bold text-sm">August 24, 2026</p>
+                    <p class="text-[10px] text-stone-400 uppercase mt-2">Grand Reception</p>
                 </div>
+            </div>
+
+            <div class="mt-16 pb-12">
+                <a href="location.html" class="inline-block bg-stone-900 text-white px-16 py-5 rounded-full text-[11px] font-bold uppercase tracking-[0.4em] shadow-2xl hover:bg-[#d4af37] transition-all">
+                    Map to the Kingdom
+                </a>
             </div>
         </main>
 
-        <div class="fixed bottom-3 right-3 md:bottom-6 md:right-6 z-[60]">
-            <div class="dev-signature px-4 py-2 rounded-full shadow-lg">
-                <p class="text-stone-500 text-[9px] font-bold uppercase tracking-widest text-center">
-                    <span class="opacity-50 font-medium">Created by</span> Tauseef Shaik
+        <div class="fixed bottom-6 right-6 z-[60]">
+            <div class="dev-signature px-5 py-3 rounded-full">
+                <p class="text-stone-600 text-[10px] font-bold uppercase tracking-widest">
+                    <span class="opacity-40">Created by</span> Tauseef Shaik
                 </p>
             </div>
         </div>
@@ -261,7 +195,9 @@
                 
                 setTimeout(() => {
                     document.getElementById('unboxing-container').style.display = 'none';
-                    document.getElementById('main-page').classList.replace('opacity-0', 'opacity-100');
+                    const main = document.getElementById('main-page');
+                    main.classList.remove('scroll-hidden');
+                    main.classList.add('scroll-revealed');
                     initPetals();
                 }, 800);
             }, 600);
@@ -269,13 +205,10 @@
 
         function initPetals() {
             const container = document.getElementById('petal-container');
-            if(!container) return;
             for (let i = 0; i < 75; i++) {
                 const petal = document.createElement('div');
                 petal.className = 'petal';
-                const size = 8 + Math.random() * 12;
-                petal.style.width = size + 'px';
-                petal.style.height = size + 'px';
+                petal.style.width = petal.style.height = (8 + Math.random() * 12) + 'px';
                 petal.style.left = Math.random() * 100 + '%';
                 petal.style.backgroundColor = Math.random() > 0.5 ? '#fce4ec' : '#ffb7c5';
                 petal.style.animation = `shower ${6 + Math.random() * 10}s linear infinite`;
