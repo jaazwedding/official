@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400;1,700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="jaaz logo (3).png">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
     <style>
         .playfair { font-family: 'Playfair Display', serif; }
@@ -24,7 +25,7 @@
             position: fixed; inset: 0; z-index: 800;
             background: radial-gradient(circle at center, #1a1a1a 0%, #0d1117 100%);
             display: none; flex-direction: column; align-items: center; justify-content: center;
-            color: #fdfbf7; text-align: center; padding: 20px;
+            color: #fdfbf7; text-align: center; padding: 15px;
         }
         #premiere-screen::before {
             content: ''; position: absolute; inset: 0;
@@ -32,31 +33,31 @@
             opacity: 0.3; pointer-events: none;
         }
         .premiere-frame {
-            position: relative; border: 2px solid #d4af37; padding: 3.5rem 1.5rem; border-radius: 4rem;
+            position: relative; border: 2px solid #d4af37; padding: 2.5rem 1rem; border-radius: 3rem;
             background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px);
-            max-width: 500px; width: 100%; box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            max-width: 450px; width: 100%; box-shadow: 0 0 50px rgba(0,0,0,0.5);
             animation: borderGlow 4s infinite alternate;
         }
         @keyframes borderGlow {
             0% { border-color: #d4af37; box-shadow: 0 0 20px rgba(212, 175, 55, 0.2); }
             100% { border-color: #f7e1ad; box-shadow: 0 0 40px rgba(212, 175, 55, 0.4); }
         }
-        .timer-box { font-size: 1.8rem; font-weight: 700; letter-spacing: 0.1em; color: #d4af37; text-shadow: 0 0 15px rgba(212, 175, 55, 0.5); }
-        @media (min-width: 768px) { .timer-box { font-size: 2.5rem; } }
+        .timer-box { 
+            font-size: 1.5rem; font-weight: 700; letter-spacing: 0.05em; color: #d4af37; 
+            text-shadow: 0 0 15px rgba(212, 175, 55, 0.5); width: 100%;
+        }
+        @media (min-width: 768px) { .timer-box { font-size: 2.2rem; } }
 
         /* --- MAINTENANCE --- */
         #maintenance-overlay { position: fixed; inset: 0; z-index: 1000; background: rgba(0,0,0,0.92); backdrop-blur: 25px; display: none; align-items: center; justify-content: center; }
 
         /* --- ENVELOPE & UNBOXING --- */
         #unboxing-container { position: fixed; inset: 0; display: none; flex-direction: column; align-items: center; justify-content: center; background: #2d241e; z-index: 200; }
-        .envelope-wrapper { position: relative; width: 360px; height: 260px; background: #fdfbf7; background-image: url("https://www.transparenttextures.com/patterns/gray-floral.png"); box-shadow: 0 40px 80px rgba(0,0,0,0.5); border-radius: 30px; margin: 20px 0; }
-        .envelope-flap { position: absolute; top: -2px; left: 0; width: 100%; height: 150px; background: #f9f5f0; clip-path: ellipse(50% 100% at 50% 0%); transform-origin: top; transition: transform 0.9s ease; z-index: 30; border-bottom: 1px solid rgba(184, 134, 11, 0.2); }
+        .envelope-wrapper { position: relative; width: 340px; height: 240px; background: #fdfbf7; background-image: url("https://www.transparenttextures.com/patterns/gray-floral.png"); border-radius: 30px; margin: 20px 0; box-shadow: 0 30px 60px rgba(0,0,0,0.4); }
+        .envelope-flap { position: absolute; top: -2px; width: 100%; height: 140px; background: #f9f5f0; clip-path: ellipse(50% 100% at 50% 0%); transform-origin: top; transition: transform 0.9s ease; z-index: 30; border-bottom: 1px solid rgba(184, 134, 11, 0.2); }
         .flap-open { transform: rotateX(180deg); z-index: 10; }
         .luxury-seal-group { position: absolute; top: 110px; left: 50%; transform: translateX(-50%); z-index: 45; display: flex; flex-direction: column; align-items: center; }
-        .luxury-seal { position: relative; width: 85px; height: 85px; background: white; border: 3px solid #d4af37; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.4s ease; padding: 5px; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
-        .luxury-seal img { width: 100%; object-fit: contain; }
-        .pulse-effect { position: absolute; width: 100%; height: 100%; border-radius: 50%; border: 2px solid #d4af37; animation: pulse 2.5s infinite; }
-        @keyframes pulse { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(1.6); opacity: 0; } }
+        .luxury-seal { width: 85px; height: 85px; background: white; border: 3px solid #d4af37; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.4s ease; padding: 5px; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
 
         /* --- MAIN PAGE --- */
         #main-page-wrapper {
@@ -102,28 +103,44 @@
 
         const urlParams = new URLSearchParams(window.location.search);
         const isAdmin = urlParams.get('admin') === 'true';
-        const premiereDate = new Date("April 18, 2026 00:58:00").getTime();
+        const premiereDate = new Date("May 12, 2026 12:00:00").getTime();
+        let blastDone = false;
 
         if (!isAdmin) localStorage.removeItem('admin_vip_pass');
 
+        function triggerBlast() {
+            if (blastDone) return;
+            blastDone = true;
+            var duration = 5 * 1000;
+            var end = Date.now() + duration;
+            (function frame() {
+                confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#d4af37', '#f7e1ad'] });
+                confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#d4af37', '#f7e1ad'] });
+                if (Date.now() < end) requestAnimationFrame(frame);
+            }());
+        }
+
         function updatePremiere() {
             const now = new Date().getTime();
-            const distance = premiereDate - now;
+            const dist = premiereDate - now;
             const timerEl = document.getElementById('premiere-timer');
             const pScreen = document.getElementById('premiere-screen');
             const unboxing = document.getElementById('unboxing-container');
 
-            if (distance < 0) {
-                if (pScreen) pScreen.style.display = 'none';
-                if (!isAdmin && unboxing.style.display === 'none' && document.getElementById('main-page-wrapper').style.display !== 'block') {
-                    unboxing.style.display = 'flex';
-                }
+            if (dist < 0) {
+                triggerBlast();
+                setTimeout(() => {
+                    if (pScreen) pScreen.style.display = 'none';
+                    if (!isAdmin && unboxing.style.display === 'none' && document.getElementById('main-page-wrapper').style.display !== 'block') {
+                        unboxing.style.display = 'flex';
+                    }
+                }, 3000);
                 return true;
             }
-            const d = Math.floor(distance / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
-            const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
-            const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
-            const s = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, '0');
+            const d = Math.floor(dist / 86400000).toString().padStart(2, '0');
+            const h = Math.floor((dist % 86400000) / 3600000).toString().padStart(2, '0');
+            const m = Math.floor((dist % 3600000) / 60000).toString().padStart(2, '0');
+            const s = Math.floor((dist % 60000) / 1000).toString().padStart(2, '0');
             if (timerEl) timerEl.innerText = `${d}d : ${h}h : ${m}m : ${s}s`;
             return false;
         }
@@ -159,9 +176,6 @@
                 if (!finished) {
                     pScreen.style.display = 'flex';
                     unboxing.style.display = 'none';
-                } else {
-                    pScreen.style.display = 'none';
-                    unboxing.style.display = 'flex';
                 }
             }
         });
@@ -174,17 +188,17 @@
     <div id="maintenance-overlay">
         <div class="max-w-md w-full bg-white p-10 rounded-[3rem] text-center shadow-2xl mx-4 border-2 border-[#d4af37]">
             <div class="text-5xl mb-6">🛠️</div>
-            <h1 class="playfair text-3xl font-bold text-stone-800 mb-4">Under Maintenance</h1>
-            <p class="text-stone-600 mb-8">We are currently refining the royal experience for Jawad & Shabistha's wedding. Please be patient as we prepare the grand reveal...</p>
+            <h1 class="playfair text-3xl font-bold text-stone-800 mb-4">Maintenance</h1>
+            <p class="text-stone-600 mb-8">We are currently refining the royal experience for Jawad & Shabistha's wedding. Please be patient as we prepare the grand reveal..</p>
             <div id="admin-controls" class="hidden mt-6 space-y-4 border-t pt-6">
-                <button onclick="window.openPrivatePreview()" class="w-full py-4 rounded-full bg-stone-800 text-white text-[10px] font-bold uppercase tracking-widest">Preview Site (Admin only)</button>
+                <button onclick="window.openPrivatePreview()" class="w-full py-4 rounded-full bg-stone-800 text-white text-[10px] font-bold uppercase tracking-widest">Preview Site (Admin)</button>
                 <div class="grid grid-cols-2 gap-2">
                     <button onclick="window.updateGlobalMaintenance(true)" class="py-3 rounded-full bg-red-600 text-white text-[9px] font-bold">Turn on Maintenance Mode Globally</button>
                     <button onclick="window.updateGlobalMaintenance(false)" class="py-3 rounded-full bg-green-600 text-white text-[9px] font-bold">Turn off Maintenance Mode Globally</button>
                 </div>
             </div>
             <div class="h-px w-20 bg-rose-100 mx-auto my-8"></div>
-            <p class="montserrat text-[10px] uppercase text-stone-400 font-bold mb-2"> For Technical Support</p>
+            <p class="montserrat text-[10px] uppercase text-stone-400 font-bold mb-2">For Technical Support</p>
             <a href="tel:+919550791538" class="montserrat text-rose-400 font-bold">+91 9550791538</a>
         </div>
     </div>
@@ -203,8 +217,7 @@
     </div>
 
     <div id="unboxing-container">
-        <p class="montserrat text-[10px] tracking-[0.5em] uppercase text-stone-400 font-bold text-center">Jawad & Shabistha</p>
-        <h2 class="playfair text-lg md:text-2xl text-stone-500 italic mt-2 text-center">Wedding Invitation</h2>
+        <p class="montserrat text-[10px] tracking-[0.5em] uppercase text-stone-400 font-bold mb-4 text-center">Jawad & Shabistha</p>
         <div id="envelope-main" class="envelope-wrapper mx-auto">
             <div id="flap" class="envelope-flap"></div>
             <div id="seal-group" class="luxury-seal-group">
@@ -216,7 +229,7 @@
             </div>
             <div class="absolute inset-0 bg-[#fdfbf7] shadow-inner rounded-[30px]" style="z-index: 5;"></div>
         </div>
-        <p class="playfair text-xl text-stone-400 italic mt-4">A Royal Message Awaits For You...</p>
+        <p class="playfair text-xl text-stone-400 italic mt-4 text-center">A Royal Message Awaits For You...</p>
     </div>
 
     <div id="main-page-wrapper">
@@ -244,14 +257,14 @@
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
                     <div class="bg-white p-8 rounded-[2rem] shadow-sm border">
                         <h3 class="text-rose-400 text-[10px] uppercase font-bold mb-4">Celebration Begins In</h3>
-                        <div id="countdown" class="text-3xl font-bold tabular-nums">00:00:00:00</div>
+                        <div id="countdown" class="text-3xl font-bold tabular-nums text-stone-800">00:00:00:00</div>
                         <span class="text-[9px] text-stone-400">⏳ August 22, 2026</span>
                     </div>
                     <div class="bg-white/60 p-6 rounded-[2rem] border">
                         <div class="text-4xl mb-2 floating">🌻</div>
                         <h2 class="playfair text-xl font-bold">Sanchak</h2>
                         <p class="text-rose-400 text-sm">Aug 22, 2026</p>
-                        <p class="text-[10px] text-stone-400 tracking-widest leading-loose">The Pre-wedding Glow & Traditions</p>
+                        <p class="text-[10px] text-stone-400 tracking-widest leading-loose">The Pre-wedding glow & Traditions</p>
                     </div>
                     <div class="bg-white/60 p-6 rounded-[2rem] border">
                         <div class="text-4xl mb-2 floating" style="animation-delay: 0.5s">🕌</div>
@@ -290,7 +303,7 @@
             setTimeout(() => {
                 const env = document.getElementById('envelope-main');
                 env.style.transition = '1.6s ease-in-out';
-                env.style.transform = 'scale(4)';
+                env.style.transform = 'scale(5)';
                 env.style.opacity = '0';
                 setTimeout(() => {
                     document.getElementById('unboxing-container').style.display = 'none';
