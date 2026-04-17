@@ -22,37 +22,26 @@
         /* --- LUXURY PREMIERE SCREEN --- */
         #premiere-screen {
             position: fixed; inset: 0; z-index: 800;
-            /* New Royal Gradient Background */
             background: radial-gradient(circle at center, #1a1a1a 0%, #0d1117 100%);
             display: none; flex-direction: column; align-items: center; justify-content: center;
             color: #fdfbf7; text-align: center; padding: 20px;
         }
-
-        /* Animated Shimmer Overlay */
         #premiere-screen::before {
             content: ''; position: absolute; inset: 0;
             background: url('https://www.transparenttextures.com/patterns/stardust.png');
             opacity: 0.3; pointer-events: none;
         }
-
         .premiere-frame {
-            position: relative;
-            border: 2px solid #d4af37; padding: 3.5rem 1.5rem; border-radius: 4rem;
+            position: relative; border: 2px solid #d4af37; padding: 3.5rem 1.5rem; border-radius: 4rem;
             background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px);
-            max-width: 500px; width: 100%; 
-            box-shadow: 0 0 50px rgba(0,0,0,0.5), inset 0 0 30px rgba(212, 175, 55, 0.1);
+            max-width: 500px; width: 100%; box-shadow: 0 0 50px rgba(0,0,0,0.5);
             animation: borderGlow 4s infinite alternate;
         }
-
         @keyframes borderGlow {
             0% { border-color: #d4af37; box-shadow: 0 0 20px rgba(212, 175, 55, 0.2); }
             100% { border-color: #f7e1ad; box-shadow: 0 0 40px rgba(212, 175, 55, 0.4); }
         }
-
-        .timer-box { 
-            font-size: 1.8rem; font-weight: 700; letter-spacing: 0.1em; color: #d4af37; 
-            text-shadow: 0 0 15px rgba(212, 175, 55, 0.5); 
-        }
+        .timer-box { font-size: 1.8rem; font-weight: 700; letter-spacing: 0.1em; color: #d4af37; text-shadow: 0 0 15px rgba(212, 175, 55, 0.5); }
         @media (min-width: 768px) { .timer-box { font-size: 2.5rem; } }
 
         /* --- MAINTENANCE --- */
@@ -68,6 +57,7 @@
         /* --- MAIN PAGE --- */
         #main-page-wrapper { position: fixed; inset: 15px; background: #fdfbf7; border-radius: 3.5rem; border: 3px solid #d4af37; z-index: 40; display: none; overflow: hidden; }
         #scroll-content { height: 100%; overflow-y: auto; overflow-x: hidden; padding-bottom: 100px; }
+        .sticky-header { position: sticky; top: 0; z-index: 100; background: linear-gradient(to bottom, #fdfbf7 85%, transparent); padding: 40px 20px 20px; }
         
         .floating { animation: float 3s ease-in-out infinite; }
         @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
@@ -93,7 +83,7 @@
 
         const urlParams = new URLSearchParams(window.location.search);
         const isAdmin = urlParams.get('admin') === 'true';
-        const premiereDate = new Date("April 18, 2026 00:45:00").getTime();
+        const premiereDate = new Date("May 12, 2026 12:00:00").getTime();
 
         if (!isAdmin) localStorage.removeItem('admin_vip_pass');
 
@@ -105,18 +95,18 @@
             const unboxing = document.getElementById('unboxing-container');
 
             if (distance < 0) {
-                premiereScreen.style.display = 'none';
+                if (premiereScreen) premiereScreen.style.display = 'none';
                 if (!isAdmin && unboxing.style.display === 'none' && document.getElementById('main-page-wrapper').style.display !== 'block') {
                     unboxing.style.display = 'flex';
                 }
                 return true;
             }
 
-            const d = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const s = Math.floor((distance % (1000 * 60)) / 1000);
-            timerEl.innerText = `${d}d : ${h}h : ${m}m : ${s}s`;
+            const d = Math.floor(distance / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
+            const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+            const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+            const s = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, '0');
+            if (timerEl) timerEl.innerText = `${d}d : ${h}h : ${m}m : ${s}s`;
             return false;
         }
 
@@ -177,6 +167,10 @@
                     <button onclick="window.updateGlobalMaintenance(false)" class="py-3 rounded-full bg-green-600 text-white text-[9px] font-bold">Live Site</button>
                 </div>
             </div>
+
+            <div class="h-px w-20 bg-rose-100 mx-auto my-8"></div>
+            <p class="montserrat text-[10px] uppercase text-stone-400 font-bold mb-2">Technical Support</p>
+            <a href="tel:+919550791538" class="montserrat text-rose-400 font-bold">+91 9550791538</a>
         </div>
     </div>
 
@@ -185,16 +179,11 @@
             <img src="jaaz logo (3).png" class="w-20 h-20 mx-auto mb-6 floating" alt="Logo">
             <p class="playfair italic text-xl text-stone-400 mb-2">Jawad & Shabistha's Wedding</p>
             <h1 class="playfair text-3xl md:text-5xl font-bold mb-8 uppercase tracking-widest">Grand Premiere</h1>
-            
             <div id="premiere-timer" class="timer-box montserrat mb-8 whitespace-nowrap">00d : 00h : 00m : 00s</div>
-            
             <p class="text-[10px] uppercase tracking-[0.4em] text-stone-500 font-bold mb-4">Launching On</p>
             <p class="playfair text-2xl text-[#d4af37]">May 12, 2026 • 12:00 PM</p>
-            
             <div class="h-px w-20 bg-[#d4af37]/30 mx-auto my-10"></div>
-            <p class="text-[11px] uppercase font-bold tracking-widest text-stone-300">Be Prepared to witness a beautiful journey of </p>
-           <p class="text-[10px] uppercase tracking-[0.4em] text-stone-500 font-bold mb-4">Jawad & Shabistha</p>
-
+            <p class="text-[11px] uppercase font-bold tracking-widest text-stone-300">Prepare to witness a beautiful journey</p>
         </div>
     </div>
 
@@ -217,19 +206,29 @@
             <div class="sticky-header text-center p-10">
                 <h1 class="playfair text-4xl md:text-7xl italic font-semibold text-stone-800 whitespace-nowrap">Jawad & Shabistha</h1>
                 <nav class="flex justify-center gap-6 mt-6 text-[10px] font-bold uppercase tracking-widest border-b pb-4 max-w-xs mx-auto">
-                    <a href="#" class="text-[#d4af37] border-b border-[#d4af37]">Event</a>
-                    <a href="location.html">Location</a>
-                    <a href="contact.html">Contact</a>
-                    <a href="gallery.html">Gallery</a>
+                    <a href="#" onclick="navigateWithAdmin('index.html')" class="text-[#d4af37] border-b border-[#d4af37]">Event</a>
+                    <a href="#" onclick="navigateWithAdmin('location.html')">Location</a>
+                    <a href="#" onclick="navigateWithAdmin('contact.html')">Contact</a>
+                    <a href="#" onclick="navigateWithAdmin('gallery.html')">Gallery</a>
                 </nav>
             </div>
             <div class="max-w-md mx-auto px-6 text-center">
                 <img src="main page poster.png" class="rounded-[3rem] shadow-2xl border-8 border-white mb-20">
+                <div class="bg-white p-8 rounded-[2rem] shadow-sm border mb-10">
+                    <h3 class="text-rose-400 text-[10px] uppercase font-bold mb-4">Celebration Begins In</h3>
+                    <div id="wedding-countdown" class="text-3xl font-bold tabular-nums">00:00:00:00</div>
+                    <span class="text-[9px] text-stone-400">⏳ August 22, 2026</span>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
+        function navigateWithAdmin(page) {
+            const urlParams = new URLSearchParams(window.location.search);
+            window.location.href = (urlParams.get('admin') === 'true') ? page + "?admin=true" : page;
+        }
+
         function openInvitation() {
             document.getElementById('flap').classList.add('flap-open');
             setTimeout(() => {
@@ -243,6 +242,17 @@
                 }, 700);
             }, 500);
         }
+
+        const weddingDate = new Date("August 22, 2026 00:00:00").getTime();
+        setInterval(() => {
+            const dist = weddingDate - new Date().getTime();
+            const d = Math.floor(dist / 86400000).toString().padStart(2, '0');
+            const h = Math.floor((dist % 86400000) / 3600000).toString().padStart(2, '0');
+            const m = Math.floor((dist % 3600000) / 60000).toString().padStart(2, '0');
+            const s = Math.floor((dist % 60000) / 1000).toString().padStart(2, '0');
+            const el = document.getElementById("wedding-countdown");
+            if (el) el.innerText = dist < 0 ? "00:00:00:00" : `${d}:${h}:${m}:${s}`;
+        }, 1000);
     </script>
 </body>
 </html>
