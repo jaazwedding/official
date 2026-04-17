@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jawad & Shabistha's Wedding</title>
+    <title>Contact - Jawad & Shabistha</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400;1,700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="jaaz logo (3).png">
@@ -11,6 +11,8 @@
     <style>
         .playfair { font-family: 'Playfair Display', serif; }
         .montserrat { font-family: 'Montserrat', sans-serif; }
+        
+        /* Royal Background */
         body { background-color: #2d241e; margin: 0; padding: 0; overflow: hidden; }
 
         /* --- WATERMARK STYLE --- */
@@ -19,45 +21,42 @@
             width: 80%; max-width: 600px; opacity: 0.04; pointer-events: none; z-index: 0;
         }
 
-        /* --- ENVELOPE & UNBOXING --- */
-        #unboxing-container { position: fixed; inset: 0; display: none; flex-direction: column; align-items: center; justify-content: center; background: #2d241e; z-index: 200; }
-        .envelope-wrapper { position: relative; width: 360px; height: 260px; background: #fdfbf7; background-image: url("https://www.transparenttextures.com/patterns/gray-floral.png"); box-shadow: 0 40px 80px rgba(0,0,0,0.5); border-radius: 30px; margin: 20px 0; }
-        .envelope-flap { position: absolute; top: -2px; left: 0; width: 100%; height: 150px; background: #f9f5f0; clip-path: ellipse(50% 100% at 50% 0%); transform-origin: top; transition: transform 0.9s ease; z-index: 30; border-bottom: 1px solid rgba(184, 134, 11, 0.2); }
-        .flap-open { transform: rotateX(180deg); z-index: 10; }
-        .luxury-seal-group { position: absolute; top: 110px; left: 50%; transform: translateX(-50%); z-index: 45; display: flex; flex-direction: column; align-items: center; }
-        .luxury-seal { position: relative; width: 85px; height: 85px; background: white; border: 3px solid #d4af37; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.4s ease; padding: 5px; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
-        .luxury-seal img { width: 100%; object-fit: contain; }
-        .pulse-effect { position: absolute; width: 100%; height: 100%; border-radius: 50%; border: 2px solid #d4af37; animation: pulse 2.5s infinite; }
-        @keyframes pulse { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(1.6); opacity: 0; } }
-
-        /* --- MAIN PAGE WRAPPER --- */
+        /* --- FIXED SCROLL FRAME --- */
         #main-page-wrapper {
             position: fixed; inset: 15px; background-color: #fdfbf7;
             background-image: linear-gradient(to right, rgba(184, 134, 11, 0.08) 0%, transparent 10%, transparent 90%, rgba(184, 134, 11, 0.08) 100%),
                 url("https://www.transparenttextures.com/patterns/parchment.png");
             border-radius: 3.5rem; border: 3px solid #d4af37;
-            box-shadow: 0 0 100px rgba(0,0,0,0.8);
-            z-index: 40; display: none; transform-origin: top; overflow: hidden;
+            box-shadow: 0 0 100px rgba(0,0,0,0.8), inset 0 0 40px rgba(184, 134, 11, 0.1);
+            z-index: 40; overflow: hidden;
         }
+
         #scroll-content { height: 100%; overflow-y: auto; overflow-x: hidden; padding-bottom: 100px; }
-        .sticky-header { position: sticky; top: 0; z-index: 100; background: linear-gradient(to bottom, #fdfbf7 85%, transparent); padding: 40px 20px 20px; }
-        .scroll-revealed { animation: unfurl 1.8s cubic-bezier(0.19, 1, 0.22, 1) forwards; }
-        @keyframes unfurl { 0% { transform: scaleY(0); opacity: 0; } 100% { transform: scaleY(1); opacity: 1; } }
+        #scroll-content::-webkit-scrollbar { width: 0px; }
+
+        .sticky-header { position: sticky; top: 0; z-index: 100; background: linear-gradient(to bottom, #fdfbf7 85%, transparent); padding-top: 40px; padding-bottom: 20px; }
+
+        /* --- CONTACT CARDS --- */
+        .glass-card { background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(10px); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 2.5rem; transition: all 0.4s ease; width: 100%; max-width: 320px; }
+        .glass-card:hover { transform: translateY(-5px); background: white; border-color: #d4af37; box-shadow: 0 15px 30px rgba(0,0,0,0.05); }
+
+        /* --- SELECTION OVERLAY --- */
+        #selection-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(15px); z-index: 500; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .choice-card { background: #fdfbf7; background-image: url("https://www.transparenttextures.com/patterns/parchment.png"); padding: 3rem 2rem; border-radius: 3rem; text-align: center; border: 2px solid #d4af37; box-shadow: 0 40px 100px rgba(0,0,0,0.5); max-width: 400px; width: 100%; }
+
+        .side-btn { width: 100%; padding: 1rem; margin: 0.5rem 0; border-radius: 3rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; font-size: 10px; transition: 0.3s; }
+        .btn-groom { background: #1c1917; color: #d4af37; border: 1px solid #d4af37; }
+        .btn-bride { background: #fdf2f8; color: #be185d; border: 1px solid #f9a8d4; }
 
         /* --- PETALS --- */
         #petal-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 60; overflow: hidden; }
         .petal { position: absolute; background-color: #ffb7c5; border-radius: 150% 0 150% 0; opacity: 0; will-change: transform; }
-        @keyframes shower { 0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
-        
-        .floating { animation: float 3s ease-in-out infinite; }
-        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
-
-        .dev-signature { position: fixed; bottom: 20px; right: 20px; z-index: 150; background: rgba(255, 255, 255, 0.9); padding: 10px 20px; border-radius: 50px; border: 1px solid #d4af37; display: none; }
+        @keyframes shower { 0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; } 10% { opacity: 0.8; } 90% { opacity: 0.8; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
     </style>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBt-AS0ViQ_vMB8Mor-nx6x7enr7BZzmaU",
@@ -77,48 +76,13 @@
         const urlParams = new URLSearchParams(window.location.search);
         const isAdmin = urlParams.get('admin') === 'true';
 
-        // 1. STYRIC GATEKEEPER: CLEAR SESSION IF NOT ADMIN URL
-        if (!isAdmin) {
-            localStorage.removeItem('admin_vip_pass');
-        }
-
-        // 2. ADMIN INTERFACE SETUP
-        if (isAdmin) {
-            window.addEventListener('DOMContentLoaded', () => {
-                document.getElementById('maintenance-overlay').style.setProperty('display', 'flex', 'important');
-                document.getElementById('admin-controls').classList.remove('hidden');
-            });
-        }
-
-        window.openPrivatePreview = () => {
-            localStorage.setItem('admin_vip_pass', 'active');
-            document.getElementById('maintenance-overlay').style.setProperty('display', 'none', 'important');
-            document.getElementById('unboxing-container').style.display = 'flex';
-        };
-
-        window.updateGlobalMaintenance = (status) => {
-            set(maintenanceRef, status).then(() => alert("Global Status Updated to: " + (status ? "LOCKED" : "LIVE")));
-        };
-
-        // 3. THE SMART REAL-TIME LISTENER
         onValue(maintenanceRef, (snapshot) => {
             const isLocked = snapshot.val();
             const hasVipPass = localStorage.getItem('admin_vip_pass') === 'active';
-            const overlay = document.getElementById('maintenance-overlay');
-            const unboxing = document.getElementById('unboxing-container');
-
-            if (isLocked) {
-                // Guests see NOTHING but maintenance
-                if (!isAdmin && !hasVipPass) {
-                    overlay.style.setProperty('display', 'flex', 'important');
-                    if(unboxing) unboxing.style.display = 'none'; 
-                }
-            } else {
-                // If Live, hide overlay and show invitation
-                overlay.style.display = 'none';
-                if(unboxing && document.getElementById('main-page-wrapper').style.display !== 'block') {
-                    unboxing.style.display = 'flex';
-                }
+            
+            // SECURITY: Kick off only if locked AND (No Admin URL AND No VIP Pass)
+            if (isLocked && !isAdmin && !hasVipPass) {
+                window.location.href = "index.html";
             }
         });
     </script>
@@ -127,152 +91,112 @@
 
     <img src="jaaz logo (3).png" class="watermark-bg" alt="Watermark">
 
-    <div id="maintenance-overlay" class="fixed inset-0 z-[500] flex items-center justify-center bg-black/80 backdrop-blur-xl px-6" style="display: none;">
-        <div class="max-w-md w-full bg-white/95 p-10 rounded-[3rem] border-2 border-rose-100 text-center shadow-2xl relative overflow-hidden">
-            <div class="relative z-10">
-                <div class="text-5xl mb-6">🛠️</div>
-                <h1 class="playfair text-3xl font-bold text-stone-800 mb-4">Under Maintenance</h1>
-                <p class="montserrat text-sm text-stone-600 mb-8">Refining the royal experience for Jawad & Shabistha. Please be patient.</p>
-                
-                <div id="admin-controls" class="hidden mt-6 space-y-4 border-t pt-6">
-                    <button onclick="window.openPrivatePreview()" class="w-full py-4 rounded-full bg-stone-800 text-white text-[10px] font-bold uppercase tracking-widest shadow-lg">Preview Site (Admin)</button>
-                    <div class="grid grid-cols-2 gap-2">
-                        <button onclick="window.updateGlobalMaintenance(true)" class="py-3 rounded-full bg-red-600 text-white text-[9px] font-bold">Lock Global</button>
-                        <button onclick="window.updateGlobalMaintenance(false)" class="py-3 rounded-full bg-green-600 text-white text-[9px] font-bold">Launch Global</button>
-                    </div>
-                </div>
-                <div class="h-px w-20 bg-rose-100 mx-auto my-8"></div>
-                <p class="montserrat text-[10px] uppercase text-stone-400 font-bold mb-2">Technical Support</p>
-                <a href="tel:+919550791538" class="montserrat text-rose-400 font-bold">+91 9550791538</a>
-            </div>
-        </div>
-    </div>
+    <div id="petal-container"></div>
 
-    <div id="unboxing-container">
-        <p class="montserrat text-[10px] tracking-[0.5em] uppercase text-stone-400 font-bold text-center">Jawad & Shabistha</p>
-        <h2 class="playfair text-lg md:text-2xl text-stone-500 italic mt-2 text-center">Wedding Invitation</h2>
-        <div id="envelope-main" class="envelope-wrapper mx-auto">
-            <div id="flap" class="envelope-flap"></div>
-            <div id="seal-group" class="luxury-seal-group">
-                <div class="luxury-seal" onclick="openInvitation()">
-                    <div class="pulse-effect"></div>
-                    <img src="jaaz logo (3).png" alt="Seal">
-                </div>
-                <p class="montserrat text-[10px] font-bold uppercase text-[#d4af37] mt-4 tracking-widest">Open Invitation</p>
+    <div id="selection-overlay">
+        <div class="choice-card">
+            <img src="jaaz logo (3).png" class="w-24 h-24 mx-auto mb-4 object-contain" alt="Logo">
+            <h1 class="playfair text-xl md:text-4xl font-bold text-stone-800 leading-tight px-2 whitespace-nowrap">Jawad & Shabistha</h1>
+            <h2 class="playfair text-xl md:text-3xl italic text-stone-600 mt-2">Welcome</h2>
+            <p class="text-stone-500 text-[9px] uppercase font-bold tracking-[0.2em] mt-2 mb-8">Choose a side to see contacts</p>
+            <div class="space-y-3">
+                <button onclick="showContacts('groom')" class="side-btn btn-groom">Bridegroom Side (Dulha)</button>
+                <button onclick="showContacts('bride')" class="side-btn btn-bride">Bride Side (Dulhan)</button>
             </div>
-            <div class="absolute inset-0 bg-[#fdfbf7] shadow-inner rounded-[30px]" style="z-index: 5;"></div>
+            <a href="#" onclick="navigateWithAdmin('index.html')" class="inline-block mt-8 text-[9px] uppercase font-bold text-stone-400 hover:text-stone-800">← Back to Home</a>
         </div>
-        <p class="playfair text-xl text-stone-400 italic mt-4">A Royal Message Awaits For You...</p>
     </div>
 
     <div id="main-page-wrapper">
         <div id="scroll-content">
-            <div id="petal-container"></div>
-            <div class="sticky-header text-center">
-                <p class="playfair text-2xl text-stone-800">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
-                <p class="text-[9px] tracking-[0.3em] uppercase mt-2 text-stone-500 font-bold italic">In the name of Allah, the Most Gracious, the Most Merciful</p>
-                <h1 class="playfair text-4xl md:text-7xl italic font-semibold text-stone-800 mt-6 whitespace-nowrap">Jawad & Shabistha</h1>
-                <h2 class="playfair text-xl md:text-3xl italic text-stone-600 mt-2">Wedding Invitation</h2>
-                
-                <nav class="flex justify-center gap-6 mt-6 text-[10px] font-bold uppercase tracking-widest border-b pb-4 max-w-xs mx-auto">
-                    <a href="#" onclick="navigateWithAdmin('index.html')" class="text-[#d4af37] border-b border-[#d4af37]">Event</a>
-                    <a href="#" onclick="navigateWithAdmin('location.html')">Location</a>
-                    <a href="#" onclick="navigateWithAdmin('contact.html')">Contact</a>
-                    <a href="#" onclick="navigateWithAdmin('gallery.html')">Gallery</a>
+            <div class="sticky-header text-center px-4">
+                <nav class="flex justify-center gap-6 text-[10px] font-bold uppercase tracking-widest border-b border-stone-100 pb-4 max-w-xs mx-auto">
+                    <a href="#" onclick="navigateWithAdmin('index.html')" class="hover:text-[#d4af37]">Event</a>
+                    <a href="#" onclick="navigateWithAdmin('location.html')" class="hover:text-[#d4af37]">Location</a>
+                    <a href="#" onclick="navigateWithAdmin('contact.html')" class="text-[#d4af37] border-b border-[#d4af37]">Contact</a>
+                    <a href="#" onclick="navigateWithAdmin('gallery.html')" class="hover:text-[#d4af37]">Gallery</a>
                 </nav>
             </div>
 
-            <div class="max-w-6xl mx-auto px-6 text-center">
-                <div class="relative flex justify-center items-center my-12 h-80 md:h-[500px]">
-                    <div class="relative z-30 overflow-hidden rounded-[3rem] h-full w-full max-w-[350px] shadow-2xl border-8 border-white">
-                        <img src="main page poster.png" class="h-full w-full object-cover">
-                    </div>
-                </div>
+            <main class="max-w-6xl mx-auto px-6 pt-10 text-center">
+                <h1 class="playfair text-4xl md:text-6xl italic font-semibold text-stone-800">Family Contacts</h1>
+                <p id="contact-heading" class="mt-2 text-rose-400 font-bold uppercase tracking-[0.2em] text-[10px]">Tap to call family members</p>
 
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-                    <div class="bg-white p-8 rounded-[2rem] shadow-sm border">
-                        <h3 class="text-rose-400 text-[10px] uppercase font-bold mb-4">Celebration Begins In</h3>
-                        <div id="countdown" class="text-3xl font-bold tabular-nums">00:00:00:00</div>
-                        <span class="text-[9px] text-stone-400">⏳ August 24, 2026</span>
-                    </div>
-                    <div class="bg-white/60 p-6 rounded-[2rem] border">
-                        <div class="text-4xl mb-2 floating">🌻</div>
-                        <h2 class="playfair text-xl font-bold">Sanchak</h2>
-                        <p class="text-rose-400 text-sm">Aug 22, 2026</p>
-                        <p class="text-[10px] text-stone-400 tracking-widest leading-loose">The Pre-wedding glow & Traditions</p>
-                    </div>
-                    <div class="bg-white/60 p-6 rounded-[2rem] border">
-                        <div class="text-4xl mb-2 floating" style="animation-delay: 0.5s">🕌</div>
-                        <h2 class="playfair text-xl font-bold">Nikkah</h2>
-                        <p class="text-rose-400 text-sm">Aug 23, 2026</p>
-                        <p class="text-[10px] text-stone-400 tracking-widest leading-loose">The Sacred Bond of Marriage</p>
-                    </div>
-                    <div class="bg-white/60 p-6 rounded-[2rem] border">
-                        <div class="text-4xl mb-2 floating" style="animation-delay: 1s">🤵👰</div>
-                        <h2 class="playfair text-xl font-bold">Valima</h2>
-                        <p class="text-rose-400 font-bold text-sm">Aug 24, 2026</p>
-                        <p class="text-[10px] text-stone-400 tracking-widest leading-loose">Celebration & Grand Reception</p>
-                    </div>
-                </div>
+                <div id="contact-grid" class="flex flex-wrap justify-center gap-6 mt-12 mb-16"></div>
 
-                <a href="#" onclick="navigateWithAdmin('location.html')" class="inline-block bg-stone-900 text-white px-16 py-5 rounded-full text-[10px] font-bold uppercase tracking-[0.3em] mb-20 shadow-xl">View Event Locations</a>
-            </div>
+                <div class="mb-20">
+                    <button onclick="location.reload()" class="inline-block bg-stone-900 text-white px-10 py-4 rounded-full uppercase tracking-widest text-[9px] font-bold shadow-xl hover:bg-[#d4af37] transition-all">
+                        Change Side Selection
+                    </button>
+                </div>
+            </main>
         </div>
     </div>
 
-    <div id="fixed-sig" class="dev-signature">
-        <p class="text-stone-500 text-[8px] md:text-[10px] font-bold uppercase tracking-[0.25em] whitespace-nowrap text-center">
-            <span class="opacity-60 font-medium">Created by</span> Tauseef Shaik
-        </p>
-    </div>
-
     <script>
+        // NAVIGATION HELPER
         function navigateWithAdmin(page) {
             const urlParams = new URLSearchParams(window.location.search);
             window.location.href = (urlParams.get('admin') === 'true') ? page + "?admin=true" : page;
         }
 
-        function openInvitation() {
-            document.getElementById('seal-group').style.opacity = '0';
-            document.getElementById('flap').classList.add('flap-open');
-            setTimeout(() => {
-                const env = document.getElementById('envelope-main');
-                env.style.transition = '1.6s ease-in-out';
-                env.style.transform = 'scale(4)';
-                env.style.opacity = '0';
-                setTimeout(() => {
-                    document.getElementById('unboxing-container').style.display = 'none';
-                    document.getElementById('main-page-wrapper').style.display = 'block';
-                    document.getElementById('main-page-wrapper').classList.add('scroll-revealed');
-                    document.getElementById('fixed-sig').style.display = 'block';
-                    initPetals();
-                }, 800);
-            }, 600);
+        const groomContacts = [
+            { name: "Shaik Ali", relation: "Father", phone: "+91 8500345430", img: "images/Shaik Ali.jpeg" },
+            { name: "Shaik Jawad Ali", relation: "BrideGroom🤵", phone: "+91 9347533131", img: "images/Shaik Jawad Ali.jpeg" },
+            { name: "Shaik Tauseef Ali", relation: "Brother", phone: "+91 9550791538", img: "images/Shaik Tauseef Ali.png" },
+            { name: "Shaik Ahmad", relation: "Chachu", phone: "+91 9000641355", img: "images/Shaik Ahmad.jpeg" },
+            { name: "Shaik Saleem", relation: "Chachu", phone: "+91 9493189287", img: "images/Shaik Saleem.jpeg" },
+            { name: "Shaik Asif", relation: "Chachu", phone: "+91 8790108998", img: "images/Shaik Asif.jpeg" },
+            { name: "Shaik Minhaj Ali", relation: "Brother", phone: "+91 7075076001", img: "images/Shaik Minhaj Ali.jpeg" }
+        ];
+
+        const brideContacts = [
+            { name: "Mohmmad Muqtar", relation: "Father", phone: "+91 9949074926", img: "images/Mohmmad Muqtar.jpeg" },
+            { name: "Mohmmad Zubair", relation: "Brother", phone: "+91 7671840025", img: "images/Mohmmad Zubair.jpeg" },
+            { name: "Mohmmad Anas", relation: "Brother", phone: "+91 6301397537", img: "images/Mohmmad Anas.jpeg" }
+        ];
+
+        function showContacts(side) {
+            document.getElementById('selection-overlay').style.display = 'none';
+            const grid = document.getElementById('contact-grid');
+            const heading = document.getElementById('contact-heading');
+            grid.innerHTML = '';
+            const data = (side === 'groom') ? groomContacts : brideContacts;
+            heading.innerText = (side === 'groom') ? "Bridegroom's Family" : "Bride's Family";
+
+            data.forEach(person => {
+                grid.innerHTML += `
+                    <div class="glass-card p-6 text-center flex flex-col items-center">
+                        <div class="w-32 h-40 md:w-40 md:h-48 rounded-t-[3rem] rounded-b-[1rem] overflow-hidden mb-6 border-2 border-[#d4af37] shadow-lg">
+                            <img src="${person.img}" alt="${person.name}" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/300x400?text=Profile'">
+                        </div>
+                        <h3 class="playfair text-xl font-bold text-stone-800">${person.name}</h3>
+                        <p class="text-rose-400 text-[10px] uppercase tracking-widest font-bold mt-1">${person.relation}</p>
+                        <div class="h-px w-10 bg-stone-200 my-4"></div>
+                        <a href="tel:${person.phone}" class="text-xs text-stone-600 font-bold hover:text-[#d4af37] transition flex items-center gap-2">
+                            📞 ${person.phone}
+                        </a>
+                    </div>`;
+            });
+            initPetals();
         }
 
         function initPetals() {
             const container = document.getElementById('petal-container');
-            for (let i = 0; i < 60; i++) {
+            const petalCount = window.innerWidth < 768 ? 40 : 80;
+            for (let i = 0; i < petalCount; i++) {
                 const petal = document.createElement('div');
                 petal.className = 'petal';
-                petal.style.width = petal.style.height = (Math.random() * 10 + 8) + 'px';
+                const size = 8 + Math.random() * 10;
+                petal.style.width = size + 'px';
+                petal.style.height = size + 'px';
                 petal.style.left = Math.random() * 100 + '%';
-                petal.style.animation = `shower ${Math.random() * 10 + 6}s linear infinite`;
-                petal.style.animationDelay = Math.random() * 10 + 's';
                 petal.style.backgroundColor = Math.random() > 0.5 ? '#fce4ec' : '#ffb7c5';
+                petal.style.animation = `shower ${6 + Math.random() * 10}s linear infinite`;
+                petal.style.animationDelay = `${Math.random() * 15}s`;
                 container.appendChild(petal);
             }
         }
-
-        const weddingDate = new Date("August 22, 2026 00:00:00").getTime();
-        setInterval(() => {
-            const dist = weddingDate - new Date().getTime();
-            const d = Math.floor(dist / 86400000).toString().padStart(2, '0');
-            const h = Math.floor((dist % 86400000) / 3600000).toString().padStart(2, '0');
-            const m = Math.floor((dist % 3600000) / 60000).toString().padStart(2, '0');
-            const s = Math.floor((dist % 60000) / 1000).toString().padStart(2, '0');
-            document.getElementById("countdown").innerText = dist < 0 ? "00:00:00:00" : `${d}:${h}:${m}:${s}`;
-        }, 1000);
     </script>
 </body>
 </html>
