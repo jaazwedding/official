@@ -19,31 +19,53 @@
             width: 80%; max-width: 600px; opacity: 0.04; pointer-events: none; z-index: 0;
         }
 
-        /* --- PREMIERE SCREEN --- */
+        /* --- LUXURY PREMIERE SCREEN --- */
         #premiere-screen {
-            position: fixed; inset: 0; z-index: 1000;
-            background: #2d241e;
-            background-image: url("https://www.transparenttextures.com/patterns/black-linen.png");
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            position: fixed; inset: 0; z-index: 800;
+            /* New Royal Gradient Background */
+            background: radial-gradient(circle at center, #1a1a1a 0%, #0d1117 100%);
+            display: none; flex-direction: column; align-items: center; justify-content: center;
             color: #fdfbf7; text-align: center; padding: 20px;
-            transition: opacity 2s ease, visibility 2s;
         }
-        .premiere-frame {
-            border: 2px solid #d4af37; padding: 3rem 2rem; border-radius: 4rem;
-            background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px);
-            max-width: 500px; width: 100%; box-shadow: 0 0 50px rgba(212, 175, 55, 0.2);
-        }
-        .timer-box { font-size: 2.5rem; font-weight: bold; letter-spacing: 0.1em; color: #d4af37; text-shadow: 0 0 15px rgba(212, 175, 55, 0.5); }
 
-        /* --- ENVELOPE & UNBOXING --- */
+        /* Animated Shimmer Overlay */
+        #premiere-screen::before {
+            content: ''; position: absolute; inset: 0;
+            background: url('https://www.transparenttextures.com/patterns/stardust.png');
+            opacity: 0.3; pointer-events: none;
+        }
+
+        .premiere-frame {
+            position: relative;
+            border: 2px solid #d4af37; padding: 3.5rem 1.5rem; border-radius: 4rem;
+            background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px);
+            max-width: 500px; width: 100%; 
+            box-shadow: 0 0 50px rgba(0,0,0,0.5), inset 0 0 30px rgba(212, 175, 55, 0.1);
+            animation: borderGlow 4s infinite alternate;
+        }
+
+        @keyframes borderGlow {
+            0% { border-color: #d4af37; box-shadow: 0 0 20px rgba(212, 175, 55, 0.2); }
+            100% { border-color: #f7e1ad; box-shadow: 0 0 40px rgba(212, 175, 55, 0.4); }
+        }
+
+        .timer-box { 
+            font-size: 1.8rem; font-weight: 700; letter-spacing: 0.1em; color: #d4af37; 
+            text-shadow: 0 0 15px rgba(212, 175, 55, 0.5); 
+        }
+        @media (min-width: 768px) { .timer-box { font-size: 2.5rem; } }
+
+        /* --- MAINTENANCE --- */
+        #maintenance-overlay { position: fixed; inset: 0; z-index: 1000; background: rgba(0,0,0,0.92); backdrop-blur: 25px; display: none; align-items: center; justify-content: center; }
+
+        /* --- ENVELOPE --- */
         #unboxing-container { position: fixed; inset: 0; display: none; flex-direction: column; align-items: center; justify-content: center; background: #2d241e; z-index: 200; }
-        .envelope-wrapper { position: relative; width: 340px; height: 240px; background: #fdfbf7; border-radius: 30px; margin: 20px 0; }
+        .envelope-wrapper { position: relative; width: 340px; height: 240px; background: #fdfbf7; border-radius: 30px; margin: 20px 0; box-shadow: 0 30px 60px rgba(0,0,0,0.4); }
         .envelope-flap { position: absolute; top: -2px; width: 100%; height: 140px; background: #f9f5f0; clip-path: ellipse(50% 100% at 50% 0%); transform-origin: top; transition: transform 0.9s ease; z-index: 30; }
         .flap-open { transform: rotateX(180deg); z-index: 10; }
-        .luxury-seal { width: 80px; height: 80px; background: white; border: 3px solid #d4af37; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 45; }
-        .luxury-seal img { width: 80%; }
+        .luxury-seal { width: 85px; height: 85px; background: white; border: 3px solid #d4af37; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.4s ease; padding: 5px; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
 
-        /* --- MAIN WRAPPER --- */
+        /* --- MAIN PAGE --- */
         #main-page-wrapper { position: fixed; inset: 15px; background: #fdfbf7; border-radius: 3.5rem; border: 3px solid #d4af37; z-index: 40; display: none; overflow: hidden; }
         #scroll-content { height: 100%; overflow-y: auto; overflow-x: hidden; padding-bottom: 100px; }
         
@@ -53,17 +75,16 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
         const firebaseConfig = {
-            apiKey: "AIzaSyBt-AS0ViQ_vMB8Mor-nx6x7enr7BZzmaU",
+            apiKey: "AIzaSyBt-AS0ViQ_vMB8Mor-nx6x7enr7BZmaU",
             authDomain: "wedding-card-f3460.firebaseapp.com",
             databaseURL: "https://wedding-card-f3460-default-rtdb.firebaseio.com",
             projectId: "wedding-card-f3460",
             storageBucket: "wedding-card-f3460.firebasestorage.app",
             messagingSenderId: "266632299451",
-            appId: "1:266632299451:web:aad01460dc6ac057e8ba9e",
-            measurementId: "G-0E0QNW263Y"
+            appId: "1:266632299451:web:aad01460dc6ac057e8ba9e"
         };
 
         const app = initializeApp(firebaseConfig);
@@ -72,104 +93,153 @@
 
         const urlParams = new URLSearchParams(window.location.search);
         const isAdmin = urlParams.get('admin') === 'true';
-
-        // Premiere Date: May 12, 2026 12:00 PM
         const premiereDate = new Date("May 12, 2026 12:00:00").getTime();
 
-        function updatePremiereTimer() {
+        if (!isAdmin) localStorage.removeItem('admin_vip_pass');
+
+        function updatePremiere() {
             const now = new Date().getTime();
             const distance = premiereDate - now;
+            const timerEl = document.getElementById('premiere-timer');
+            const premiereScreen = document.getElementById('premiere-screen');
+            const unboxing = document.getElementById('unboxing-container');
 
-            if (distance < 0 && !isAdmin) {
-                document.getElementById('premiere-screen').style.opacity = '0';
-                setTimeout(() => {
-                    document.getElementById('premiere-screen').style.visibility = 'hidden';
-                    document.getElementById('unboxing-container').style.display = 'flex';
-                }, 2000);
-                return;
+            if (distance < 0) {
+                premiereScreen.style.display = 'none';
+                if (!isAdmin && unboxing.style.display === 'none' && document.getElementById('main-page-wrapper').style.display !== 'block') {
+                    unboxing.style.display = 'flex';
+                }
+                return true;
             }
 
             const d = Math.floor(distance / (1000 * 60 * 60 * 24));
             const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const s = Math.floor((distance % (1000 * 60)) / 1000);
-
-            document.getElementById('premiere-timer').innerText = 
-                `${d}d : ${h}h : ${m}m : ${s}s`;
+            timerEl.innerText = `${d}d : ${h}h : ${m}m : ${s}s`;
+            return false;
         }
 
-        // Run timer
-        setInterval(updatePremiereTimer, 1000);
+        setInterval(updatePremiere, 1000);
 
-        if (isAdmin) {
-            window.addEventListener('DOMContentLoaded', () => {
-                document.getElementById('premiere-screen').style.display = 'none';
-                document.getElementById('unboxing-container').style.display = 'flex';
-                // Show maintenance panel if needed
-            });
-        }
+        window.openPrivatePreview = () => {
+            localStorage.setItem('admin_vip_pass', 'active');
+            document.getElementById('maintenance-overlay').style.display = 'none';
+            document.getElementById('premiere-screen').style.display = 'none';
+            document.getElementById('unboxing-container').style.display = 'flex';
+        };
+        window.updateGlobalMaintenance = (s) => set(maintenanceRef, s);
+
+        onValue(maintenanceRef, (snapshot) => {
+            const isLocked = snapshot.val();
+            const mOverlay = document.getElementById('maintenance-overlay');
+            const pScreen = document.getElementById('premiere-screen');
+            const unboxing = document.getElementById('unboxing-container');
+
+            if (isAdmin) {
+                mOverlay.style.display = 'flex';
+                document.getElementById('admin-controls').classList.remove('hidden');
+                return;
+            }
+
+            if (isLocked) {
+                mOverlay.style.display = 'flex';
+                pScreen.style.display = 'none';
+                unboxing.style.display = 'none';
+            } else {
+                mOverlay.style.display = 'none';
+                const finished = updatePremiere();
+                if (!finished) {
+                    pScreen.style.display = 'flex';
+                    unboxing.style.display = 'none';
+                } else {
+                    pScreen.style.display = 'none';
+                    unboxing.style.display = 'flex';
+                }
+            }
+        });
     </script>
 </head>
 <body class="montserrat">
 
     <img src="jaaz logo (3).png" class="watermark-bg" alt="Watermark">
 
+    <div id="maintenance-overlay">
+        <div class="max-w-md w-full bg-white p-10 rounded-[3rem] text-center shadow-2xl mx-4 border-2 border-[#d4af37]">
+            <div class="text-5xl mb-6">🛠️</div>
+            <h1 class="playfair text-3xl font-bold text-stone-800 mb-4">Maintenance</h1>
+            <p class="text-stone-600 mb-8">We are polishing the royal experience. Please return shortly.</p>
+            
+            <div id="admin-controls" class="hidden mt-6 space-y-4 border-t pt-6">
+                <button onclick="window.openPrivatePreview()" class="w-full py-4 rounded-full bg-stone-800 text-white text-[10px] font-bold uppercase tracking-widest">Preview Site (Admin)</button>
+                <div class="grid grid-cols-2 gap-2">
+                    <button onclick="window.updateGlobalMaintenance(true)" class="py-3 rounded-full bg-red-600 text-white text-[9px] font-bold">Lock Site</button>
+                    <button onclick="window.updateGlobalMaintenance(false)" class="py-3 rounded-full bg-green-600 text-white text-[9px] font-bold">Live Site</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="premiere-screen">
         <div class="premiere-frame">
-            <img src="jaaz logo (3).png" class="w-24 h-24 mx-auto mb-6 floating" alt="Logo">
+            <img src="jaaz logo (3).png" class="w-20 h-20 mx-auto mb-6 floating" alt="Logo">
             <p class="playfair italic text-xl text-stone-400 mb-2">A Royal Reveal Awaits</p>
-            <h1 class="playfair text-3xl md:text-5xl font-bold mb-8">Grand Premiere</h1>
+            <h1 class="playfair text-3xl md:text-5xl font-bold mb-8 uppercase tracking-widest">Grand Premiere</h1>
             
-            <div id="premiere-timer" class="timer-box montserrat mb-8">00:00:00:00</div>
+            <div id="premiere-timer" class="timer-box montserrat mb-8 whitespace-nowrap">00d : 00h : 00m : 00s</div>
             
             <p class="text-[10px] uppercase tracking-[0.4em] text-stone-500 font-bold mb-4">Launching On</p>
             <p class="playfair text-2xl text-[#d4af37]">May 12, 2026 • 12:00 PM</p>
             
             <div class="h-px w-20 bg-[#d4af37]/30 mx-auto my-10"></div>
-            <p class="text-xs italic text-stone-400">"Be ready to witness the beautiful journey of Jawad & Shabistha"</p>
+            <p class="text-[11px] uppercase font-bold tracking-widest text-stone-300">Prepare to witness a beautiful journey</p>
         </div>
     </div>
 
     <div id="unboxing-container">
+        <p class="montserrat text-[10px] tracking-[0.5em] uppercase text-stone-400 font-bold mb-4">Jawad & Shabistha</p>
         <div id="envelope-main" class="envelope-wrapper mx-auto">
             <div id="flap" class="envelope-flap"></div>
-            <div class="flex flex-col items-center justify-center h-full pt-10">
+            <div class="flex flex-col items-center justify-center h-full pt-10 relative z-20">
                 <div class="luxury-seal" onclick="openInvitation()">
                     <img src="jaaz logo (3).png" alt="Seal">
                 </div>
                 <p class="montserrat text-[10px] font-bold uppercase text-[#d4af37] mt-4 tracking-widest">Open Invitation</p>
             </div>
+            <div class="absolute inset-0 bg-white rounded-[30px] z-10 shadow-inner"></div>
         </div>
     </div>
 
     <div id="main-page-wrapper">
         <div id="scroll-content">
-            <div class="p-10 text-center">
-                <h1 class="playfair text-5xl md:text-7xl italic font-semibold text-stone-800 mb-6">Jawad & Shabistha</h1>
-                <nav class="flex justify-center gap-6 text-[10px] font-bold uppercase tracking-widest border-b pb-4 max-w-xs mx-auto mb-10">
+            <div class="sticky-header text-center p-10">
+                <h1 class="playfair text-4xl md:text-7xl italic font-semibold text-stone-800 whitespace-nowrap">Jawad & Shabistha</h1>
+                <nav class="flex justify-center gap-6 mt-6 text-[10px] font-bold uppercase tracking-widest border-b pb-4 max-w-xs mx-auto">
                     <a href="#" class="text-[#d4af37] border-b border-[#d4af37]">Event</a>
                     <a href="location.html">Location</a>
                     <a href="contact.html">Contact</a>
                     <a href="gallery.html">Gallery</a>
                 </nav>
-                <div class="max-w-md mx-auto">
-                    <img src="main page poster.png" class="rounded-[3rem] shadow-2xl border-8 border-white">
-                </div>
-                </div>
+            </div>
+            <div class="max-w-md mx-auto px-6 text-center">
+                <img src="main page poster.png" class="rounded-[3rem] shadow-2xl border-8 border-white mb-20">
+            </div>
         </div>
     </div>
 
     <script>
         function openInvitation() {
             document.getElementById('flap').classList.add('flap-open');
-            const env = document.getElementById('envelope-main');
-            env.style.transition = '1.5s ease-in-out';
-            env.style.transform = 'scale(5)';
-            env.style.opacity = '0';
             setTimeout(() => {
-                document.getElementById('unboxing-container').style.display = 'none';
-                document.getElementById('main-page-wrapper').style.display = 'block';
-            }, 800);
+                const env = document.getElementById('envelope-main');
+                env.style.transition = '1.2s ease-in-out';
+                env.style.transform = 'scale(5)';
+                env.style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('unboxing-container').style.display = 'none';
+                    document.getElementById('main-page-wrapper').style.display = 'block';
+                }, 700);
+            }, 500);
         }
     </script>
 </body>
