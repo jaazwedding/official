@@ -242,11 +242,14 @@
         window.addEventListener('load', function() {
             const urlParams = new URLSearchParams(window.location.search);
             const maintenanceOverlay = document.getElementById('maintenance-overlay');
+            
+            // Checking if you clicked the button before
             const isMaintenanceOff = localStorage.getItem('siteMaintenanceOff');
 
             if (isMaintenanceOff === 'true') {
                 if (maintenanceOverlay) maintenanceOverlay.style.display = 'none';
             } else {
+                // If maintenance is ON, check for the secret admin link
                 if (urlParams.get('admin') === 'true') {
                     const btn = document.getElementById('admin-dismiss-btn');
                     if (btn) btn.style.setProperty('display', 'block', 'important');
@@ -254,10 +257,11 @@
             }
         });
 
+        // This turns maintenance off for EVERYONE in the future (once clicked)
         function turnOffMaintenance() {
             localStorage.setItem('siteMaintenanceOff', 'true');
             document.getElementById('maintenance-overlay').style.display = 'none';
-            alert("Maintenance Mode has been turned OFF for all guests.");
+            alert("Maintenance Mode has been turned OFF. The site is now live for you.");
         }
 
         // 2. INVITATION LOGIC
