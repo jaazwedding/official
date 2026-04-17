@@ -15,132 +15,106 @@
         /* Royal Background */
         body { background-color: #2d241e; margin: 0; padding: 0; overflow: hidden; }
 
-        /* --- FIXED SCROLL FRAME (Matches Index) --- */
-        #main-page-wrapper {
-            position: fixed;
-            inset: 15px; 
-            background-color: #fdfbf7;
-            background-image: 
-                linear-gradient(to right, rgba(184, 134, 11, 0.08) 0%, transparent 10%, transparent 90%, rgba(184, 134, 11, 0.08) 100%),
-                url("https://www.transparenttextures.com/patterns/parchment.png");
-            border-radius: 3.5rem; 
-            border: 3px solid #d4af37;
-            box-shadow: 0 0 100px rgba(0,0,0,0.8), inset 0 0 40px rgba(184, 134, 11, 0.1);
-            z-index: 40;
-            overflow: hidden;
+        /* --- WATERMARK STYLE --- */
+        .watermark-bg {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 80%; max-width: 600px; opacity: 0.04; pointer-events: none; z-index: 0;
         }
 
-        #scroll-content {
-            height: 100%;
-            overflow-y: auto;
-            overflow-x: hidden;
-            padding-bottom: 100px;
+        /* --- FIXED SCROLL FRAME --- */
+        #main-page-wrapper {
+            position: fixed; inset: 15px; background-color: #fdfbf7;
+            background-image: linear-gradient(to right, rgba(184, 134, 11, 0.08) 0%, transparent 10%, transparent 90%, rgba(184, 134, 11, 0.08) 100%),
+                url("https://www.transparenttextures.com/patterns/parchment.png");
+            border-radius: 3.5rem; border: 3px solid #d4af37;
+            box-shadow: 0 0 100px rgba(0,0,0,0.8), inset 0 0 40px rgba(184, 134, 11, 0.1);
+            z-index: 40; overflow: hidden;
         }
+
+        #scroll-content { height: 100%; overflow-y: auto; overflow-x: hidden; padding-bottom: 100px; }
         #scroll-content::-webkit-scrollbar { width: 0px; }
 
-        .sticky-header {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background: linear-gradient(to bottom, #fdfbf7 85%, transparent);
-            padding-top: 40px;
-            padding-bottom: 20px;
-        }
+        .sticky-header { position: sticky; top: 0; z-index: 100; background: linear-gradient(to bottom, #fdfbf7 85%, transparent); padding-top: 40px; padding-bottom: 20px; }
 
         /* --- CONTACT CARDS --- */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            border-radius: 2.5rem;
-            transition: all 0.4s ease;
-            width: 100%;
-            max-width: 320px;
-        }
-        .glass-card:hover {
-            transform: translateY(-5px);
-            background: white;
-            border-color: #d4af37;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.05);
-        }
+        .glass-card { background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(10px); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 2.5rem; transition: all 0.4s ease; width: 100%; max-width: 320px; }
+        .glass-card:hover { transform: translateY(-5px); background: white; border-color: #d4af37; box-shadow: 0 15px 30px rgba(0,0,0,0.05); }
 
-        /* Selection Overlay Styled like Royal Card */
-        #selection-overlay {
-            position: fixed; inset: 0;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(15px);
-            z-index: 500;
-            display: flex; align-items: center; justify-content: center;
-            padding: 20px;
-        }
-        .choice-card {
-            background: #fdfbf7;
-            background-image: url("https://www.transparenttextures.com/patterns/parchment.png");
-            padding: 3rem 2rem;
-            border-radius: 3rem;
-            text-align: center;
-            border: 2px solid #d4af37;
-            box-shadow: 0 40px 100px rgba(0,0,0,0.5);
-            max-width: 400px;
-            width: 100%;
-        }
+        /* --- SELECTION OVERLAY --- */
+        #selection-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(15px); z-index: 500; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .choice-card { background: #fdfbf7; background-image: url("https://www.transparenttextures.com/patterns/parchment.png"); padding: 3rem 2rem; border-radius: 3rem; text-align: center; border: 2px solid #d4af37; box-shadow: 0 40px 100px rgba(0,0,0,0.5); max-width: 400px; width: 100%; }
 
-        .side-btn {
-            width: 100%; padding: 1rem; margin: 0.5rem 0;
-            border-radius: 3rem; font-weight: 700; text-transform: uppercase;
-            letter-spacing: 0.15em; transition: all 0.3s ease;
-            font-size: 10px;
-        }
+        .side-btn { width: 100%; padding: 1rem; margin: 0.5rem 0; border-radius: 3rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; font-size: 10px; transition: 0.3s; }
         .btn-groom { background: #1c1917; color: #d4af37; border: 1px solid #d4af37; }
         .btn-bride { background: #fdf2f8; color: #be185d; border: 1px solid #f9a8d4; }
 
-        /* Petals */
-        #petal-container {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            pointer-events: none; z-index: 60; overflow: hidden;
-        }
-        .petal {
-            position: absolute; background-color: #ffb7c5; border-radius: 150% 0 150% 0;
-            opacity: 0; will-change: transform;
-        }
-        @keyframes shower {
-            0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.8; }
-            90% { opacity: 0.8; }
-            100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
-        }
+        /* --- PETALS --- */
+        #petal-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 60; overflow: hidden; }
+        .petal { position: absolute; background-color: #ffb7c5; border-radius: 150% 0 150% 0; opacity: 0; will-change: transform; }
+        @keyframes shower { 0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; } 10% { opacity: 0.8; } 90% { opacity: 0.8; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
     </style>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBt-AS0ViQ_vMB8Mor-nx6x7enr7BZzmaU",
+            authDomain: "wedding-card-f3460.firebaseapp.com",
+            databaseURL: "https://wedding-card-f3460-default-rtdb.firebaseio.com",
+            projectId: "wedding-card-f3460",
+            storageBucket: "wedding-card-f3460.firebasestorage.app",
+            messagingSenderId: "266632299451",
+            appId: "1:266632299451:web:aad01460dc6ac057e8ba9e",
+            measurementId: "G-0E0QNW263Y"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const maintenanceRef = ref(db, 'isMaintenance');
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const isAdmin = urlParams.get('admin') === 'true';
+
+        onValue(maintenanceRef, (snapshot) => {
+            const isLocked = snapshot.val();
+            const hasVipPass = localStorage.getItem('admin_vip_pass') === 'active';
+            
+            // SECURITY: Kick off only if locked AND (No Admin URL AND No VIP Pass)
+            if (isLocked && !isAdmin && !hasVipPass) {
+                window.location.href = "index.html";
+            }
+        });
+    </script>
 </head>
 <body class="montserrat">
+
+    <img src="jaaz logo (3).png" class="watermark-bg" alt="Watermark">
 
     <div id="petal-container"></div>
 
     <div id="selection-overlay">
         <div class="choice-card">
             <img src="jaaz logo (3).png" class="w-24 h-24 mx-auto mb-4 object-contain" alt="Logo">
-            <h1 class="playfair text-xl md:text-4xl font-bold text-stone-800 leading-tight px-2 whitespace-nowrap">
-    Jawad & Shabistha
-            </h1>
-              <h2 class="playfair text-xl md:text-3xl italic text-stone-600 mt-2">Welcome</h2>
+            <h1 class="playfair text-xl md:text-4xl font-bold text-stone-800 leading-tight px-2 whitespace-nowrap">Jawad & Shabistha</h1>
+            <h2 class="playfair text-xl md:text-3xl italic text-stone-600 mt-2">Welcome</h2>
             <p class="text-stone-500 text-[9px] uppercase font-bold tracking-[0.2em] mt-2 mb-8">Choose a side to see contacts</p>
             <div class="space-y-3">
                 <button onclick="showContacts('groom')" class="side-btn btn-groom">Bridegroom Side (Dulha)</button>
                 <button onclick="showContacts('bride')" class="side-btn btn-bride">Bride Side (Dulhan)</button>
             </div>
-            <a href="index.html" class="inline-block mt-8 text-[9px] uppercase font-bold text-stone-400 hover:text-stone-800">← Back to Home</a>
+            <a href="#" onclick="navigateWithAdmin('index.html')" class="inline-block mt-8 text-[9px] uppercase font-bold text-stone-400 hover:text-stone-800">← Back to Home</a>
         </div>
     </div>
 
     <div id="main-page-wrapper">
         <div id="scroll-content">
-            
-            <div class="sticky-header text-center">
+            <div class="sticky-header text-center px-4">
                 <nav class="flex justify-center gap-6 text-[10px] font-bold uppercase tracking-widest border-b border-stone-100 pb-4 max-w-xs mx-auto">
-                    <a href="index.html" class="hover:text-[#d4af37]">Event</a>
-                    <a href="location.html" class="hover:text-[#d4af37]">Location</a>
-                    <a href="contact.html" class="text-[#d4af37] border-b border-[#d4af37]">Contact</a>
-                    <a href="gallery.html" class="hover:text-[#d4af37]">Gallery</a>
-
+                    <a href="#" onclick="navigateWithAdmin('index.html')" class="hover:text-[#d4af37]">Event</a>
+                    <a href="#" onclick="navigateWithAdmin('location.html')" class="hover:text-[#d4af37]">Location</a>
+                    <a href="#" onclick="navigateWithAdmin('contact.html')" class="text-[#d4af37] border-b border-[#d4af37]">Contact</a>
+                    <a href="#" onclick="navigateWithAdmin('gallery.html')" class="hover:text-[#d4af37]">Gallery</a>
                 </nav>
             </div>
 
@@ -148,8 +122,7 @@
                 <h1 class="playfair text-4xl md:text-6xl italic font-semibold text-stone-800">Family Contacts</h1>
                 <p id="contact-heading" class="mt-2 text-rose-400 font-bold uppercase tracking-[0.2em] text-[10px]">Tap to call family members</p>
 
-                <div id="contact-grid" class="flex flex-wrap justify-center gap-6 mt-12 mb-16">
-                    </div>
+                <div id="contact-grid" class="flex flex-wrap justify-center gap-6 mt-12 mb-16"></div>
 
                 <div class="mb-20">
                     <button onclick="location.reload()" class="inline-block bg-stone-900 text-white px-10 py-4 rounded-full uppercase tracking-widest text-[9px] font-bold shadow-xl hover:bg-[#d4af37] transition-all">
@@ -161,6 +134,12 @@
     </div>
 
     <script>
+        // NAVIGATION HELPER
+        function navigateWithAdmin(page) {
+            const urlParams = new URLSearchParams(window.location.search);
+            window.location.href = (urlParams.get('admin') === 'true') ? page + "?admin=true" : page;
+        }
+
         const groomContacts = [
             { name: "Shaik Ali", relation: "Father", phone: "+91 8500345430", img: "images/Shaik Ali.jpeg" },
             { name: "Shaik Jawad Ali", relation: "BrideGroom🤵", phone: "+91 9347533131", img: "images/Shaik Jawad Ali.jpeg" },
@@ -182,7 +161,6 @@
             const grid = document.getElementById('contact-grid');
             const heading = document.getElementById('contact-heading');
             grid.innerHTML = '';
-            
             const data = (side === 'groom') ? groomContacts : brideContacts;
             heading.innerText = (side === 'groom') ? "Bridegroom's Family" : "Bride's Family";
 
