@@ -64,7 +64,6 @@
         .luxury-seal-group { position: absolute; top: 110px; left: 50%; transform: translateX(-50%); z-index: 45; display: flex; flex-direction: column; align-items: center; }
         .luxury-seal { width: 85px; height: 85px; background: white; border: 3px solid #d4af37; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
         .pulse-effect { position: absolute; width: 100%; height: 100%; border-radius: 50%; border: 2px solid #d4af37; animation: pulse 2.5s infinite; }
-        @keyframes pulse { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(1.6); opacity: 0; } }
 
         /* --- MAIN PAGE --- */
         #main-page-wrapper {
@@ -108,12 +107,10 @@
 
         const urlParams = new URLSearchParams(window.location.search);
         const isAdmin = urlParams.get('admin') === 'true';
-        const premiereDate = new Date("April 18, 2026 10:07:00").getTime();
+        const premiereDate = new Date("April 18, 2026 10:11:00").getTime();
         
         let blastTriggered = false;
-        window.isFullyOpened = false; // CRITICAL SAFETY LOCK
-
-        if (!isAdmin) localStorage.removeItem('admin_vip_pass');
+        window.isInvitationActive = false; // The Kill-Switch
 
         function triggerPaperBlast() {
             if (blastTriggered) return;
@@ -122,7 +119,8 @@
         }
 
         function updatePremiere() {
-            if (window.isFullyOpened) return true; 
+            // Hard Kill Switch: If invitation is already shown, stop logic entirely
+            if (window.isInvitationActive) return true; 
 
             const now = new Date().getTime();
             const dist = premiereDate - now;
@@ -134,6 +132,7 @@
                 if (!isAdmin) {
                     triggerPaperBlast();
                     setTimeout(() => {
+                        if (window.isInvitationActive) return;
                         pScreen.style.opacity = '0';
                         setTimeout(() => {
                             pScreen.style.display = 'none';
@@ -154,7 +153,7 @@
         setInterval(updatePremiere, 1000);
 
         onValue(maintenanceRef, (snapshot) => {
-            if (window.isFullyOpened) return; 
+            if (window.isInvitationActive) return; // Block Firebase resets if page is open
 
             const isLocked = snapshot.val();
             const mOverlay = document.getElementById('maintenance-overlay');
@@ -193,7 +192,9 @@
         window.updateGlobalMaintenance = (s) => set(maintenanceRef, s);
 
         window.openInvitation = () => {
-            window.isFullyOpened = true; 
+            // ACTIVATE KILL SWITCH
+            window.isInvitationActive = true; 
+            
             initPetals();
             document.getElementById('seal-group').style.opacity = '0';
             document.getElementById('flap').classList.add('flap-open');
@@ -214,7 +215,8 @@
         function initPetals() {
             const container = document.getElementById('petal-container');
             container.innerHTML = ''; 
-            for (let i = 0; i < 60; i++) {
+            const petalCount = window.innerWidth < 768 ? 50 : 100;
+            for (let i = 0; i < petalCount; i++) {
                 const petal = document.createElement('div');
                 petal.className = 'petal';
                 const size = 8 + Math.random() * 12;
@@ -236,15 +238,16 @@
     <div id="maintenance-overlay">
         <div class="max-w-md w-full bg-white p-10 rounded-[3rem] text-center border-2 border-[#d4af37] mx-4 shadow-2xl">
             <h1 class="playfair text-3xl font-bold mb-4 text-stone-800">Under Maintenance</h1>
+            <p class="text-stone-600 mb-8">Refining the royal experience. Please return shortly.</p>
             <div id="admin-controls" class="hidden mt-6 space-y-4 border-t pt-6">
-                <button onclick="window.openPrivatePreview()" class="w-full py-4 rounded-full bg-stone-800 text-white text-[10px] font-bold uppercase tracking-widest">Preview Site (Admin)</button>
+                <button onclick="window.openPrivatePreview()" class="w-full py-4 rounded-full bg-stone-800 text-white text-[10px] font-bold uppercase tracking-widest shadow-lg">Preview Site (Admin)</button>
                 <div class="grid grid-cols-2 gap-2">
-                    <button onclick="window.updateGlobalMaintenance(true)" class="py-3 rounded-full bg-red-600 text-white text-[9px] font-bold">Lock Site</button>
-                    <button onclick="window.updateGlobalMaintenance(false)" class="py-3 rounded-full bg-green-600 text-white text-[9px] font-bold">Live Site</button>
+                    <button onclick="window.updateGlobalMaintenance(true)" class="py-3 rounded-full bg-red-600 text-white text-[9px] font-bold uppercase">Lock Site</button>
+                    <button onclick="window.updateGlobalMaintenance(false)" class="py-3 rounded-full bg-green-600 text-white text-[9px] font-bold uppercase">Live Site</button>
                 </div>
             </div>
             <div class="h-px w-20 bg-rose-100 mx-auto my-8"></div>
-            <a href="tel:+919550791538" class="montserrat text-rose-400 font-bold">+91 9550791538</a>
+            <a href="tel:+919550791538" class="montserrat text-rose-400 font-bold text-sm">+91 9550791538</a>
         </div>
     </div>
 
@@ -275,7 +278,7 @@
             <div id="seal-group" class="luxury-seal-group">
                 <div class="luxury-seal" onclick="openInvitation()">
                     <div class="pulse-effect"></div>
-                    <img src="jaaz logo (3).png">
+                    <img src="jaaz logo (3).png" alt="Seal">
                 </div>
                 <p class="montserrat text-[10px] font-bold uppercase text-[#d4af37] mt-4 tracking-widest">Open Invitation</p>
             </div>
@@ -286,8 +289,9 @@
 
     <div id="main-page-wrapper">
         <div id="scroll-content">
-            <div class="sticky-header text-center">
+            <div class="sticky-header text-center px-4">
                 <p class="playfair text-2xl text-stone-800">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
+                <p class="text-[9px] tracking-[0.3em] uppercase mt-2 text-stone-500 font-bold italic">In the name of Allah, the Most Gracious, the Most Merciful</p>
                 <h1 class="playfair text-4xl md:text-7xl italic font-semibold text-stone-800 mt-6 whitespace-nowrap">Jawad & Shabistha</h1>
                 <nav class="flex justify-center gap-6 mt-6 text-[10px] font-bold uppercase tracking-widest border-b pb-4 max-w-xs mx-auto">
                     <a href="index.html" class="text-[#d4af37] border-b border-[#d4af37]">Event</a>
@@ -319,7 +323,7 @@
                         <p class="text-rose-400 text-sm">Aug 24, 2026</p>
                     </div>
                 </div>
-                <a href="location.html" class="inline-block bg-stone-900 text-white px-16 py-5 rounded-full text-[10px] font-bold uppercase tracking-[0.3em] shadow-xl">View Event Locations</a>
+                <a href="location.html" class="inline-block bg-stone-900 text-white px-16 py-5 rounded-full text-[10px] font-bold uppercase tracking-[0.3em] mb-20 shadow-xl">View Event Locations</a>
             </div>
         </div>
     </div>
