@@ -3,343 +3,217 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jawad & Shabistha's Wedding</title>
+    <title>Gallery - Jawad & Shabistha</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400;1,700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="jaaz logo (3).png">
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
     <style>
         .playfair { font-family: 'Playfair Display', serif; }
         .montserrat { font-family: 'Montserrat', sans-serif; }
+        
+        /* Royal Background */
         body { background-color: #2d241e; margin: 0; padding: 0; overflow: hidden; }
 
-        /* --- WATERMARK --- */
-        .watermark-bg {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 80%; max-width: 600px; opacity: 0.04; pointer-events: none; z-index: 0;
-        }
-
-        /* --- LUXURY PREMIERE SCREEN --- */
-        #premiere-screen {
-            position: fixed; inset: 0; z-index: 800;
-            background: radial-gradient(circle at center, #1a1a1a 0%, #0d1117 100%);
-            display: none; flex-direction: column; align-items: center; justify-content: center;
-            color: #fdfbf7; text-align: center; padding: 15px;
-            transition: opacity 1.5s ease;
-        }
-        #premiere-screen::before {
-            content: ''; position: absolute; inset: 0;
-            background: url('https://www.transparenttextures.com/patterns/stardust.png');
-            opacity: 0.3; pointer-events: none;
-        }
-        .premiere-frame {
-            position: relative; border: 2px solid #d4af37; padding: 3rem 1rem; border-radius: 3.5rem;
-            background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px);
-            max-width: 450px; width: 100%; box-shadow: 0 0 50px rgba(0,0,0,0.5);
-            animation: borderGlow 4s infinite alternate;
-        }
-        @keyframes borderGlow {
-            0% { border-color: #d4af37; box-shadow: 0 0 20px rgba(212, 175, 55, 0.2); }
-            100% { border-color: #f7e1ad; box-shadow: 0 0 40px rgba(212, 175, 55, 0.4); }
-        }
-        .timer-box { font-size: 1.5rem; font-weight: 700; letter-spacing: 0.05em; color: #d4af37; text-shadow: 0 0 15px rgba(212, 175, 55, 0.5); width: 100%; }
-        @media (min-width: 768px) { .timer-box { font-size: 2.2rem; } }
-
-        /* --- MAINTENANCE --- */
-        #maintenance-overlay { position: fixed; inset: 0; z-index: 1000; background: rgba(0,0,0,0.92); backdrop-blur: 25px; display: none; align-items: center; justify-content: center; }
-
-        /* --- ENVELOPE & UNBOXING --- */
-        #unboxing-container { position: fixed; inset: 0; display: none; flex-direction: column; align-items: center; justify-content: center; background: #2d241e; z-index: 200; }
-        .envelope-wrapper { position: relative; width: 340px; height: 260px; background: #fdfbf7; background-image: url("https://www.transparenttextures.com/patterns/gray-floral.png"); border-radius: 30px; margin: 20px 0; box-shadow: 0 30px 60px rgba(0,0,0,0.4); }
-        .envelope-flap { position: absolute; top: -2px; width: 100%; height: 140px; background: #f9f5f0; clip-path: ellipse(50% 100% at 50% 0%); transform-origin: top; transition: transform 0.9s ease; z-index: 30; border-bottom: 1px solid rgba(184, 134, 11, 0.2); }
-        .flap-open { transform: rotateX(180deg); z-index: 10; }
-        .luxury-seal-group { position: absolute; top: 110px; left: 50%; transform: translateX(-50%); z-index: 45; display: flex; flex-direction: column; align-items: center; }
-        .luxury-seal { width: 85px; height: 85px; background: white; border: 3px solid #d4af37; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 5px; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
-        .pulse-effect { position: absolute; width: 100%; height: 100%; border-radius: 50%; border: 2px solid #d4af37; animation: pulse 2.5s infinite; }
-        @keyframes pulse { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(1.6); opacity: 0; } }
-
-        /* --- PETALS (Matches Gallery exactly) --- */
-        #petal-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 60; overflow: hidden; }
-        .petal { position: absolute; background-color: #ffb7c5; border-radius: 150% 0 150% 0; opacity: 0; will-change: transform; }
-        @keyframes shower { 0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; } 10% { opacity: 0.8; } 90% { opacity: 0.8; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
-
-        /* --- MAIN PAGE --- */
+        /* --- FIXED SCROLL FRAME (Matches Index) --- */
         #main-page-wrapper {
-            position: fixed; inset: 15px; background-color: #fdfbf7;
-            background-image: linear-gradient(to right, rgba(184, 134, 11, 0.08) 0%, transparent 10%, transparent 90%, rgba(184, 134, 11, 0.08) 100%),
+            position: fixed;
+            inset: 15px; 
+            background-color: #fdfbf7;
+            background-image: 
+                linear-gradient(to right, rgba(184, 134, 11, 0.08) 0%, transparent 10%, transparent 90%, rgba(184, 134, 11, 0.08) 100%),
                 url("https://www.transparenttextures.com/patterns/parchment.png");
-            border-radius: 3.5rem; border: 3px solid #d4af37;
-            box-shadow: 0 0 100px rgba(0,0,0,0.8);
-            z-index: 40; display: none; transform-origin: top; overflow: hidden;
+            border-radius: 3.5rem; 
+            border: 3px solid #d4af37;
+            box-shadow: 0 0 100px rgba(0,0,0,0.8), inset 0 0 40px rgba(184, 134, 11, 0.1);
+            z-index: 40;
+            overflow: hidden;
         }
-        #scroll-content { height: 100%; overflow-y: auto; overflow-x: hidden; padding-bottom: 100px; position: relative; z-index: 70; }
-        .sticky-header { position: sticky; top: 0; z-index: 100; background: linear-gradient(to bottom, #fdfbf7 85%, transparent); padding: 40px 20px 20px; }
-        .scroll-revealed { animation: unfurl 1.8s cubic-bezier(0.19, 1, 0.22, 1) forwards; }
-        @keyframes unfurl { 0% { transform: scaleY(0); opacity: 0; } 100% { transform: scaleY(1); opacity: 1; } }
+
+        #scroll-content {
+            height: 100%;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding-bottom: 100px;
+        }
+        #scroll-content::-webkit-scrollbar { width: 0px; }
+
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: linear-gradient(to bottom, #fdfbf7 85%, transparent);
+            padding-top: 40px;
+            padding-bottom: 20px;
+        }
+
+        /* --- ALBUM CARDS --- */
+        .album-card {
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 2.5rem;
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+        .album-card:hover {
+            transform: translateY(-8px);
+            background: white;
+            border-color: #d4af37;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+        }
+
+        /* Password Overlay Styled like Royal Card */
+        #gallery-overlay {
+            position: fixed; inset: 0;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(15px);
+            z-index: 500;
+            display: flex; align-items: center; justify-content: center;
+            padding: 20px;
+        }
+        .lock-card {
+            background: #fdfbf7;
+            background-image: url("https://www.transparenttextures.com/patterns/parchment.png");
+            padding: 3rem 2rem;
+            border-radius: 3rem;
+            text-align: center;
+            border: 2px solid #d4af37;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        /* Petals */
+        #petal-container {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none; z-index: 60; overflow: hidden;
+        }
+        .petal {
+            position: absolute; background-color: #ffb7c5; border-radius: 150% 0 150% 0;
+            opacity: 0; will-change: transform;
+        }
+        @keyframes shower {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+        }
 
         .floating { animation: float 3s ease-in-out infinite; }
         @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
-        .dev-signature { position: fixed; bottom: 20px; right: 20px; z-index: 150; background: rgba(255, 255, 255, 0.9); padding: 10px 20px; border-radius: 50px; border: 1px solid #d4af37; display: none; }
     </style>
-
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyBt-AS0ViQ_vMB8Mor-nx6x7enr7BZmaU",
-            authDomain: "wedding-card-f3460.firebaseapp.com",
-            databaseURL: "https://wedding-card-f3460-default-rtdb.firebaseio.com",
-            projectId: "wedding-card-f3460",
-            storageBucket: "wedding-card-f3460.firebasestorage.app",
-            messagingSenderId: "266632299451",
-            appId: "1:266632299451:web:aad01460dc6ac057e8ba9e",
-            measurementId: "G-0E0QNW263Y"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
-        const maintenanceRef = ref(db, 'isMaintenance');
-
-        const urlParams = new URLSearchParams(window.location.search);
-        const isAdmin = urlParams.get('admin') === 'true';
-        
-        const premiereDate = new Date("April 18, 2026 01:53:00").getTime();
-        let blastTriggered = false;
-
-        if (!isAdmin) localStorage.removeItem('admin_vip_pass');
-
-        function triggerPaperBlast() {
-            if (blastTriggered) return;
-            blastTriggered = true;
-            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#d4af37', '#ffffff', '#ffb7c5'] });
-            var end = Date.now() + (4 * 1000);
-            (function frame() {
-                confetti({ particleCount: 4, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#d4af37', '#ffb7c5'] });
-                confetti({ particleCount: 4, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#d4af37', '#ffb7c5'] });
-                if (Date.now() < end) requestAnimationFrame(frame);
-            }());
-        }
-
-        function updatePremiere() {
-            const now = new Date().getTime();
-            const dist = premiereDate - now;
-            const timerEl = document.getElementById('premiere-timer');
-            const pScreen = document.getElementById('premiere-screen');
-            const unboxing = document.getElementById('unboxing-container');
-
-            if (dist < 0) {
-                if (!isAdmin) {
-                    triggerPaperBlast();
-                    setTimeout(() => {
-                        pScreen.style.opacity = '0';
-                        setTimeout(() => {
-                            pScreen.style.display = 'none';
-                            unboxing.style.display = 'flex';
-                        }, 1000);
-                    }, 3000);
-                }
-                return true;
-            }
-            const d = Math.floor(dist / 86400000).toString().padStart(2, '0');
-            const h = Math.floor((dist % 86400000) / 3600000).toString().padStart(2, '0');
-            const m = Math.floor((dist % 3600000) / 60000).toString().padStart(2, '0');
-            const s = Math.floor((dist % 60000) / 1000).toString().padStart(2, '0');
-            if (timerEl) timerEl.innerText = `${d}d : ${h}h : ${m}m : ${s}s`;
-            return false;
-        }
-        setInterval(updatePremiere, 1000);
-
-        window.openPrivatePreview = () => {
-            localStorage.setItem('admin_vip_pass', 'active');
-            document.getElementById('maintenance-overlay').style.display = 'none';
-            document.getElementById('premiere-screen').style.display = 'none';
-            document.getElementById('unboxing-container').style.display = 'flex';
-        };
-        window.updateGlobalMaintenance = (s) => set(maintenanceRef, s);
-
-        onValue(maintenanceRef, (snapshot) => {
-            const isLocked = snapshot.val();
-            const mOverlay = document.getElementById('maintenance-overlay');
-            const pScreen = document.getElementById('premiere-screen');
-            const unboxing = document.getElementById('unboxing-container');
-
-            if (isAdmin) {
-                mOverlay.style.setProperty('display', 'flex', 'important');
-                document.getElementById('admin-controls').classList.remove('hidden');
-                return;
-            }
-
-            if (isLocked) {
-                mOverlay.style.display = 'flex';
-                pScreen.style.display = 'none';
-                unboxing.style.display = 'none';
-            } else {
-                mOverlay.style.display = 'none';
-                const finished = updatePremiere();
-                if (!finished) { pScreen.style.display = 'flex'; unboxing.style.display = 'none'; }
-                else { pScreen.style.display = 'none'; if (document.getElementById('main-page-wrapper').style.display !== 'block') unboxing.style.display = 'flex'; }
-            }
-        });
-    </script>
 </head>
 <body class="montserrat">
 
-    <img src="jaaz logo (3).png" class="watermark-bg" alt="Watermark">
     <div id="petal-container"></div>
 
-    <div id="maintenance-overlay">
-        <div class="max-w-md w-full bg-white p-10 rounded-[3rem] text-center shadow-2xl mx-4 border-2 border-[#d4af37]">
-            <div class="text-5xl mb-6">🛠️</div>
-            <h1 class="playfair text-3xl font-bold text-stone-800 mb-4">Under Maintenance</h1>
-            <p class="text-stone-600 mb-8">We are currently refining the royal experience for Jawad & Shabistha's wedding. Please be patient as we prepare the grand reveal..</p>
-            <div id="admin-controls" class="hidden mt-6 space-y-4 border-t pt-6">
-                <button onclick="window.openPrivatePreview()" class="w-full py-4 rounded-full bg-stone-800 text-white text-[10px] font-bold uppercase tracking-widest shadow-lg">Preview Site (Admin)</button>
-                <button onclick="window.updateGlobalMaintenance(true)" class="py-3 rounded-full bg-red-600 text-white text-[9px] font-bold">Lock Site</button>
-                    <button onclick="window.updateGlobalMaintenance(false)" class="py-3 rounded-full bg-green-600 text-white text-[9px] font-bold">Live Site</button>
-
-            </div>
-            <div class="h-px w-20 bg-rose-100 mx-auto my-8"></div>
-            <a href="tel:+919550791538" class="text-rose-400 font-bold">+91 9550791538</a>
-        </div>
-    </div>
-
-    <div id="premiere-screen">
-        <div class="premiere-frame">
-            <img src="jaaz logo (3).png" class="w-20 h-20 mx-auto mb-6 floating">
-            <h1 class="playfair text-3xl md:text-5xl font-bold mb-8 uppercase tracking-widest">Grand Premiere</h1>
-            <div id="premiere-timer" class="timer-box montserrat mb-8 whitespace-nowrap">00d : 00h : 00m : 00s</div>
-            <p class="text-[10px] uppercase tracking-[0.4em] text-stone-500 font-bold mb-4">Launching On</p>
-            <p class="playfair text-2xl text-[#d4af37]">May 12, 2026 • 12:00 PM</p>
-            <p class="text-[11px] uppercase font-bold tracking-widest text-stone-300">Prepare to witness a beautiful journey of</p>
-            <p class="text-[10px] uppercase tracking-[0.4em] text-stone-500 font-bold mb-4">Jawad & Shabistha</p>
-
-
-        </div>
-    </div>
-
-    <div id="unboxing-container">
-        <p class="montserrat text-[10px] tracking-[0.5em] uppercase text-stone-400 font-bold mb-4 text-center">Jawad & Shabistha</p>
-        <div id="envelope-main" class="envelope-wrapper mx-auto">
-            <div id="flap" class="envelope-flap"></div>
-            <div id="seal-group" class="luxury-seal-group">
-                <div class="luxury-seal" onclick="openInvitation()">
-                    <div class="pulse-effect"></div>
-                    <img src="jaaz logo (3).png" alt="Seal">
-                </div>
-                <p class="montserrat text-[10px] font-bold uppercase text-[#d4af37] mt-4 tracking-widest">Open Invitation</p>
-            </div>
-            <div class="absolute inset-0 bg-[#fdfbf7] shadow-inner rounded-[30px]" style="z-index: 5;"></div>
+    <div id="gallery-overlay">
+        <div class="lock-card">
+            <img src="jaaz logo (3).png" class="w-24 h-24 mx-auto mb-4 object-contain" alt="Logo">
+            <h1 class="playfair text-3xl font-bold text-stone-800 leading-tight">Private Gallery</h1>
+            <p class="text-stone-500 text-[9px] uppercase font-bold tracking-[0.2em] mt-2 mb-8">Enter the 4-digit access code</p>
+            
+            <input type="password" id="passCode" maxlength="4" class="w-full p-4 border-2 border-stone-200 rounded-2xl text-center text-3xl tracking-[0.5em] mb-6 outline-none focus:border-[#d4af37] transition bg-white/50" placeholder="••••">
+            
+            <button onclick="checkPassword()" class="w-full py-4 bg-stone-900 text-white rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-[#d4af37] transition-all shadow-lg">View Albums</button>
+            
+            <a href="index.html" class="inline-block mt-8 text-[9px] uppercase font-bold text-stone-400 hover:text-stone-800">← Back to Home</a>
         </div>
     </div>
 
     <div id="main-page-wrapper">
         <div id="scroll-content">
-            <div class="sticky-header text-center">
-                <p class="playfair text-2xl text-stone-800">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
-                <p class="text-[9px] tracking-[0.3em] uppercase mt-2 text-stone-500 font-bold italic">In the name of Allah, the Most Gracious, the Most Merciful</p>
-                <h1 class="playfair text-4xl md:text-7xl italic font-semibold text-stone-800 mt-6 whitespace-nowrap">Jawad & Shabistha</h1>
-                <nav class="flex justify-center gap-6 mt-6 text-[10px] font-bold uppercase tracking-widest border-b pb-4 max-w-xs mx-auto">
-                    <a href="#" onclick="navigateWithAdmin('index.html')" class="text-[#d4af37] border-b border-[#d4af37]">Event</a>
-                    <a href="#" onclick="navigateWithAdmin('location.html')">Location</a>
-                    <a href="#" onclick="navigateWithAdmin('contact.html')">Contact</a>
-                    <a href="#" onclick="navigateWithAdmin('gallery.html')">Gallery</a>
+            
+            <div class="sticky-header text-center px-4">
+                <nav class="flex justify-center gap-6 text-[10px] font-bold uppercase tracking-widest border-b border-stone-100 pb-4 max-w-xs mx-auto">
+                    <a href="index.html" class="hover:text-[#d4af37]">Event</a>
+                    <a href="location.html" class="hover:text-[#d4af37]">Location</a>
+                    <a href="contact.html" class="hover:text-[#d4af37]">Contact</a>
+                    <a href="gallery.html" class="text-[#d4af37] border-b border-[#d4af37]">Gallery</a>
+
                 </nav>
             </div>
 
-            <div class="max-w-6xl mx-auto px-6 text-center">
-                <img src="main page poster.png" class="rounded-[3rem] shadow-2xl border-8 border-white mx-auto my-12 max-w-[350px]">
-                
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-                    <div class="bg-white p-8 rounded-[2rem] shadow-sm border">
-                        <h3 class="text-rose-400 text-[10px] uppercase font-bold mb-4">Celebration Begins In</h3>
-                        <div id="countdown" class="text-3xl font-bold tabular-nums text-stone-800">00:00:00:00</div>
-                        <span class="text-[9px] text-stone-400">⏳ August 22, 2026</span>
-                    </div>
-                    <div class="bg-white/60 p-6 rounded-[2rem] border">
-                        <div class="text-4xl mb-2 floating">🌻</div>
-                        <h2 class="playfair text-xl font-bold">Sanchak</h2>
-                        <p class="text-rose-400 text-sm">Aug 22, 2026</p>
-                        <p class="text-[10px] text-stone-400 tracking-widest leading-loose">The Pre-wedding glow & Traditions</p>
-                    </div>
-                    <div class="bg-white/60 p-6 rounded-[2rem] border">
-                        <div class="text-4xl mb-2 floating" style="animation-delay: 0.5s">🕌</div>
-                        <h2 class="playfair text-xl font-bold">Nikkah</h2>
-                        <p class="text-rose-400 text-sm">Aug 23, 2026</p>
-                        <p class="text-[10px] text-stone-400 tracking-widest leading-loose">The Sacred Bond of Marriage</p>
-                    </div>
-                    <div class="bg-white/60 p-6 rounded-[2rem] border">
-                        <div class="text-4xl mb-2 floating" style="animation-delay: 1s">🤵👰</div>
-                        <h2 class="playfair text-xl font-bold">Valima</h2>
-                        <p class="text-rose-400 text-sm">Aug 24, 2026</p>
-                        <p class="text-[10px] text-stone-400 tracking-widest leading-loose">Celebration & Grand Reception</p>
-                    </div>
+            <main class="max-w-6xl mx-auto px-6 pt-10 text-center">
+                <h1 class="playfair text-4xl md:text-6xl italic font-semibold text-stone-800">Wedding Gallery</h1>
+                <p class="mt-4 text-stone-500 italic uppercase tracking-[0.2em] text-[10px]">Relive the beautiful moments</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12 mb-16">
+                    
+                    <a href="PASTE_DRIVE_LINK_FOR_SANCHAK" target="_blank" class="album-card p-10 text-center">
+                        <div class="text-5xl mb-6 floating">🌻</div>
+                        <h3 class="playfair text-2xl font-bold text-stone-800 uppercase tracking-tight">Sanchak</h3>
+                        <p class="text-rose-400 font-bold text-[10px] mt-2 tracking-widest">VIEW MEMORIES</p>
+                        <div class="h-px w-12 bg-stone-200 my-6 mx-auto"></div>
+                        <p class="text-[9px] text-stone-400 italic">Click to open Google Drive</p>
+                    </a>
+
+                    <a href="PASTE_DRIVE_LINK_FOR_NIKAH" target="_blank" class="album-card p-10 text-center border-[#d4af37]/30 shadow-xl shadow-[#d4af37]/5">
+                        <div class="text-5xl mb-6 floating" style="animation-delay: 0.5s">🕌</div>
+                        <h3 class="playfair text-2xl font-bold text-stone-800 uppercase tracking-tight">Nikah</h3>
+                        <p class="text-rose-400 font-bold text-[10px] mt-2 tracking-widest">VIEW MEMORIES</p>
+                        <div class="h-px w-12 bg-stone-200 my-6 mx-auto"></div>
+                        <p class="text-[9px] text-stone-400 italic">Click to open Google Drive</p>
+                    </a>
+
+                    <a href="PASTE_DRIVE_LINK_FOR_VALIMA" target="_blank" class="album-card p-10 text-center">
+                        <div class="text-5xl mb-6 floating" style="animation-delay: 1s">🤵👰</div>
+                        <h3 class="playfair text-2xl font-bold text-stone-800 uppercase tracking-tight">Valima</h3>
+                        <p class="text-rose-400 font-bold text-[10px] mt-2 tracking-widest">VIEW MEMORIES</p>
+                        <div class="h-px w-12 bg-stone-200 my-6 mx-auto"></div>
+                        <p class="text-[9px] text-stone-400 italic">Click to open Google Drive</p>
+                    </a>
+
                 </div>
-                <a href="#" onclick="navigateWithAdmin('location.html')" class="inline-block bg-stone-900 text-white px-16 py-5 rounded-full text-[10px] font-bold uppercase tracking-[0.3em] mb-20 shadow-xl">View Event Locations</a>
-            </div>
+
+                <div class="mb-20">
+                    <a href="index.html" class="inline-block bg-stone-900 text-white px-12 py-4 rounded-full text-[10px] font-bold uppercase tracking-[0.3em] shadow-xl hover:bg-[#d4af37] transition-all">
+                        Back to Home
+                    </a>
+                </div>
+            </main>
         </div>
     </div>
 
-    <div id="fixed-sig" class="dev-signature">
-        <p class="text-stone-500 text-[10px] font-bold uppercase tracking-widest text-center">Created by Tauseef Shaik</p>
-    </div>
-
     <script>
-        function navigateWithAdmin(page) {
-            const urlParams = new URLSearchParams(window.location.search);
-            window.location.href = (urlParams.get('admin') === 'true') ? page + "?admin=true" : page;
+        // Password Logic
+        function checkPassword() {
+            const input = document.getElementById('passCode').value;
+            const secretCode = "1014"; 
+            if (input === secretCode) {
+                document.getElementById('gallery-overlay').style.display = 'none';
+                initPetals(); // Start petals after entry
+            } else {
+                alert("Incorrect code. Please contact the family for access.");
+                document.getElementById('passCode').value = '';
+            }
         }
 
-        function openInvitation() {
-            // TRIGGER PETALS
-            initPetals();
-
-            document.getElementById('seal-group').style.opacity = '0';
-            document.getElementById('flap').classList.add('flap-open');
-            setTimeout(() => {
-                const env = document.getElementById('envelope-main');
-                env.style.transition = '1.6s ease-in-out';
-                env.style.transform = 'scale(4)';
-                env.style.opacity = '0';
-                setTimeout(() => {
-                    document.getElementById('unboxing-container').style.display = 'none';
-                    document.getElementById('main-page-wrapper').style.display = 'block';
-                    document.getElementById('main-page-wrapper').classList.add('scroll-revealed');
-                    document.getElementById('fixed-sig').style.display = 'block';
-                }, 800);
-            }, 600);
-        }
-
+        // Petal Logic
         function initPetals() {
             const container = document.getElementById('petal-container');
-            container.innerHTML = ''; 
             const petalCount = window.innerWidth < 768 ? 40 : 80;
             for (let i = 0; i < petalCount; i++) {
                 const petal = document.createElement('div');
                 petal.className = 'petal';
                 const size = 8 + Math.random() * 10;
-                petal.style.width = size + 'px'; 
+                petal.style.width = size + 'px';
                 petal.style.height = size + 'px';
                 petal.style.left = Math.random() * 100 + '%';
                 petal.style.backgroundColor = Math.random() > 0.5 ? '#fce4ec' : '#ffb7c5';
-                // Animation from top (-10vh to 110vh)
                 petal.style.animation = `shower ${6 + Math.random() * 10}s linear infinite`;
                 petal.style.animationDelay = `${Math.random() * 10}s`;
                 container.appendChild(petal);
             }
         }
 
-        const weddingDate = new Date("August 22, 2026 00:00:00").getTime();
-        setInterval(() => {
-            const dist = weddingDate - new Date().getTime();
-            const d = Math.floor(dist / 86400000).toString().padStart(2, '0');
-            const h = Math.floor((dist % 86400000) / 3600000).toString().padStart(2, '0');
-            const m = Math.floor((dist % 3600000) / 60000).toString().padStart(2, '0');
-            const s = Math.floor((dist % 60000) / 1000).toString().padStart(2, '0');
-            const cd = document.getElementById("countdown");
-            if(cd) cd.innerText = dist < 0 ? "00:00:00:00" : `${d}:${h}:${m}:${s}`;
-        }, 1000);
+        // Allow "Enter" key for password
+        document.getElementById('passCode').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
     </script>
 </body>
-</html>
+</html>     
