@@ -20,7 +20,7 @@
             width: 80%; max-width: 600px; opacity: 0.04; pointer-events: none; z-index: 0;
         }
 
-        /* --- PREMIERE SCREEN --- */
+        /* --- LUXURY PREMIERE SCREEN --- */
         #premiere-screen {
             position: fixed; inset: 0; z-index: 800;
             background: radial-gradient(circle at center, #1a1a1a 0%, #0d1117 100%);
@@ -34,31 +34,35 @@
             opacity: 0.3; pointer-events: none;
         }
         .premiere-frame {
-            position: relative; border: 2px solid #d4af37; padding: 4rem 2rem; border-radius: 4rem;
-            background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(25px);
-            max-width: 450px; width: 100%; box-shadow: 0 0 60px rgba(0,0,0,0.6);
+            position: relative; border: 2px solid #d4af37; padding: 3rem 1rem; border-radius: 3.5rem;
+            background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px);
+            max-width: 450px; width: 100%; box-shadow: 0 0 50px rgba(0,0,0,0.5);
             animation: borderGlow 4s infinite alternate;
         }
         @keyframes borderGlow {
             0% { border-color: #d4af37; box-shadow: 0 0 20px rgba(212, 175, 55, 0.2); }
             100% { border-color: #f7e1ad; box-shadow: 0 0 40px rgba(212, 175, 55, 0.4); }
         }
-        .premiere-title { font-size: 2.2rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 1rem; color: #fdfbf7; }
-        .timer-box { font-size: 1.8rem; font-weight: 700; letter-spacing: 0.1em; color: #d4af37; text-shadow: 0 0 15px rgba(212, 175, 55, 0.5); margin: 1.5rem 0; line-height: 1.2; }
-        .launch-date { font-size: 1.1rem; color: #fdfbf7; margin-bottom: 1.5rem; border-top: 1px solid rgba(212,175,55,0.3); border-bottom: 1px solid rgba(212,175,55,0.3); padding: 0.8rem 0; }
+        .timer-box { font-size: 1.5rem; font-weight: 700; letter-spacing: 0.05em; color: #d4af37; text-shadow: 0 0 15px rgba(212, 175, 55, 0.5); width: 100%; }
+        @media (min-width: 768px) { .timer-box { font-size: 2.2rem; } }
 
         /* --- MAINTENANCE --- */
         #maintenance-overlay { position: fixed; inset: 0; z-index: 1000; background: rgba(0,0,0,0.92); backdrop-blur: 25px; display: none; align-items: center; justify-content: center; }
 
         /* --- ENVELOPE & UNBOXING --- */
         #unboxing-container { position: fixed; inset: 0; display: none; flex-direction: column; align-items: center; justify-content: center; background: #2d241e; z-index: 200; }
-        .envelope-wrapper { position: relative; width: 340px; height: 260px; background: #fdfbf7; background-image: url("https://www.transparenttextures.com/patterns/gray-floral.png"); border-radius: 30px; margin: 20px 0; box-shadow: 0 40px 80px rgba(0,0,0,0.5); }
-        .envelope-flap { position: absolute; top: -2px; left: 0; width: 100%; height: 150px; background: #f9f5f0; clip-path: ellipse(50% 100% at 50% 0%); transform-origin: top; transition: transform 0.9s ease; z-index: 30; border-bottom: 1px solid rgba(184, 134, 11, 0.2); }
+        .envelope-wrapper { position: relative; width: 340px; height: 260px; background: #fdfbf7; background-image: url("https://www.transparenttextures.com/patterns/gray-floral.png"); border-radius: 30px; margin: 20px 0; box-shadow: 0 30px 60px rgba(0,0,0,0.4); }
+        .envelope-flap { position: absolute; top: -2px; width: 100%; height: 140px; background: #f9f5f0; clip-path: ellipse(50% 100% at 50% 0%); transform-origin: top; transition: transform 0.9s ease; z-index: 30; border-bottom: 1px solid rgba(184, 134, 11, 0.2); }
         .flap-open { transform: rotateX(180deg); z-index: 10; }
         .luxury-seal-group { position: absolute; top: 110px; left: 50%; transform: translateX(-50%); z-index: 45; display: flex; flex-direction: column; align-items: center; }
-        .luxury-seal { width: 85px; height: 85px; background: white; border: 3px solid #d4af37; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+        .luxury-seal { width: 85px; height: 85px; background: white; border: 3px solid #d4af37; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 5px; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
         .pulse-effect { position: absolute; width: 100%; height: 100%; border-radius: 50%; border: 2px solid #d4af37; animation: pulse 2.5s infinite; }
         @keyframes pulse { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(1.6); opacity: 0; } }
+
+        /* --- PETALS (Matches Gallery exactly) --- */
+        #petal-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 60; overflow: hidden; }
+        .petal { position: absolute; background-color: #ffb7c5; border-radius: 150% 0 150% 0; opacity: 0; will-change: transform; }
+        @keyframes shower { 0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; } 10% { opacity: 0.8; } 90% { opacity: 0.8; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
 
         /* --- MAIN PAGE --- */
         #main-page-wrapper {
@@ -69,15 +73,10 @@
             box-shadow: 0 0 100px rgba(0,0,0,0.8);
             z-index: 40; display: none; transform-origin: top; overflow: hidden;
         }
-        #scroll-content { height: 100%; overflow-y: auto; overflow-x: hidden; padding-bottom: 100px; }
+        #scroll-content { height: 100%; overflow-y: auto; overflow-x: hidden; padding-bottom: 100px; position: relative; z-index: 70; }
         .sticky-header { position: sticky; top: 0; z-index: 100; background: linear-gradient(to bottom, #fdfbf7 85%, transparent); padding: 40px 20px 20px; }
         .scroll-revealed { animation: unfurl 1.8s cubic-bezier(0.19, 1, 0.22, 1) forwards; }
         @keyframes unfurl { 0% { transform: scaleY(0); opacity: 0; } 100% { transform: scaleY(1); opacity: 1; } }
-
-        /* --- PETALS --- */
-        #petal-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 60; overflow: hidden; }
-        .petal { position: absolute; background-color: #ffb7c5; border-radius: 150% 0 150% 0; opacity: 0; will-change: transform; }
-        @keyframes shower { 0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; } 10% { opacity: 0.8; } 90% { opacity: 0.8; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
 
         .floating { animation: float 3s ease-in-out infinite; }
         @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
@@ -106,22 +105,24 @@
         const urlParams = new URLSearchParams(window.location.search);
         const isAdmin = urlParams.get('admin') === 'true';
         
-        // --- PREMIERE SETTINGS ---
-        const premiereDate = new Date("April 18, 2026 09:04:00").getTime();
+        const premiereDate = new Date("April 18, 2026 01:56:00").getTime();
         let blastTriggered = false;
-        window.isFullyOpened = false; // CRITICAL SAFETY LOCK
 
         if (!isAdmin) localStorage.removeItem('admin_vip_pass');
 
         function triggerPaperBlast() {
             if (blastTriggered) return;
             blastTriggered = true;
-            confetti({ particleCount: 200, spread: 80, origin: { y: 0.6 }, colors: ['#d4af37', '#ffffff', '#ffb7c5'] });
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#d4af37', '#ffffff', '#ffb7c5'] });
+            var end = Date.now() + (4 * 1000);
+            (function frame() {
+                confetti({ particleCount: 4, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#d4af37', '#ffb7c5'] });
+                confetti({ particleCount: 4, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#d4af37', '#ffb7c5'] });
+                if (Date.now() < end) requestAnimationFrame(frame);
+            }());
         }
 
         function updatePremiere() {
-            if (window.isFullyOpened) return true; // Stop logic if already opened
-
             const now = new Date().getTime();
             const dist = premiereDate - now;
             const timerEl = document.getElementById('premiere-timer');
@@ -135,9 +136,9 @@
                         pScreen.style.opacity = '0';
                         setTimeout(() => {
                             pScreen.style.display = 'none';
-                            unboxing.style.setProperty('display', 'flex', 'important');
+                            unboxing.style.display = 'flex';
                         }, 1000);
-                    }, 2500);
+                    }, 3000);
                 }
                 return true;
             }
@@ -148,12 +149,17 @@
             if (timerEl) timerEl.innerText = `${d}d : ${h}h : ${m}m : ${s}s`;
             return false;
         }
-
         setInterval(updatePremiere, 1000);
 
-        onValue(maintenanceRef, (snapshot) => {
-            if (window.isFullyOpened) return; // IGNORE FIREBASE UPDATES AFTER OPENING
+        window.openPrivatePreview = () => {
+            localStorage.setItem('admin_vip_pass', 'active');
+            document.getElementById('maintenance-overlay').style.display = 'none';
+            document.getElementById('premiere-screen').style.display = 'none';
+            document.getElementById('unboxing-container').style.display = 'flex';
+        };
+        window.updateGlobalMaintenance = (s) => set(maintenanceRef, s);
 
+        onValue(maintenanceRef, (snapshot) => {
             const isLocked = snapshot.val();
             const mOverlay = document.getElementById('maintenance-overlay');
             const pScreen = document.getElementById('premiere-screen');
@@ -161,6 +167,7 @@
 
             if (isAdmin) {
                 mOverlay.style.setProperty('display', 'flex', 'important');
+                document.getElementById('admin-controls').classList.remove('hidden');
                 return;
             }
 
@@ -171,20 +178,123 @@
             } else {
                 mOverlay.style.display = 'none';
                 const finished = updatePremiere();
-                if (!finished) { 
-                    pScreen.style.display = 'flex'; 
-                    unboxing.style.display = 'none'; 
-                } else {
-                    pScreen.style.display = 'none';
-                    unboxing.style.setProperty('display', 'flex', 'important');
-                }
+                if (!finished) { pScreen.style.display = 'flex'; unboxing.style.display = 'none'; }
+                else { pScreen.style.display = 'none'; if (document.getElementById('main-page-wrapper').style.display !== 'block') unboxing.style.display = 'flex'; }
             }
         });
+    </script>
+</head>
+<body class="montserrat">
 
-        // ATTACH OPEN FUNCTION GLOBALLY
-        window.openInvitation = () => {
-            window.isFullyOpened = true; // Lock the code so it never hides the page again
+    <img src="jaaz logo (3).png" class="watermark-bg" alt="Watermark">
+    <div id="petal-container"></div>
+
+    <div id="maintenance-overlay">
+        <div class="max-w-md w-full bg-white p-10 rounded-[3rem] text-center shadow-2xl mx-4 border-2 border-[#d4af37]">
+            <div class="text-5xl mb-6">🛠️</div>
+            <h1 class="playfair text-3xl font-bold text-stone-800 mb-4">Under Maintenance</h1>
+            <p class="text-stone-600 mb-8">We are currently refining the royal experience for Jawad & Shabistha's wedding. Please be patient as we prepare the grand reveal..</p>
+            <div id="admin-controls" class="hidden mt-6 space-y-4 border-t pt-6">
+                <button onclick="window.openPrivatePreview()" class="w-full py-4 rounded-full bg-stone-800 text-white text-[10px] font-bold uppercase tracking-widest shadow-lg">Preview Site (Admin)</button>
+                <button onclick="window.updateGlobalMaintenance(true)" class="py-3 rounded-full bg-red-600 text-white text-[9px] font-bold">Lock Site</button>
+                    <button onclick="window.updateGlobalMaintenance(false)" class="py-3 rounded-full bg-green-600 text-white text-[9px] font-bold">Live Site</button>
+
+            </div>
+            <div class="h-px w-20 bg-rose-100 mx-auto my-8"></div>
+            <a href="tel:+919550791538" class="text-rose-400 font-bold">+91 9550791538</a>
+        </div>
+    </div>
+
+    <div id="premiere-screen">
+        <div class="premiere-frame">
+            <img src="jaaz logo (3).png" class="w-20 h-20 mx-auto mb-6 floating">
+            <h1 class="playfair text-3xl md:text-5xl font-bold mb-8 uppercase tracking-widest">Grand Premiere</h1>
+            <div id="premiere-timer" class="timer-box montserrat mb-8 whitespace-nowrap">00d : 00h : 00m : 00s</div>
+            <p class="text-[10px] uppercase tracking-[0.4em] text-stone-500 font-bold mb-4">Launching On</p>
+            <p class="playfair text-2xl text-[#d4af37]">May 12, 2026 • 12:00 PM</p>
+            <p class="text-[11px] uppercase font-bold tracking-widest text-stone-300">Prepare to witness a beautiful journey of</p>
+            <p class="text-[10px] uppercase tracking-[0.4em] text-stone-500 font-bold mb-4">Jawad & Shabistha</p>
+
+
+        </div>
+    </div>
+
+    <div id="unboxing-container">
+        <p class="montserrat text-[10px] tracking-[0.5em] uppercase text-stone-400 font-bold mb-4 text-center">Jawad & Shabistha</p>
+        <div id="envelope-main" class="envelope-wrapper mx-auto">
+            <div id="flap" class="envelope-flap"></div>
+            <div id="seal-group" class="luxury-seal-group">
+                <div class="luxury-seal" onclick="openInvitation()">
+                    <div class="pulse-effect"></div>
+                    <img src="jaaz logo (3).png" alt="Seal">
+                </div>
+                <p class="montserrat text-[10px] font-bold uppercase text-[#d4af37] mt-4 tracking-widest">Open Invitation</p>
+            </div>
+            <div class="absolute inset-0 bg-[#fdfbf7] shadow-inner rounded-[30px]" style="z-index: 5;"></div>
+        </div>
+    </div>
+
+    <div id="main-page-wrapper">
+        <div id="scroll-content">
+            <div class="sticky-header text-center">
+                <p class="playfair text-2xl text-stone-800">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
+                <p class="text-[9px] tracking-[0.3em] uppercase mt-2 text-stone-500 font-bold italic">In the name of Allah, the Most Gracious, the Most Merciful</p>
+                <h1 class="playfair text-4xl md:text-7xl italic font-semibold text-stone-800 mt-6 whitespace-nowrap">Jawad & Shabistha</h1>
+                <nav class="flex justify-center gap-6 mt-6 text-[10px] font-bold uppercase tracking-widest border-b pb-4 max-w-xs mx-auto">
+                    <a href="#" onclick="navigateWithAdmin('index.html')" class="text-[#d4af37] border-b border-[#d4af37]">Event</a>
+                    <a href="#" onclick="navigateWithAdmin('location.html')">Location</a>
+                    <a href="#" onclick="navigateWithAdmin('contact.html')">Contact</a>
+                    <a href="#" onclick="navigateWithAdmin('gallery.html')">Gallery</a>
+                </nav>
+            </div>
+
+            <div class="max-w-6xl mx-auto px-6 text-center">
+                <img src="main page poster.png" class="rounded-[3rem] shadow-2xl border-8 border-white mx-auto my-12 max-w-[350px]">
+                
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+                    <div class="bg-white p-8 rounded-[2rem] shadow-sm border">
+                        <h3 class="text-rose-400 text-[10px] uppercase font-bold mb-4">Celebration Begins In</h3>
+                        <div id="countdown" class="text-3xl font-bold tabular-nums text-stone-800">00:00:00:00</div>
+                        <span class="text-[9px] text-stone-400">⏳ August 22, 2026</span>
+                    </div>
+                    <div class="bg-white/60 p-6 rounded-[2rem] border">
+                        <div class="text-4xl mb-2 floating">🌻</div>
+                        <h2 class="playfair text-xl font-bold">Sanchak</h2>
+                        <p class="text-rose-400 text-sm">Aug 22, 2026</p>
+                        <p class="text-[10px] text-stone-400 tracking-widest leading-loose">The Pre-wedding glow & Traditions</p>
+                    </div>
+                    <div class="bg-white/60 p-6 rounded-[2rem] border">
+                        <div class="text-4xl mb-2 floating" style="animation-delay: 0.5s">🕌</div>
+                        <h2 class="playfair text-xl font-bold">Nikkah</h2>
+                        <p class="text-rose-400 text-sm">Aug 23, 2026</p>
+                        <p class="text-[10px] text-stone-400 tracking-widest leading-loose">The Sacred Bond of Marriage</p>
+                    </div>
+                    <div class="bg-white/60 p-6 rounded-[2rem] border">
+                        <div class="text-4xl mb-2 floating" style="animation-delay: 1s">🤵👰</div>
+                        <h2 class="playfair text-xl font-bold">Valima</h2>
+                        <p class="text-rose-400 text-sm">Aug 24, 2026</p>
+                        <p class="text-[10px] text-stone-400 tracking-widest leading-loose">Celebration & Grand Reception</p>
+                    </div>
+                </div>
+                <a href="#" onclick="navigateWithAdmin('location.html')" class="inline-block bg-stone-900 text-white px-16 py-5 rounded-full text-[10px] font-bold uppercase tracking-[0.3em] mb-20 shadow-xl">View Event Locations</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="fixed-sig" class="dev-signature">
+        <p class="text-stone-500 text-[10px] font-bold uppercase tracking-widest text-center">Created by Tauseef Shaik</p>
+    </div>
+
+    <script>
+        function navigateWithAdmin(page) {
+            const urlParams = new URLSearchParams(window.location.search);
+            window.location.href = (urlParams.get('admin') === 'true') ? page + "?admin=true" : page;
+        }
+
+        function openInvitation() {
+            // TRIGGER PETALS
             initPetals();
+
             document.getElementById('seal-group').style.opacity = '0';
             document.getElementById('flap').classList.add('flap-open');
             setTimeout(() => {
@@ -199,82 +309,13 @@
                     document.getElementById('fixed-sig').style.display = 'block';
                 }, 800);
             }, 600);
-        };
-    </script>
-</head>
-<body class="montserrat">
+        }
 
-    <img src="jaaz logo (3).png" class="watermark-bg" alt="Watermark">
-    <div id="petal-container"></div>
-
-    <div id="maintenance-overlay">
-        <div class="max-w-md w-full bg-white p-10 rounded-[3rem] text-center border-2 border-[#d4af37]">
-            <h1 class="playfair text-3xl font-bold mb-4">Under Maintenance</h1>
-            <a href="tel:+919550791538" class="text-rose-400 font-bold">+91 9550791538</a>
-        </div>
-    </div>
-
-    <div id="premiere-screen">
-        <div class="premiere-frame">
-            <img src="jaaz logo (3).png" class="w-24 h-24 mx-auto mb-8 floating">
-            <p class="playfair italic text-xl text-stone-400">Jawad & Shabistha's Wedding</p>
-            <h1 class="premiere-title playfair">Grand Premiere</h1>
-            <div id="premiere-timer" class="timer-box montserrat">00d : 00h : 00m : 00s</div>
-            <div class="launch-date playfair">May 12, 2026 | 12:00 PM</div>
-            <p class="text-[11px] uppercase font-bold tracking-widest text-stone-300">Prepare to witness a beautiful journey</p>
-        </div>
-    </div>
-
-    <div id="unboxing-container">
-        <div id="envelope-main" class="envelope-wrapper mx-auto">
-            <div id="flap" class="envelope-flap"></div>
-            <div id="seal-group" class="luxury-seal-group">
-                <div class="luxury-seal" onclick="openInvitation()">
-                    <div class="pulse-effect"></div>
-                    <img src="jaaz logo (3).png">
-                </div>
-                <p class="montserrat text-[10px] font-bold uppercase text-[#d4af37] mt-4 tracking-widest">Open Invitation</p>
-            </div>
-            <div class="absolute inset-0 bg-[#fdfbf7] shadow-inner rounded-[30px]" style="z-index: 5;"></div>
-        </div>
-    </div>
-
-    <div id="main-page-wrapper">
-        <div id="scroll-content">
-            <div class="sticky-header text-center">
-                <p class="playfair text-2xl text-stone-800">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
-                <h1 class="playfair text-4xl md:text-7xl italic font-semibold text-stone-800 mt-6 whitespace-nowrap">Jawad & Shabistha</h1>
-                <nav class="flex justify-center gap-6 mt-6 text-[10px] font-bold uppercase tracking-widest border-b pb-4 max-w-xs mx-auto">
-                    <a href="index.html" class="text-[#d4af37] border-b border-[#d4af37]">Event</a>
-                    <a href="location.html">Location</a>
-                    <a href="contact.html">Contact</a>
-                    <a href="gallery.html">Gallery</a>
-                </nav>
-            </div>
-            <div class="max-w-6xl mx-auto px-6 text-center">
-                <img src="main page poster.png" class="rounded-[3rem] shadow-2xl border-8 border-white mx-auto my-12 max-w-[350px]">
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-                    <div class="bg-white p-8 rounded-[2rem] shadow-sm border">
-                        <h3 class="text-rose-400 text-[10px] uppercase font-bold mb-4">Celebration Begins In</h3>
-                        <div id="countdown" class="text-3xl font-bold tabular-nums">00:00:00:00</div>
-                    </div>
-                    <div class="bg-white/60 p-6 rounded-[2rem] border"><h2 class="playfair text-xl font-bold">Sanchak</h2><p class="text-rose-400 text-sm">Aug 22, 2026</p></div>
-                    <div class="bg-white/60 p-6 rounded-[2rem] border"><h2 class="playfair text-xl font-bold">Nikkah</h2><p class="text-rose-400 text-sm">Aug 23, 2026</p></div>
-                    <div class="bg-white/60 p-6 rounded-[2rem] border"><h2 class="playfair text-xl font-bold">Valima</h2><p class="text-rose-400 text-sm">Aug 24, 2026</p></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="fixed-sig" class="dev-signature">
-        <p class="text-stone-500 text-[10px] font-bold uppercase tracking-widest text-center">Created by Tauseef Shaik</p>
-    </div>
-
-    <script>
         function initPetals() {
             const container = document.getElementById('petal-container');
             container.innerHTML = ''; 
-            for (let i = 0; i < 60; i++) {
+            const petalCount = window.innerWidth < 768 ? 40 : 80;
+            for (let i = 0; i < petalCount; i++) {
                 const petal = document.createElement('div');
                 petal.className = 'petal';
                 const size = 8 + Math.random() * 10;
@@ -282,6 +323,7 @@
                 petal.style.height = size + 'px';
                 petal.style.left = Math.random() * 100 + '%';
                 petal.style.backgroundColor = Math.random() > 0.5 ? '#fce4ec' : '#ffb7c5';
+                // Animation from top (-10vh to 110vh)
                 petal.style.animation = `shower ${6 + Math.random() * 10}s linear infinite`;
                 petal.style.animationDelay = `${Math.random() * 10}s`;
                 container.appendChild(petal);
