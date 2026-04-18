@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400;1,700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="jaaz logo (3).png">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
     <style>
         .playfair { font-family: 'Playfair Display', serif; }
@@ -19,12 +20,13 @@
             width: 80%; max-width: 600px; opacity: 0.04; pointer-events: none; z-index: 0;
         }
 
-        /* --- LUXURY PREMIERE SCREEN --- */
+        /* --- PREMIUM PREMIERE SCREEN --- */
         #premiere-screen {
             position: fixed; inset: 0; z-index: 800;
             background: radial-gradient(circle at center, #1a1a1a 0%, #0d1117 100%);
             display: none; flex-direction: column; align-items: center; justify-content: center;
             color: #fdfbf7; text-align: center; padding: 20px;
+            transition: opacity 1.5s ease;
         }
         #premiere-screen::before {
             content: ''; position: absolute; inset: 0;
@@ -32,33 +34,43 @@
             opacity: 0.3; pointer-events: none;
         }
         .premiere-frame {
-            position: relative; border: 2px solid #d4af37; padding: 3.5rem 1.5rem; border-radius: 4rem;
-            background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px);
-            max-width: 500px; width: 100%; box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            position: relative; border: 2px solid #d4af37; padding: 4.5rem 2rem; border-radius: 4rem;
+            background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(25px);
+            max-width: 500px; width: 90%; box-shadow: 0 0 60px rgba(0,0,0,0.6);
             animation: borderGlow 4s infinite alternate;
         }
         @keyframes borderGlow {
             0% { border-color: #d4af37; box-shadow: 0 0 20px rgba(212, 175, 55, 0.2); }
             100% { border-color: #f7e1ad; box-shadow: 0 0 40px rgba(212, 175, 55, 0.4); }
         }
-        .timer-box { font-size: 1.8rem; font-weight: 700; letter-spacing: 0.1em; color: #d4af37; text-shadow: 0 0 15px rgba(212, 175, 55, 0.5); }
-        @media (min-width: 768px) { .timer-box { font-size: 2.5rem; } }
+
+        /* Typography Hierarchy */
+        .premiere-subtitle { font-size: 1rem; letter-spacing: 0.4em; text-transform: uppercase; color: #d4af37; margin-bottom: 1rem; font-weight: 400; }
+        .premiere-title { font-size: 2.8rem; font-weight: 700; letter-spacing: 0.15em; margin-bottom: 2rem; line-height: 1.2; text-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+        .premiere-divider { height: 1px; width: 60px; background: #d4af37; margin: 1.5rem auto; opacity: 0.5; }
+        .timer-box { font-size: 2rem; font-weight: 700; letter-spacing: 0.1em; color: #fdfbf7; margin: 2rem 0; font-variant-numeric: tabular-nums; }
+        .launch-info { font-size: 1.2rem; color: #d4af37; font-weight: 300; letter-spacing: 0.1em; margin-top: 2rem; }
+
+        @media (max-width: 768px) {
+            .premiere-title { font-size: 1.8rem; }
+            .timer-box { font-size: 1.4rem; }
+        }
 
         /* --- MAINTENANCE --- */
         #maintenance-overlay { position: fixed; inset: 0; z-index: 1000; background: rgba(0,0,0,0.92); backdrop-blur: 25px; display: none; align-items: center; justify-content: center; }
 
-        /* --- ENVELOPE & UNBOXING --- */
+        /* --- ENVELOPE --- */
         #unboxing-container { position: fixed; inset: 0; display: none; flex-direction: column; align-items: center; justify-content: center; background: #2d241e; z-index: 200; }
-        .envelope-wrapper { position: relative; width: 360px; height: 260px; background: #fdfbf7; background-image: url("https://www.transparenttextures.com/patterns/gray-floral.png"); box-shadow: 0 40px 80px rgba(0,0,0,0.5); border-radius: 30px; margin: 20px 0; }
-        .envelope-flap { position: absolute; top: -2px; left: 0; width: 100%; height: 150px; background: #f9f5f0; clip-path: ellipse(50% 100% at 50% 0%); transform-origin: top; transition: transform 0.9s ease; z-index: 30; border-bottom: 1px solid rgba(184, 134, 11, 0.2); }
+        .envelope-wrapper { position: relative; width: 340px; height: 240px; background: #fdfbf7; border-radius: 30px; margin: 20px 0; box-shadow: 0 30px 60px rgba(0,0,0,0.4); }
+        .envelope-flap { position: absolute; top: -2px; width: 100%; height: 140px; background: #f9f5f0; clip-path: ellipse(50% 100% at 50% 0%); transform-origin: top; transition: transform 0.9s ease; z-index: 30; }
         .flap-open { transform: rotateX(180deg); z-index: 10; }
         .luxury-seal-group { position: absolute; top: 110px; left: 50%; transform: translateX(-50%); z-index: 45; display: flex; flex-direction: column; align-items: center; }
-        .luxury-seal { position: relative; width: 85px; height: 85px; background: white; border: 3px solid #d4af37; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.4s ease; padding: 5px; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
-        .luxury-seal img { width: 100%; object-fit: contain; }
+        .luxury-seal { width: 85px; height: 85px; background: white; border: 3px solid #d4af37; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.2); transition: 0.3s; }
+        .luxury-seal:hover { transform: scale(1.05); }
         .pulse-effect { position: absolute; width: 100%; height: 100%; border-radius: 50%; border: 2px solid #d4af37; animation: pulse 2.5s infinite; }
         @keyframes pulse { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(1.6); opacity: 0; } }
 
-        /* --- MAIN PAGE --- */
+        /* --- MAIN PAGE WRAPPER --- */
         #main-page-wrapper {
             position: fixed; inset: 15px; background-color: #fdfbf7;
             background-image: linear-gradient(to right, rgba(184, 134, 11, 0.08) 0%, transparent 10%, transparent 90%, rgba(184, 134, 11, 0.08) 100%),
@@ -72,10 +84,10 @@
         .scroll-revealed { animation: unfurl 1.8s cubic-bezier(0.19, 1, 0.22, 1) forwards; }
         @keyframes unfurl { 0% { transform: scaleY(0); opacity: 0; } 100% { transform: scaleY(1); opacity: 1; } }
 
-        /* --- DECORATIONS --- */
+        /* DECORATIONS */
         #petal-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 60; overflow: hidden; }
         .petal { position: absolute; background-color: #ffb7c5; border-radius: 150% 0 150% 0; opacity: 0; will-change: transform; }
-        @keyframes shower { 0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
+        @keyframes shower { 0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; } 10% { opacity: 0.8; } 90% { opacity: 0.8; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
         .floating { animation: float 3s ease-in-out infinite; }
         @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
         .dev-signature { position: fixed; bottom: 20px; right: 20px; z-index: 150; background: rgba(255, 255, 255, 0.9); padding: 10px 20px; border-radius: 50px; border: 1px solid #d4af37; display: none; }
@@ -102,42 +114,55 @@
 
         const urlParams = new URLSearchParams(window.location.search);
         const isAdmin = urlParams.get('admin') === 'true';
-        const premiereDate = new Date("April 18, 2026 09:15:00").getTime();
+        
+        // --- PREMIERE DATE ---
+        const premiereDate = new Date("May 12, 2026 12:00:00").getTime();
+        let blastTriggered = false;
+        window.isFullyOpened = false; // Safety lock
 
         if (!isAdmin) localStorage.removeItem('admin_vip_pass');
 
+        function triggerPaperBlast() {
+            if (blastTriggered) return;
+            blastTriggered = true;
+            confetti({ particleCount: 250, spread: 100, origin: { y: 0.6 }, colors: ['#d4af37', '#ffffff', '#ffb7c5'] });
+        }
+
         function updatePremiere() {
+            if (window.isFullyOpened) return true; 
+
             const now = new Date().getTime();
-            const distance = premiereDate - now;
+            const dist = premiereDate - now;
             const timerEl = document.getElementById('premiere-timer');
             const pScreen = document.getElementById('premiere-screen');
             const unboxing = document.getElementById('unboxing-container');
 
-            if (distance < 0) {
-                if (pScreen) pScreen.style.display = 'none';
-                if (!isAdmin && unboxing.style.display === 'none' && document.getElementById('main-page-wrapper').style.display !== 'block') {
-                    unboxing.style.display = 'flex';
+            if (dist < 0) {
+                if (!isAdmin) {
+                    triggerPaperBlast();
+                    setTimeout(() => {
+                        pScreen.style.opacity = '0';
+                        setTimeout(() => {
+                            pScreen.style.display = 'none';
+                            unboxing.style.setProperty('display', 'flex', 'important');
+                        }, 1200);
+                    }, 2500);
                 }
                 return true;
             }
-            const d = Math.floor(distance / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
-            const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
-            const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
-            const s = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, '0');
+            const d = Math.floor(dist / 86400000).toString().padStart(2, '0');
+            const h = Math.floor((dist % 86400000) / 3600000).toString().padStart(2, '0');
+            const m = Math.floor((dist % 3600000) / 60000).toString().padStart(2, '0');
+            const s = Math.floor((dist % 60000) / 1000).toString().padStart(2, '0');
             if (timerEl) timerEl.innerText = `${d}d : ${h}h : ${m}m : ${s}s`;
             return false;
         }
+
         setInterval(updatePremiere, 1000);
 
-        window.openPrivatePreview = () => {
-            localStorage.setItem('admin_vip_pass', 'active');
-            document.getElementById('maintenance-overlay').style.display = 'none';
-            document.getElementById('premiere-screen').style.display = 'none';
-            document.getElementById('unboxing-container').style.display = 'flex';
-        };
-        window.updateGlobalMaintenance = (s) => set(maintenanceRef, s);
-
         onValue(maintenanceRef, (snapshot) => {
+            if (window.isFullyOpened) return; 
+
             const isLocked = snapshot.val();
             const mOverlay = document.getElementById('maintenance-overlay');
             const pScreen = document.getElementById('premiere-screen');
@@ -145,7 +170,6 @@
 
             if (isAdmin) {
                 mOverlay.style.setProperty('display', 'flex', 'important');
-                document.getElementById('admin-controls').classList.remove('hidden');
                 return;
             }
 
@@ -161,130 +185,15 @@
                     unboxing.style.display = 'none';
                 } else {
                     pScreen.style.display = 'none';
-                    unboxing.style.display = 'flex';
+                    unboxing.style.setProperty('display', 'flex', 'important');
                 }
             }
         });
-    </script>
-</head>
-<body class="montserrat">
 
-    <img src="jaaz logo (3).png" class="watermark-bg" alt="Watermark">
-
-    <div id="maintenance-overlay">
-        <div class="max-w-md w-full bg-white p-10 rounded-[3rem] text-center shadow-2xl mx-4 border-2 border-[#d4af37]">
-            <div class="text-5xl mb-6">🛠️</div>
-            <h1 class="playfair text-3xl font-bold text-stone-800 mb-4">Maintenance</h1>
-            <p class="text-stone-600 mb-8">Refining the royal experience. Please return shortly.</p>
-            <div id="admin-controls" class="hidden mt-6 space-y-4 border-t pt-6">
-                <button onclick="window.openPrivatePreview()" class="w-full py-4 rounded-full bg-stone-800 text-white text-[10px] font-bold uppercase tracking-widest">Preview Site (Admin)</button>
-                <div class="grid grid-cols-2 gap-2">
-                    <button onclick="window.updateGlobalMaintenance(true)" class="py-3 rounded-full bg-red-600 text-white text-[9px] font-bold">Lock Site</button>
-                    <button onclick="window.updateGlobalMaintenance(false)" class="py-3 rounded-full bg-green-600 text-white text-[9px] font-bold">Live Site</button>
-                </div>
-            </div>
-            <div class="h-px w-20 bg-rose-100 mx-auto my-8"></div>
-            <p class="montserrat text-[10px] uppercase text-stone-400 font-bold mb-2">Technical Support</p>
-            <a href="tel:+919550791538" class="montserrat text-rose-400 font-bold">+91 9550791538</a>
-        </div>
-    </div>
-
-    <div id="premiere-screen">
-        <div class="premiere-frame">
-            <img src="jaaz logo (3).png" class="w-20 h-20 mx-auto mb-6 floating" alt="Logo">
-            <p class="playfair italic text-xl text-stone-400 mb-2">Jawad & Shabistha's Wedding</p>
-            <h1 class="playfair text-3xl md:text-5xl font-bold mb-8 uppercase tracking-widest">Grand Premiere</h1>
-            <div id="premiere-timer" class="timer-box montserrat mb-8 whitespace-nowrap">00d : 00h : 00m : 00s</div>
-            <p class="text-[10px] uppercase tracking-[0.4em] text-stone-500 font-bold mb-4">Launching On</p>
-            <p class="playfair text-2xl text-[#d4af37]">May 12, 2026 • 12:00 PM</p>
-            <div class="h-px w-20 bg-[#d4af37]/30 mx-auto my-10"></div>
-            <p class="text-[11px] uppercase font-bold tracking-widest text-stone-300">Prepare to witness a beautiful journey</p>
-        </div>
-    </div>
-
-    <div id="unboxing-container">
-        <p class="montserrat text-[10px] tracking-[0.5em] uppercase text-stone-400 font-bold text-center">Jawad & Shabistha</p>
-        <h2 class="playfair text-lg md:text-2xl text-stone-500 italic mt-2 text-center">Wedding Invitation</h2>
-        <div id="envelope-main" class="envelope-wrapper mx-auto">
-            <div id="flap" class="envelope-flap"></div>
-            <div id="seal-group" class="luxury-seal-group">
-                <div class="luxury-seal" onclick="openInvitation()">
-                    <div class="pulse-effect"></div>
-                    <img src="jaaz logo (3).png" alt="Seal">
-                </div>
-                <p class="montserrat text-[10px] font-bold uppercase text-[#d4af37] mt-4 tracking-widest">Open Invitation</p>
-            </div>
-            <div class="absolute inset-0 bg-[#fdfbf7] shadow-inner rounded-[30px]" style="z-index: 5;"></div>
-        </div>
-        <p class="playfair text-xl text-stone-400 italic mt-4">A Royal Message Awaits For You...</p>
-    </div>
-
-    <div id="main-page-wrapper">
-        <div id="scroll-content">
-            <div id="petal-container"></div>
-            <div class="sticky-header text-center">
-                <p class="playfair text-2xl text-stone-800">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
-                <p class="text-[9px] tracking-[0.3em] uppercase mt-2 text-stone-500 font-bold italic">In the name of Allah, the Most Gracious, the Most Merciful</p>
-                <h1 class="playfair text-4xl md:text-7xl italic font-semibold text-stone-800 mt-6 whitespace-nowrap">Jawad & Shabistha</h1>
-                <nav class="flex justify-center gap-6 mt-6 text-[10px] font-bold uppercase tracking-widest border-b pb-4 max-w-xs mx-auto">
-                    <a href="#" onclick="navigateWithAdmin('index.html')" class="text-[#d4af37] border-b border-[#d4af37]">Event</a>
-                    <a href="#" onclick="navigateWithAdmin('location.html')">Location</a>
-                    <a href="#" onclick="navigateWithAdmin('contact.html')">Contact</a>
-                    <a href="#" onclick="navigateWithAdmin('gallery.html')">Gallery</a>
-                </nav>
-            </div>
-
-            <div class="max-w-6xl mx-auto px-6 text-center">
-                <div class="relative flex justify-center items-center my-12 h-80 md:h-[500px]">
-                    <div class="relative z-30 overflow-hidden rounded-[3rem] h-full w-full max-w-[350px] shadow-2xl border-8 border-white">
-                        <img src="main page poster.png" class="h-full w-full object-cover">
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-                    <div class="bg-white p-8 rounded-[2rem] shadow-sm border">
-                        <h3 class="text-rose-400 text-[10px] uppercase font-bold mb-4">Celebration Begins In</h3>
-                        <div id="countdown" class="text-3xl font-bold tabular-nums">00:00:00:00</div>
-                        <span class="text-[9px] text-stone-400">⏳ August 22, 2026</span>
-                    </div>
-                    <div class="bg-white/60 p-6 rounded-[2rem] border">
-                        <div class="text-4xl mb-2 floating">🌻</div>
-                        <h2 class="playfair text-xl font-bold">Sanchak</h2>
-                        <p class="text-rose-400 text-sm">Aug 22, 2026</p>
-                        <p class="text-[10px] text-stone-400 tracking-widest leading-loose">The Pre-wedding glow & Traditions</p>
-                    </div>
-                    <div class="bg-white/60 p-6 rounded-[2rem] border">
-                        <div class="text-4xl mb-2 floating" style="animation-delay: 0.5s">🕌</div>
-                        <h2 class="playfair text-xl font-bold">Nikkah</h2>
-                        <p class="text-rose-400 text-sm">Aug 23, 2026</p>
-                        <p class="text-[10px] text-stone-400 tracking-widest leading-loose">The Sacred Bond of Marriage</p>
-                    </div>
-                    <div class="bg-white/60 p-6 rounded-[2rem] border">
-                        <div class="text-4xl mb-2 floating" style="animation-delay: 1s">🤵👰</div>
-                        <h2 class="playfair text-xl font-bold">Valima</h2>
-                        <p class="text-rose-400 text-sm">Aug 24, 2026</p>
-                        <p class="text-[10px] text-stone-400 tracking-widest leading-loose">Celebration & Grand Reception</p>
-                    </div>
-                </div>
-
-                <a href="#" onclick="navigateWithAdmin('location.html')" class="inline-block bg-stone-900 text-white px-16 py-5 rounded-full text-[10px] font-bold uppercase tracking-[0.3em] mb-20 shadow-xl">View Event Locations</a>
-            </div>
-        </div>
-    </div>
-
-    <div id="fixed-sig" class="dev-signature">
-        <p class="text-stone-500 text-[8px] md:text-[10px] font-bold uppercase tracking-[0.25em] whitespace-nowrap text-center">
-            <span class="opacity-60 font-medium">Created by</span> Tauseef Shaik
-        </p>
-    </div>
-
-    <script>
-        function navigateWithAdmin(page) {
-            const urlParams = new URLSearchParams(window.location.search);
-            window.location.href = (urlParams.get('admin') === 'true') ? page + "?admin=true" : page;
-        }
-
-        function openInvitation() {
+        // ATTACH OPEN FUNCTION GLOBALLY
+        window.openInvitation = () => {
+            window.isFullyOpened = true; 
+            initPetals();
             document.getElementById('seal-group').style.opacity = '0';
             document.getElementById('flap').classList.add('flap-open');
             setTimeout(() => {
@@ -297,21 +206,106 @@
                     document.getElementById('main-page-wrapper').style.display = 'block';
                     document.getElementById('main-page-wrapper').classList.add('scroll-revealed');
                     document.getElementById('fixed-sig').style.display = 'block';
-                    initPetals();
                 }, 800);
             }, 600);
-        }
+        };
+    </script>
+</head>
+<body class="montserrat">
 
+    <img src="jaaz logo (3).png" class="watermark-bg" alt="Watermark">
+    <div id="petal-container"></div>
+
+    <div id="maintenance-overlay">
+        <div class="max-w-md w-full bg-white p-10 rounded-[3rem] text-center border-2 border-[#d4af37]">
+            <h1 class="playfair text-3xl font-bold mb-4">Under Maintenance</h1>
+            <p class="text-stone-500 text-sm mb-6">Polishing the royal experience.</p>
+            <a href="tel:+919550791538" class="text-rose-400 font-bold">+91 9550791538</a>
+        </div>
+    </div>
+
+    <div id="premiere-screen">
+        <div class="premiere-frame">
+            <img src="jaaz logo (3).png" class="w-24 h-24 mx-auto mb-6 floating">
+            <p class="premiere-subtitle montserrat">Jawad & Shabistha</p>
+            <h1 class="premiere-title playfair italic">Grand Premiere</h1>
+            
+            <div class="premiere-divider"></div>
+            
+            <p class="text-[10px] uppercase tracking-[0.5em] text-stone-400">Website Reveals In</p>
+            <div id="premiere-timer" class="timer-box montserrat">00d : 00h : 00m : 00s</div>
+            
+            <div class="launch-info playfair italic">
+                Launching: May 12, 2026 • 12:00 PM
+            </div>
+            
+            <p class="text-[11px] uppercase font-bold tracking-[0.2em] text-stone-500 mt-10">Prepare for the beautiful journey</p>
+        </div>
+    </div>
+
+    <div id="unboxing-container">
+        <div id="envelope-main" class="envelope-wrapper mx-auto">
+            <div id="flap" class="envelope-flap"></div>
+            <div id="seal-group" class="luxury-seal-group">
+                <div class="luxury-seal" onclick="openInvitation()">
+                    <div class="pulse-effect"></div>
+                    <img src="jaaz logo (3).png">
+                </div>
+                <p class="montserrat text-[10px] font-bold uppercase text-[#d4af37] mt-4 tracking-widest">Open Invitation</p>
+            </div>
+            <div class="absolute inset-0 bg-[#fdfbf7] shadow-inner rounded-[30px]" style="z-index: 5;"></div>
+        </div>
+    </div>
+
+    <div id="main-page-wrapper">
+        <div id="scroll-content">
+            <div class="sticky-header text-center px-4">
+                <p class="playfair text-2xl text-stone-800">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
+                <h1 class="playfair text-4xl md:text-7xl italic font-semibold text-stone-800 mt-6 whitespace-nowrap">Jawad & Shabistha</h1>
+                <nav class="flex justify-center gap-6 mt-6 text-[10px] font-bold uppercase tracking-widest border-b pb-4 max-w-xs mx-auto">
+                    <a href="index.html" class="text-[#d4af37] border-b border-[#d4af37]">Event</a>
+                    <a href="location.html">Location</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="gallery.html">Gallery</a>
+                </nav>
+            </div>
+            <div class="max-w-6xl mx-auto px-6 text-center">
+                <img src="main page poster.png" class="rounded-[3rem] shadow-2xl border-8 border-white mx-auto my-12 max-w-[350px]">
+                
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+                    <div class="bg-white p-8 rounded-[2rem] shadow-sm border">
+                        <h3 class="text-rose-400 text-[10px] uppercase font-bold mb-4">Celebration Begins In</h3>
+                        <div id="countdown" class="text-3xl font-bold tabular-nums">00:00:00:00</div>
+                    </div>
+                    <div class="bg-white/60 p-6 rounded-[2rem] border"><h2 class="playfair text-xl font-bold">Sanchak</h2><p class="text-rose-400 text-sm">Aug 22, 2026</p></div>
+                    <div class="bg-white/60 p-6 rounded-[2rem] border"><h2 class="playfair text-xl font-bold">Nikkah</h2><p class="text-rose-400 text-sm">Aug 23, 2026</p></div>
+                    <div class="bg-white/60 p-6 rounded-[2rem] border"><h2 class="playfair text-xl font-bold">Valima</h2><p class="text-rose-400 text-sm">Aug 24, 2026</p></div>
+                </div>
+                <a href="location.html" class="inline-block bg-stone-900 text-white px-16 py-5 rounded-full text-[10px] font-bold uppercase tracking-[0.3em] mb-20 shadow-xl">View Event Locations</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="fixed-sig" class="dev-signature">
+        <p class="text-stone-500 text-[8px] md:text-[10px] font-bold uppercase tracking-[0.25em] whitespace-nowrap text-center">
+            <span class="opacity-60 font-medium">Created by</span> Tauseef Shaik
+        </p>
+    </div>
+
+    <script>
         function initPetals() {
             const container = document.getElementById('petal-container');
+            container.innerHTML = ''; 
             for (let i = 0; i < 60; i++) {
                 const petal = document.createElement('div');
                 petal.className = 'petal';
-                petal.style.width = petal.style.height = (Math.random() * 10 + 8) + 'px';
+                const size = 8 + Math.random() * 10;
+                petal.style.width = size + 'px'; 
+                petal.style.height = size + 'px';
                 petal.style.left = Math.random() * 100 + '%';
-                petal.style.animation = `shower ${Math.random() * 10 + 6}s linear infinite`;
-                petal.style.animationDelay = Math.random() * 10 + 's';
                 petal.style.backgroundColor = Math.random() > 0.5 ? '#fce4ec' : '#ffb7c5';
+                petal.style.animation = `shower ${6 + Math.random() * 10}s linear infinite`;
+                petal.style.animationDelay = Math.random() * 10 + 's';
                 container.appendChild(petal);
             }
         }
