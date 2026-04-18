@@ -48,36 +48,40 @@
         .launch-date { font-size: 1.1rem; color: #fdfbf7; margin-bottom: 1.5rem; border-top: 1px solid rgba(212,175,55,0.3); border-bottom: 1px solid rgba(212,175,55,0.3); padding: 0.8rem 0; }
 
         /* --- MAINTENANCE --- */
-        #maintenance-overlay { position: fixed; inset: 0; z-index: 1000; background: rgba(0,0,0,0.95); backdrop-blur: 30px; display: none; align-items: center; justify-content: center; }
+        #maintenance-overlay { position: fixed; inset: 0; z-index: 1000; background: rgba(0,0,0,0.92); backdrop-blur: 25px; display: none; align-items: center; justify-content: center; }
 
-        /* --- ENVELOPE --- */
+        /* --- ENVELOPE & UNBOXING --- */
         #unboxing-container { position: fixed; inset: 0; display: none; flex-direction: column; align-items: center; justify-content: center; background: #2d241e; z-index: 200; }
-        .envelope-wrapper { position: relative; width: 340px; height: 240px; background: #fdfbf7; border-radius: 30px; margin: 20px 0; box-shadow: 0 30px 60px rgba(0,0,0,0.4); }
-        .envelope-flap { position: absolute; top: -2px; left: 0; width: 100%; height: 140px; background: #f9f5f0; clip-path: ellipse(50% 100% at 50% 0%); transform-origin: top; transition: transform 0.9s ease; z-index: 30; }
+        .envelope-wrapper { position: relative; width: 340px; height: 260px; background: #fdfbf7; background-image: url("https://www.transparenttextures.com/patterns/gray-floral.png"); border-radius: 30px; margin: 20px 0; box-shadow: 0 40px 80px rgba(0,0,0,0.5); }
+        .envelope-flap { position: absolute; top: -2px; left: 0; width: 100%; height: 150px; background: #f9f5f0; clip-path: ellipse(50% 100% at 50% 0%); transform-origin: top; transition: transform 0.9s ease; z-index: 30; border-bottom: 1px solid rgba(184, 134, 11, 0.2); }
         .flap-open { transform: rotateX(180deg); z-index: 10; }
         .luxury-seal-group { position: absolute; top: 110px; left: 50%; transform: translateX(-50%); z-index: 45; display: flex; flex-direction: column; align-items: center; }
-        .luxury-seal { width: 85px; height: 85px; background: white; border: 3px solid #d4af37; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        .luxury-seal { width: 85px; height: 85px; background: white; border: 3px solid #d4af37; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
         .pulse-effect { position: absolute; width: 100%; height: 100%; border-radius: 50%; border: 2px solid #d4af37; animation: pulse 2.5s infinite; }
         @keyframes pulse { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(1.6); opacity: 0; } }
 
         /* --- MAIN PAGE --- */
         #main-page-wrapper {
             position: fixed; inset: 15px; background-color: #fdfbf7;
-            background-image: url("https://www.transparenttextures.com/patterns/parchment.png");
+            background-image: linear-gradient(to right, rgba(184, 134, 11, 0.08) 0%, transparent 10%, transparent 90%, rgba(184, 134, 11, 0.08) 100%),
+                url("https://www.transparenttextures.com/patterns/parchment.png");
             border-radius: 3.5rem; border: 3px solid #d4af37;
             box-shadow: 0 0 100px rgba(0,0,0,0.8);
             z-index: 40; display: none; transform-origin: top; overflow: hidden;
         }
-        #scroll-content { height: 100%; overflow-y: auto; padding-bottom: 100px; }
+        #scroll-content { height: 100%; overflow-y: auto; overflow-x: hidden; padding-bottom: 100px; }
         .sticky-header { position: sticky; top: 0; z-index: 100; background: linear-gradient(to bottom, #fdfbf7 85%, transparent); padding: 40px 20px 20px; }
         .scroll-revealed { animation: unfurl 1.8s cubic-bezier(0.19, 1, 0.22, 1) forwards; }
         @keyframes unfurl { 0% { transform: scaleY(0); opacity: 0; } 100% { transform: scaleY(1); opacity: 1; } }
 
+        /* --- PETALS --- */
         #petal-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 60; overflow: hidden; }
         .petal { position: absolute; background-color: #ffb7c5; border-radius: 150% 0 150% 0; opacity: 0; will-change: transform; }
         @keyframes shower { 0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; } 10% { opacity: 0.8; } 90% { opacity: 0.8; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
+
         .floating { animation: float 3s ease-in-out infinite; }
         @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
+        .dev-signature { position: fixed; bottom: 20px; right: 20px; z-index: 150; background: rgba(255, 255, 255, 0.9); padding: 10px 20px; border-radius: 50px; border: 1px solid #d4af37; display: none; }
     </style>
 
     <script type="module">
@@ -91,7 +95,8 @@
             projectId: "wedding-card-f3460",
             storageBucket: "wedding-card-f3460.firebasestorage.app",
             messagingSenderId: "266632299451",
-            appId: "1:266632299451:web:aad01460dc6ac057e8ba9e"
+            appId: "1:266632299451:web:aad01460dc6ac057e8ba9e",
+            measurementId: "G-0E0QNW263Y"
         };
 
         const app = initializeApp(firebaseConfig);
@@ -100,19 +105,22 @@
 
         const urlParams = new URLSearchParams(window.location.search);
         const isAdmin = urlParams.get('admin') === 'true';
-        const premiereDate = new Date("April 18, 2026 08:58:00").getTime();
         
+        // --- PREMIERE SETTINGS ---
+        const premiereDate = new Date("April 18, 2026 09:04:00").getTime();
         let blastTriggered = false;
-        window.isInvitationOpened = false; // Safety lock
+        window.isFullyOpened = false; // CRITICAL SAFETY LOCK
+
+        if (!isAdmin) localStorage.removeItem('admin_vip_pass');
 
         function triggerPaperBlast() {
             if (blastTriggered) return;
             blastTriggered = true;
-            confetti({ particleCount: 200, spread: 70, origin: { y: 0.6 }, colors: ['#d4af37', '#ffffff', '#ffb7c5'] });
+            confetti({ particleCount: 200, spread: 80, origin: { y: 0.6 }, colors: ['#d4af37', '#ffffff', '#ffb7c5'] });
         }
 
         function updatePremiere() {
-            if (window.isInvitationOpened) return true; // Stop logic if opened
+            if (window.isFullyOpened) return true; // Stop logic if already opened
 
             const now = new Date().getTime();
             const dist = premiereDate - now;
@@ -127,7 +135,7 @@
                         pScreen.style.opacity = '0';
                         setTimeout(() => {
                             pScreen.style.display = 'none';
-                            unboxing.style.display = 'flex';
+                            unboxing.style.setProperty('display', 'flex', 'important');
                         }, 1000);
                     }, 2500);
                 }
@@ -144,7 +152,7 @@
         setInterval(updatePremiere, 1000);
 
         onValue(maintenanceRef, (snapshot) => {
-            if (window.isInvitationOpened) return; // Prevent disappearance after opening
+            if (window.isFullyOpened) return; // IGNORE FIREBASE UPDATES AFTER OPENING
 
             const isLocked = snapshot.val();
             const mOverlay = document.getElementById('maintenance-overlay');
@@ -152,7 +160,7 @@
             const unboxing = document.getElementById('unboxing-container');
 
             if (isAdmin) {
-                mOverlay.style.display = 'flex';
+                mOverlay.style.setProperty('display', 'flex', 'important');
                 return;
             }
 
@@ -163,19 +171,19 @@
             } else {
                 mOverlay.style.display = 'none';
                 const finished = updatePremiere();
-                if (!finished) {
-                    pScreen.style.display = 'flex';
-                    unboxing.style.display = 'none';
+                if (!finished) { 
+                    pScreen.style.display = 'flex'; 
+                    unboxing.style.display = 'none'; 
                 } else {
                     pScreen.style.display = 'none';
-                    unboxing.style.display = 'flex';
+                    unboxing.style.setProperty('display', 'flex', 'important');
                 }
             }
         });
 
-        // Expose open function to global scope
+        // ATTACH OPEN FUNCTION GLOBALLY
         window.openInvitation = () => {
-            window.isInvitationOpened = true; // Lock the state
+            window.isFullyOpened = true; // Lock the code so it never hides the page again
             initPetals();
             document.getElementById('seal-group').style.opacity = '0';
             document.getElementById('flap').classList.add('flap-open');
@@ -188,6 +196,7 @@
                     document.getElementById('unboxing-container').style.display = 'none';
                     document.getElementById('main-page-wrapper').style.display = 'block';
                     document.getElementById('main-page-wrapper').classList.add('scroll-revealed');
+                    document.getElementById('fixed-sig').style.display = 'block';
                 }, 800);
             }, 600);
         };
@@ -201,7 +210,6 @@
     <div id="maintenance-overlay">
         <div class="max-w-md w-full bg-white p-10 rounded-[3rem] text-center border-2 border-[#d4af37]">
             <h1 class="playfair text-3xl font-bold mb-4">Under Maintenance</h1>
-            <p class="text-stone-600 mb-8">Refining the experience. Please return shortly.</p>
             <a href="tel:+919550791538" class="text-rose-400 font-bold">+91 9550791538</a>
         </div>
     </div>
@@ -225,7 +233,7 @@
                     <div class="pulse-effect"></div>
                     <img src="jaaz logo (3).png">
                 </div>
-                <p class="montserrat text-[10px] font-bold uppercase text-[#d4af37] mt-4">Open Invitation</p>
+                <p class="montserrat text-[10px] font-bold uppercase text-[#d4af37] mt-4 tracking-widest">Open Invitation</p>
             </div>
             <div class="absolute inset-0 bg-[#fdfbf7] shadow-inner rounded-[30px]" style="z-index: 5;"></div>
         </div>
@@ -234,7 +242,8 @@
     <div id="main-page-wrapper">
         <div id="scroll-content">
             <div class="sticky-header text-center">
-                <h1 class="playfair text-4xl md:text-7xl italic font-semibold text-stone-800">Jawad & Shabistha</h1>
+                <p class="playfair text-2xl text-stone-800">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
+                <h1 class="playfair text-4xl md:text-7xl italic font-semibold text-stone-800 mt-6 whitespace-nowrap">Jawad & Shabistha</h1>
                 <nav class="flex justify-center gap-6 mt-6 text-[10px] font-bold uppercase tracking-widest border-b pb-4 max-w-xs mx-auto">
                     <a href="index.html" class="text-[#d4af37] border-b border-[#d4af37]">Event</a>
                     <a href="location.html">Location</a>
@@ -244,7 +253,6 @@
             </div>
             <div class="max-w-6xl mx-auto px-6 text-center">
                 <img src="main page poster.png" class="rounded-[3rem] shadow-2xl border-8 border-white mx-auto my-12 max-w-[350px]">
-                
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
                     <div class="bg-white p-8 rounded-[2rem] shadow-sm border">
                         <h3 class="text-rose-400 text-[10px] uppercase font-bold mb-4">Celebration Begins In</h3>
@@ -254,22 +262,28 @@
                     <div class="bg-white/60 p-6 rounded-[2rem] border"><h2 class="playfair text-xl font-bold">Nikkah</h2><p class="text-rose-400 text-sm">Aug 23, 2026</p></div>
                     <div class="bg-white/60 p-6 rounded-[2rem] border"><h2 class="playfair text-xl font-bold">Valima</h2><p class="text-rose-400 text-sm">Aug 24, 2026</p></div>
                 </div>
-                <a href="location.html" class="inline-block bg-stone-900 text-white px-16 py-5 rounded-full text-[10px] font-bold uppercase tracking-[0.3em] mb-20 shadow-xl">View Event Locations</a>
             </div>
         </div>
+    </div>
+
+    <div id="fixed-sig" class="dev-signature">
+        <p class="text-stone-500 text-[10px] font-bold uppercase tracking-widest text-center">Created by Tauseef Shaik</p>
     </div>
 
     <script>
         function initPetals() {
             const container = document.getElementById('petal-container');
+            container.innerHTML = ''; 
             for (let i = 0; i < 60; i++) {
                 const petal = document.createElement('div');
                 petal.className = 'petal';
-                petal.style.width = petal.style.height = (Math.random() * 10 + 8) + 'px';
+                const size = 8 + Math.random() * 10;
+                petal.style.width = size + 'px'; 
+                petal.style.height = size + 'px';
                 petal.style.left = Math.random() * 100 + '%';
-                petal.style.animation = `shower ${Math.random() * 10 + 6}s linear infinite`;
-                petal.style.animationDelay = Math.random() * 10 + 's';
                 petal.style.backgroundColor = Math.random() > 0.5 ? '#fce4ec' : '#ffb7c5';
+                petal.style.animation = `shower ${6 + Math.random() * 10}s linear infinite`;
+                petal.style.animationDelay = `${Math.random() * 10}s`;
                 container.appendChild(petal);
             }
         }
