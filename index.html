@@ -26,6 +26,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: {
@@ -55,6 +56,7 @@
             margin: 0;
             -webkit-font-smoothing: antialiased;
             background-color: #1c1613;
+            transition: background-color 0.5s ease;
         }
 
         /* Pure CSS Scrollbar Styling for Premium Content */
@@ -62,10 +64,14 @@
             width: 5px;
         }
         ::-webkit-scrollbar-track {
-            background: #1c1613;
+            background: transparent;
         }
-        ::-webkit-scrollbar-thumb {
+        html.dark ::-webkit-scrollbar-thumb {
             background: #d4af37;
+            border-radius: 99px;
+        }
+        html:not(.dark) ::-webkit-scrollbar-thumb {
+            background: #ab8e2e;
             border-radius: 99px;
         }
 
@@ -95,6 +101,11 @@
         /* Smooth Floating Elements */
         .floating-logo { animation: float 4s ease-in-out infinite; }
         @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-12px); } }
+
+        /* Smooth theme transitions for core invitation assets */
+        .theme-transition {
+            transition: background-color 0.4s ease, border-color 0.4s ease, color 0.4s ease, box-shadow 0.4s ease;
+        }
     </style>
 
     <!-- Firebase System Modules Integration -->
@@ -239,7 +250,7 @@
         }
     </script>
 </head>
-<body class="font-montserrat text-stone-300 selection:bg-[#d4af37]/30 select-none">
+<body class="font-montserrat text-stone-700 dark:text-stone-300 selection:bg-[#d4af37]/30 select-none dark:bg-[#1c1613] bg-[#fbf9f6]">
 
     <!-- Watermark Frame Component -->
     <img src="jaaz logo (3).png" class="watermark-bg" alt="Jaaz Brand Watermark">
@@ -248,7 +259,7 @@
     <!-- 1. System Maintenance Architecture Layer -->
     <div id="maintenance-overlay" class="fixed inset-0 z-[1000] bg-stone-950/95 backdrop-blur-xl hidden flex-col items-center justify-center p-4">
         <div class="max-w-md w-full bg-stone-900/40 border border-stone-800 p-8 sm:p-10 rounded-[2.5rem] text-center shadow-2xl relative overflow-hidden backdrop-blur-md">
-            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-right from-transparent via-[#d4af37] to-transparent"></div>
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#d4af37] to-transparent"></div>
             <div class="w-16 h-16 bg-stone-800/80 rounded-full flex items-center justify-center mx-auto mb-6 border border-stone-700 text-[#d4af37]">
                 <i data-lucide="sliders" class="w-6 h-6"></i>
             </div>
@@ -297,14 +308,14 @@
     </div>
 
     <!-- 3. Physical Box/Unboxing Interactive Layer -->
-    <div id="unboxing-container" class="fixed inset-0 z-[200] bg-[#1c1613] hidden flex-col items-center justify-center p-4">
+    <div id="unboxing-container" class="fixed inset-0 z-[200] bg-[#1c1613] flex flex-col items-center justify-center p-4">
         <p class="text-[10px] tracking-[0.4em] uppercase text-stone-500 font-bold mb-1 text-center">The Royal Chronicle Of</p>
         <h2 class="font-playfair text-2xl text-stone-200 italic mb-8 text-center font-semibold">Jawad & Shabistha</h2>
         
         <div id="envelope-main" class="relative w-full max-w-[350px] h-[240px] bg-[#fdfbf7] rounded-[2rem] shadow-2xl border border-stone-300/40 transition-transform duration-700">
             <div id="flap" class="envelope-flap"></div>
             
-            <div id="seal-group" class="luxury-seal-group absolute top-[110px] left-50% transform -translate-x-1/2 z-45 flex flex-col items-center w-full transition-opacity duration-300">
+            <div id="seal-group" class="luxury-seal-group absolute top-[110px] left-1/2 transform -translate-x-1/2 z-45 flex flex-col items-center w-full transition-opacity duration-300">
                 <div class="relative w-20 h-20 bg-white border-2 border-[#d4af37] rounded-full flex items-center justify-center cursor-pointer shadow-lg hover:scale-105 transition-transform group" onclick="window.openInvitation()">
                     <div class="absolute inset-0 rounded-full border border-[#d4af37] animate-ping opacity-25"></div>
                     <img src="jaaz logo (3).png" class="w-12 h-12 object-contain" alt="Gold Crown Emblem">
@@ -319,22 +330,34 @@
     </div>
 
     <!-- 4. Unified Desktop/Mobile Main Invitation Experience -->
-    <div id="main-page-wrapper" class="fixed inset-0 md:inset-6 bg-[#161210] border-0 md:border md:border-[#d4af37]/30 rounded-none md:rounded-[3rem] z-40 hidden overflow-hidden shadow-2xl">
+    <div id="main-page-wrapper" class="theme-transition fixed inset-0 md:inset-6 dark:bg-[#161210] bg-[#fdfbf7] border-0 md:border md:dark:border-[#d4af37]/30 md:border-[#ab8e2e]/30 rounded-none md:rounded-[3rem] z-40 hidden overflow-hidden shadow-2xl">
         <div id="scroll-content" class="h-full overflow-y-auto overflow-x-hidden pb-24">
             
             <!-- Sticky Seamless Architectural Header Navigation Stack -->
-            <header class="sticky top-0 z-50 bg-[#161210]/90 backdrop-blur-md px-4 py-6 md:py-8 border-b border-stone-900 max-w-6xl mx-auto flex flex-col items-center">
-                <p class="font-playfair text-xl sm:text-2xl text-stone-400 tracking-wide">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
-                <p class="text-[8px] sm:text-[9px] tracking-[0.2em] uppercase mt-1.5 text-stone-500 font-semibold italic">In the name of Allah, the Most Gracious, the Most Merciful</p>
+            <header class="theme-transition sticky top-0 z-50 dark:bg-[#161210]/95 bg-[#fdfbf7]/95 backdrop-blur-md px-4 py-6 md:py-8 dark:border-stone-900 border-stone-200/80 max-w-6xl mx-auto flex flex-col items-center">
                 
-                <h1 class="font-playfair text-3xl sm:text-5xl md:text-6xl italic font-bold text-[#d4af37] mt-5 tracking-tight text-center">Jawad & Shabistha</h1>
-                <h2 class="text-[11px] uppercase tracking-[0.35em] text-stone-400 mt-2 font-medium">Grand Wedding Assembly</h2>
+                <!-- Premium Dynamic Light/Dark Mode Switcher Assembly -->
+                <div class="absolute right-4 top-6 md:right-8 flex items-center gap-2">
+                    <button id="theme-toggle-btn" onclick="toggleDisplayTheme()" class="theme-transition relative p-2.5 rounded-full dark:bg-stone-900 bg-stone-100 border dark:border-stone-800 border-stone-200 hover:scale-105 active:scale-95 text-amber-600 dark:text-amber-400 shadow-sm" aria-label="Toggle display palette mode">
+                        <!-- Sun Icon for switching to light theme -->
+                        <i data-lucide="sun" id="theme-icon-sun" class="w-4 h-4 absolute inset-0 m-auto transition-transform duration-500 scale-0 dark:scale-100 opacity-0 dark:opacity-100"></i>
+                        <!-- Moon Icon for switching to dark theme -->
+                        <i data-lucide="moon" id="theme-icon-moon" class="w-4 h-4 absolute inset-0 m-auto transition-transform duration-500 scale-100 dark:scale-0 opacity-100 dark:opacity-0"></i>
+                        <span class="block w-4 h-4 invisible"></span>
+                    </button>
+                </div>
 
-                <nav class="flex justify-center gap-6 sm:gap-8 mt-6 text-[10px] font-bold uppercase tracking-[0.2em] w-full max-w-sm mx-auto pt-3 border-t border-stone-900">
-                    <a href="index.html" class="text-[#d4af37] border-b border-[#d4af37] pb-1">Event</a>
-                    <a href="location.html" class="text-stone-400 hover:text-stone-200 transition-colors pb-1">Location</a>
-                    <a href="contact.html" class="text-stone-400 hover:text-stone-200 transition-colors pb-1">Contact</a>
-                    <a href="gallery.html" class="text-stone-400 hover:text-stone-200 transition-colors pb-1">Gallery</a>
+                <p class="font-playfair text-xl sm:text-2xl dark:text-stone-400 text-stone-600 tracking-wide">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
+                <p class="text-[8px] sm:text-[9px] tracking-[0.2em] uppercase mt-1.5 dark:text-stone-500 text-stone-400 font-semibold italic">In the name of Allah, the Most Gracious, the Most Merciful</p>
+                
+                <h1 class="font-playfair text-3xl sm:text-5xl md:text-6xl italic font-bold dark:text-[#d4af37] text-[#99791b] mt-5 tracking-tight text-center">Jawad & Shabistha</h1>
+                <h2 class="text-[11px] uppercase tracking-[0.35em] dark:text-stone-400 text-stone-500 mt-2 font-medium">Grand Wedding Assembly</h2>
+
+                <nav class="flex justify-center gap-6 sm:gap-8 mt-6 text-[10px] font-bold uppercase tracking-[0.2em] w-full max-w-sm mx-auto pt-3 border-t dark:border-stone-900 border-stone-200">
+                    <a href="index.html" class="dark:text-[#d4af37] text-[#99791b] border-b dark:border-[#d4af37] border-[#99791b] pb-1">Event</a>
+                    <a href="location.html" class="dark:text-stone-400 text-stone-500 hover:text-stone-800 dark:hover:text-stone-200 transition-colors pb-1">Location</a>
+                    <a href="contact.html" class="dark:text-stone-400 text-stone-500 hover:text-stone-800 dark:hover:text-stone-200 transition-colors pb-1">Contact</a>
+                    <a href="gallery.html" class="dark:text-stone-400 text-stone-500 hover:text-stone-800 dark:hover:text-stone-200 transition-colors pb-1">Gallery</a>
                 </nav>
             </header>
 
@@ -343,9 +366,9 @@
                 
                 <!-- Main Portfolio Feature Image Graphic Container -->
                 <div class="my-8 md:my-12 flex justify-center">
-                    <div class="relative p-2 bg-stone-900/60 border border-stone-800 rounded-[2.5rem] shadow-2xl max-w-3xl w-full group overflow-hidden">
+                    <div class="theme-transition relative p-2 dark:bg-stone-900/60 bg-stone-100 border dark:border-stone-800 border-stone-200/80 rounded-[2.5rem] shadow-xl max-w-3xl w-full group overflow-hidden">
                         <img src="main page poster.png" class="rounded-[2.2rem] w-full object-cover aspect-[16/10] sm:aspect-[16/9] opacity-90 group-hover:scale-[1.01] transition-transform duration-700" alt="Jawad and Shabistha Wedding Event Feature Banner">
-                        <div class="absolute inset-0 rounded-[2.2rem] bg-gradient-to-t from-stone-950/40 via-transparent to-transparent"></div>
+                        <div class="absolute inset-0 rounded-[2.2rem] bg-gradient-to-t from-stone-950/20 via-transparent to-transparent"></div>
                     </div>
                 </div>
 
@@ -353,45 +376,45 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5 mb-12">
                     
                     <!-- Real-Time Dynamic Timeline Timer Widget Card -->
-                    <div class="bg-stone-900/40 border border-stone-800/80 p-6 rounded-[2rem] flex flex-col justify-center items-center backdrop-blur-sm lg:col-span-1 sm:col-span-2">
-                        <span class="text-amber-500/80 text-[10px] font-bold uppercase tracking-widest mb-3 flex items-center gap-1.5">
+                    <div class="theme-transition dark:bg-stone-900/40 bg-stone-50 border dark:border-stone-800/80 border-stone-200/80 p-6 rounded-[2rem] flex flex-col justify-center items-center backdrop-blur-sm lg:col-span-1 sm:col-span-2 shadow-sm">
+                        <span class="dark:text-amber-500/80 text-amber-700 text-[10px] font-bold uppercase tracking-widest mb-3 flex items-center gap-1.5">
                             <i data-lucide="clock" class="w-3.5 h-3.5"></i> Launch Sequence
                         </span>
-                        <div id="countdown" class="text-3xl sm:text-4xl font-bold tracking-tight text-stone-100 font-mono my-1">00:00:00:00</div>
-                        <span class="text-[10px] text-stone-500 font-medium tracking-wide mt-2">Opening — August 22, 2026</span>
+                        <div id="countdown" class="text-3xl sm:text-4xl font-bold tracking-tight dark:text-stone-100 text-stone-800 font-mono my-1">00:00:00:00</div>
+                        <span class="text-[10px] dark:text-stone-500 text-stone-400 font-medium tracking-wide mt-2">Opening — August 22, 2026</span>
                     </div>
 
                     <!-- Stage 1 Event Detail Component -->
-                    <div class="bg-stone-900/20 border border-stone-900 p-6 rounded-[2rem] text-center shadow-sm hover:border-stone-800 transition-colors">
+                    <div class="theme-transition dark:bg-stone-900/20 bg-white border dark:border-stone-900 border-stone-200/60 p-6 rounded-[2rem] text-center shadow-sm hover:border-stone-300 dark:hover:border-stone-800 transition-colors">
                         <div class="text-3xl mb-3 floating-logo">🌻</div>
-                        <h3 class="font-playfair text-lg font-bold text-stone-200">Sanchak</h3>
-                        <p class="text-[#d4af37] text-xs font-medium tracking-wider mt-0.5">August 22, 2026</p>
-                        <div class="w-8 h-px bg-stone-800 mx-auto my-3"></div>
-                        <p class="text-[11px] text-stone-400 tracking-wide leading-relaxed">The pre-wedding radiance & inherited custom celebrations.</p>
+                        <h3 class="font-playfair text-lg font-bold dark:text-stone-200 text-stone-800">Sanchak</h3>
+                        <p class="dark:text-[#d4af37] text-[#99791b] text-xs font-medium tracking-wider mt-0.5">August 22, 2026</p>
+                        <div class="w-8 h-px dark:bg-stone-800 bg-stone-200 mx-auto my-3"></div>
+                        <p class="text-[11px] dark:text-stone-400 text-stone-500 tracking-wide leading-relaxed">The pre-wedding radiance & inherited custom celebrations.</p>
                     </div>
 
                     <!-- Stage 2 Event Detail Component -->
-                    <div class="bg-stone-900/20 border border-stone-900 p-6 rounded-[2rem] text-center shadow-sm hover:border-stone-800 transition-colors">
+                    <div class="theme-transition dark:bg-stone-900/20 bg-white border dark:border-stone-900 border-stone-200/60 p-6 rounded-[2rem] text-center shadow-sm hover:border-stone-300 dark:hover:border-stone-800 transition-colors">
                         <div class="text-3xl mb-3 floating-logo" style="animation-delay: 0.6s">🕌</div>
-                        <h3 class="font-playfair text-lg font-bold text-stone-200">Nikkah</h3>
-                        <p class="text-[#d4af37] text-xs font-medium tracking-wider mt-0.5">August 23, 2026</p>
-                        <div class="w-8 h-px bg-stone-800 mx-auto my-3"></div>
-                        <p class="text-[11px] text-stone-400 tracking-wide leading-relaxed">The sacred foundational covenant of eternal unity.</p>
+                        <h3 class="font-playfair text-lg font-bold dark:text-stone-200 text-stone-800">Nikkah</h3>
+                        <p class="dark:text-[#d4af37] text-[#99791b] text-xs font-medium tracking-wider mt-0.5">August 23, 2026</p>
+                        <div class="w-8 h-px dark:bg-stone-800 bg-stone-200 mx-auto my-3"></div>
+                        <p class="text-[11px] dark:text-stone-400 text-stone-500 tracking-wide leading-relaxed">The sacred foundational covenant of eternal unity.</p>
                     </div>
 
                     <!-- Stage 3 Event Detail Component -->
-                    <div class="bg-stone-900/20 border border-stone-900 p-6 rounded-[2rem] text-center shadow-sm hover:border-stone-800 transition-colors">
+                    <div class="theme-transition dark:bg-stone-900/20 bg-white border dark:border-stone-900 border-stone-200/60 p-6 rounded-[2rem] text-center shadow-sm hover:border-stone-300 dark:hover:border-stone-800 transition-colors">
                         <div class="text-3xl mb-3 floating-logo" style="animation-delay: 1.2s">🤵👰</div>
-                        <h3 class="font-playfair text-lg font-bold text-stone-200">Valima</h3>
-                        <p class="text-[#d4af37] text-xs font-medium tracking-wider mt-0.5">August 24, 2026</p>
-                        <div class="w-8 h-px bg-stone-800 mx-auto my-3"></div>
-                        <p class="text-[11px] text-stone-400 tracking-wide leading-relaxed">The grand reception feast celebrating royal love.</p>
+                        <h3 class="font-playfair text-lg font-bold dark:text-stone-200 text-stone-800">Valima</h3>
+                        <p class="dark:text-[#d4af37] text-[#99791b] text-xs font-medium tracking-wider mt-0.5">August 24, 2026</p>
+                        <div class="w-8 h-px dark:bg-stone-800 bg-stone-200 mx-auto my-3"></div>
+                        <p class="text-[11px] dark:text-stone-400 text-stone-500 tracking-wide leading-relaxed">The grand reception feast celebrating royal love.</p>
                     </div>
                 </div>
 
-                <!-- Strategic Bottom-Left Call To Action Component Frame alignment layout style -->
+                <!-- Strategic Bottom Call To Action Component Frame alignment -->
                 <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
-                    <a href="location.html" class="w-full sm:w-auto bg-[#d4af37] hover:bg-[#c29d2c] text-stone-950 font-bold text-xs uppercase tracking-[0.2em] px-10 py-4.5 rounded-full shadow-xl transition-all duration-300 flex items-center justify-center gap-2">
+                    <a href="location.html" class="theme-transition w-full sm:w-auto dark:bg-[#d4af37] bg-[#99791b] hover:bg-[#856916] dark:hover:bg-[#c29d2c] dark:text-stone-950 text-white font-bold text-xs uppercase tracking-[0.2em] px-10 py-4.5 rounded-full shadow-lg transition-all duration-300 flex items-center justify-center gap-2">
                         <i data-lucide="map-pin" class="w-4 h-4"></i> Coordinate Navigation Map
                     </a>
                 </div>
@@ -400,8 +423,8 @@
     </div>
 
     <!-- 5. Global Architectural Author Signature Tag Line Footer -->
-    <div id="fixed-sig" class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[150] bg-stone-900/80 backdrop-blur-md border border-stone-800 px-4 py-2 rounded-full hidden">
-        <p class="text-stone-400 text-[9px] font-semibold uppercase tracking-[0.2em] whitespace-nowrap">
+    <div id="fixed-sig" class="theme-transition fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[150] dark:bg-stone-900/80 bg-white/90 backdrop-blur-md border dark:border-stone-800 border-stone-200 px-4 py-2 rounded-full hidden shadow-sm">
+        <p class="dark:text-stone-400 text-stone-600 text-[9px] font-semibold uppercase tracking-[0.2em] whitespace-nowrap">
             <span class="opacity-40 font-normal">Produced by</span> Tauseef Shaik
         </p>
     </div>
@@ -419,6 +442,28 @@
             const cd = document.getElementById("countdown");
             if(cd) cd.innerText = dist < 0 ? "00:00:00:00" : `${d}:${h}:${m}:${s}`;
         }, 1000);
+
+        // Core Theme Control Engine
+        function toggleDisplayTheme() {
+            const htmlElement = document.documentElement;
+            if (htmlElement.classList.contains('dark')) {
+                htmlElement.classList.remove('dark');
+                localStorage.setItem('invitation-theme', 'light');
+            } else {
+                htmlElement.classList.add('dark');
+                localStorage.setItem('invitation-theme', 'dark');
+            }
+        }
+
+        // Apply dark mode immediately by default on system check or saved key preference
+        (function initDisplayTheme() {
+            const savedTheme = localStorage.getItem('invitation-theme');
+            if (savedTheme === 'light') {
+                document.documentElement.classList.remove('dark');
+            } else {
+                document.documentElement.classList.add('dark');
+            }
+        })();
 
         // Vector Rendering Dynamic Execution Hook
         lucide.createIcons();
