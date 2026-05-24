@@ -1,472 +1,809 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full">
+
+<html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="title" content="Jawad & Shabistha's Wedding">
-    <meta name="description" content="Official Invitation: Jaaz Wedding August 22, 2026">
+<meta name="description" content="Official Invitation: Jaaz Wedding August 22,2026">
 
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://jaazwedding.github.io/official/index.html">
-    <meta property="og:title" content="Jawad & Shabistha's Wedding">
-    <meta property="og:description" content="Official Invitation: Jaaz Wedding August 22, 2026">
-    <meta property="og:image" content="https://raw.githubusercontent.com/jaazwedding/official/main/jaaz%20logo%20(3).png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://jaazwedding.github.io/official/index.html">
+<meta property="og:title" content="Jawad & Shabistha's Wedding">
+<meta property="og:description" content="Official Invitation: Jaaz Wedding August 22,2026">
+<meta property="og:image" content="https://raw.githubusercontent.com/jaazwedding/official/main/jaaz%20logo%20(3).png">
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://jaazwedding.github.io/official/index.html">
-    <meta property="twitter:title" content="Jawad & Shabistha's Wedding">
-    <meta property="twitter:description" content="Official Invitation: Jaaz Wedding August 22, 2026">
-    <meta property="twitter:image" content="https://raw.githubusercontent.com/jaazwedding/official/main/jaaz%20logo%20(3).png">
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="https://jaazwedding.github.io/official/index.html">
+<meta property="twitter:title" content="Jawad & Shabistha's Wedding">
+<meta property="twitter:description" content="Official Invitation: Jaaz Wedding August 22,2026">
+<meta property="twitter:image" content="https://raw.githubusercontent.com/jaazwedding/official/main/jaaz%20logo%20(3).png">
+
 
     <title>Jawad & Shabistha's Wedding</title>
 
-    <!-- Tailwind Elements & Core Utilities -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: {
-                        playfair: ['"Playfair Display"', 'serif'],
-                        montserrat: ['"Montserrat"', 'sans-serif'],
-                    }
+<!-- PLACE THIS DIRECTLY BELOW THE TAILWIND CDN SCRIPT: -->
+<script>
+    tailwind.config = {
+        darkMode: 'class',
+        theme: {
+            extend: {
+                fontFamily: {
+                    playfair: ['"Playfair Display"', 'serif'],
+                    montserrat: ['"Montserrat"', 'sans-serif'],
                 }
             }
         }
-    </script>
+    }
+</script>
 
-    <!-- Google Fonts Stack -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" />
 
-    <!-- Favicon & Confetti Engine -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400;1,700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+
     <link rel="icon" type="image/png" href="jaaz logo (3).png">
+
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
     
-    <!-- Lucide Icons Production Engine -->
-    <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
-        html, body, #root {
-            height: 100%;
-            margin: 0;
-            -webkit-font-smoothing: antialiased;
-            background-color: #1c1613;
-            transition: background-color 0.5s ease;
-        }
 
-        /* Pure CSS Scrollbar Styling for Premium Content */
-        ::-webkit-scrollbar {
-            width: 5px;
-        }
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        html.dark ::-webkit-scrollbar-thumb {
-            background: #d4af37;
-            border-radius: 99px;
-        }
-        html:not(.dark) ::-webkit-scrollbar-thumb {
-            background: #ab8e2e;
-            border-radius: 99px;
-        }
+        .playfair { font-family: 'Playfair Display', serif; }
 
-        /* --- PRE-RENDER STRUCTURAL BASICS --- */
+        .montserrat { font-family: 'Montserrat', sans-serif; }
+
+        body { 
+    margin: 0; 
+    padding: 0; 
+    overflow: hidden;
+    transition: background-color 0.4s ease;
+        }
+html.dark body { background-color: #1c1613; }
+html:not(.dark) body { background-color: #fbf9f6; }
+
+.theme-transition {
+    transition: background-color 0.4s ease, border-color 0.4s ease, color 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* Custom internal container theme styles */
+html.dark #main-page-wrapper {
+    background-color: #161210;
+    border-color: rgba(212, 175, 55, 0.3);
+}
+html:not(.dark) #main-page-wrapper {
+    background-color: #fdfbf7;
+    border-color: rgba(171, 142, 46, 0.3);
+}
+
+html.dark .sticky-header { background: linear-gradient(to bottom, #161210 85%, transparent); }
+html:not(.dark) .sticky-header { background: linear-gradient(to bottom, #fdfbf7 85%, transparent); }
+
+
+
+
+        /* --- WATERMARK --- */
+
         .watermark-bg {
+
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 75%; max-width: 550px; opacity: 0.025; pointer-events: none; z-index: 0;
+
+            width: 80%; max-width: 600px; opacity: 0.04; pointer-events: none; z-index: 0;
+
         }
 
-        /* Custom Envelope Clip-path curves and transforms */
-        .envelope-flap {
-            position: absolute; top: -2px; left: 0; width: 100%; height: 140px; 
-            background: #f7f3ed; clip-path: ellipse(50% 100% at 50% 0%); 
-            transform-origin: top; transition: transform 0.9s cubic-bezier(0.25, 1, 0.5, 1); z-index: 30;
+
+
+        /* --- PREMIUM PREMIERE SCREEN --- */
+
+        #premiere-screen {
+
+            position: fixed; inset: 0; z-index: 800;
+
+            background: radial-gradient(circle at center, #1a1a1a 0%, #0d1117 100%);
+
+            display: none; flex-direction: column; align-items: center; justify-content: center;
+
+            color: #fdfbf7; text-align: center; padding: 15px;
+
+            transition: opacity 1.5s ease;
+
         }
+
+        #premiere-screen::before {
+
+            content: ''; position: absolute; inset: 0;
+
+            background: url('https://www.transparenttextures.com/patterns/stardust.png');
+
+            opacity: 0.3; pointer-events: none;
+
+        }
+
+        .premiere-frame {
+
+            position: relative; border: 2px solid #d4af37; padding: 3rem 1.5rem; border-radius: 3.5rem;
+
+            background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(25px);
+
+            max-width: 480px; width: 92%; box-shadow: 0 0 60px rgba(0,0,0,0.6);
+
+            animation: borderGlow 4s infinite alternate;
+
+            overflow: hidden; 
+
+        }
+
+        @keyframes borderGlow {
+
+            0% { border-color: #d4af37; box-shadow: 0 0 20px rgba(212, 175, 55, 0.2); }
+
+            100% { border-color: #f7e1ad; box-shadow: 0 0 40px rgba(212, 175, 55, 0.4); }
+
+        }
+
+
+
+        .gold-divider { height: 1px; width: 100%; max-width: 200px; background: linear-gradient(to right, transparent, #d4af37, transparent); margin: 1rem auto; opacity: 0.5; }
+
+        .timer-box { 
+
+            font-size: 1.5rem; font-weight: 700; letter-spacing: 0.05em; color: #d4af37; 
+
+            margin: 1.5rem 0; font-variant-numeric: tabular-nums; white-space: nowrap; 
+
+            text-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+
+        }
+
+        @media (min-width: 768px) { .timer-box { font-size: 2.2rem; } }
+
+
+
+        /* --- MAINTENANCE --- */
+
+        #maintenance-overlay { position: fixed; inset: 0; z-index: 1000; background: rgba(0,0,0,0.95); backdrop-blur: 30px; display: none; align-items: center; justify-content: center; }
+
+
+
+        /* --- ENVELOPE --- */
+
+        #unboxing-container { position: fixed; inset: 0; display: none; flex-direction: column; align-items: center; justify-content: center; background: #2d241e; z-index: 200; }
+
+        .envelope-wrapper { position: relative; width: 340px; height: 240px; background: #fdfbf7; border-radius: 30px; margin: 20px 0; box-shadow: 0 30px 60px rgba(0,0,0,0.4); }
+
+        .envelope-flap { position: absolute; top: -2px; left: 0; width: 100%; height: 140px; background: #f9f5f0; clip-path: ellipse(50% 100% at 50% 0%); transform-origin: top; transition: transform 0.9s ease; z-index: 30; }
+
         .flap-open { transform: rotateX(180deg); z-index: 10; }
 
-        /* Structural Page Transition Hook */
-        .scroll-revealed { animation: unfurl 1.6s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
-        @keyframes unfurl { 0% { transform: scale(0.96); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        .luxury-seal-group { position: absolute; top: 110px; left: 50%; transform: translateX(-50%); z-index: 45; display: flex; flex-direction: column; align-items: center; }
 
-        /* Falling Rose Petals Engine Styling */
-        #petal-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 60; overflow: hidden; }
-        .petal { position: absolute; border-radius: 150% 0 150% 0; opacity: 0; will-change: transform; }
-        @keyframes shower { 0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; } 10% { opacity: 0.7; } 90% { opacity: 0.7; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
+        .luxury-seal { width: 85px; height: 85px; background: white; border: 3px solid #d4af37; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
 
-        /* Smooth Floating Elements */
-        .floating-logo { animation: float 4s ease-in-out infinite; }
-        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-12px); } }
+        .pulse-effect { position: absolute; width: 100%; height: 100%; border-radius: 50%; border: 2px solid #d4af37; animation: pulse 2.5s infinite; }
 
-        /* Smooth theme transitions for core invitation assets */
-        .theme-transition {
-            transition: background-color 0.4s ease, border-color 0.4s ease, color 0.4s ease, box-shadow 0.4s ease;
+
+
+        /* --- MAIN PAGE --- */
+
+        #main-page-wrapper {
+
+            position: fixed; inset: 15px; background-color: #fdfbf7;
+
+            background-image: linear-gradient(to right, rgba(184, 134, 11, 0.08) 0%, transparent 10%, transparent 90%, rgba(184, 134, 11, 0.08) 100%),
+
+                url("https://www.transparenttextures.com/patterns/parchment.png");
+
+            border-radius: 3.5rem; border: 3px solid #d4af37; z-index: 40; display: none; transform-origin: top; overflow: hidden;
+
         }
+
+        #scroll-content { height: 100%; overflow-y: auto; overflow-x: hidden; padding-bottom: 100px; }
+
+        .sticky-header { position: sticky; top: 0; z-index: 100; background: linear-gradient(to bottom, #fdfbf7 85%, transparent); padding: 40px 20px 20px; }
+
+        .scroll-revealed { animation: unfurl 1.8s cubic-bezier(0.19, 1, 0.22, 1) forwards; }
+
+        @keyframes unfurl { 0% { transform: scaleY(0); opacity: 0; } 100% { transform: scaleY(1); opacity: 1; } }
+
+
+
+        #petal-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 60; overflow: hidden; }
+
+        .petal { position: absolute; background-color: #ffb7c5; border-radius: 150% 0 150% 0; opacity: 0; will-change: transform; filter: drop-shadow(0 0 5px rgba(255,183,197,0.5)); }
+
+        @keyframes shower { 0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; } 10% { opacity: 0.8; } 90% { opacity: 0.8; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
+
+
+
+        .floating { animation: float 3s ease-in-out infinite; }
+
+        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
+
+        .dev-signature { position: fixed; bottom: 20px; right: 20px; z-index: 150; background: rgba(255, 255, 255, 0.9); padding: 10px 20px; border-radius: 50px; border: 1px solid #d4af37; display: none; }
+
     </style>
 
-    <!-- Firebase System Modules Integration -->
+
+
     <script type="module">
+
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+
         import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
+
+
         const firebaseConfig = {
+
             apiKey: "AIzaSyBt-AS0ViQ_vMB8Mor-nx6x7enr7BZmaU",
+
             authDomain: "wedding-card-f3460.firebaseapp.com",
+
             databaseURL: "https://wedding-card-f3460-default-rtdb.firebaseio.com",
+
             projectId: "wedding-card-f3460",
+
             storageBucket: "wedding-card-f3460.firebasestorage.app",
+
             messagingSenderId: "266632299451",
+
             appId: "1:266632299451:web:aad01460dc6ac057e8ba9e",
+
             measurementId: "G-0E0QNW263Y"
+
         };
 
+
+
         const app = initializeApp(firebaseConfig);
+
         const db = getDatabase(app);
+
         const maintenanceRef = ref(db, 'isMaintenance');
 
+
+
         const urlParams = new URLSearchParams(window.location.search);
+
         const isAdmin = urlParams.get('admin') === 'true';
+
         const premiereDate = new Date("May 12, 2026 12:05:00").getTime();
+
         
+
         let blastTriggered = false;
+
         window.isInvitationActive = false; 
 
+
+
         function triggerPaperBlast() {
+
             if (blastTriggered) return;
+
             blastTriggered = true;
-            confetti({ particleCount: 200, spread: 90, origin: { y: 0.65 }, colors: ['#d4af37', '#ffffff', '#f4eade'] });
+
+            confetti({ particleCount: 250, spread: 100, origin: { y: 0.6 }, colors: ['#d4af37', '#ffffff', '#ffb7c5'] });
+
         }
+
+
 
         function updatePremiere() {
+
             if (window.isInvitationActive) return true; 
 
+
+
             const now = new Date().getTime();
+
             const dist = premiereDate - now;
+
             const timerEl = document.getElementById('premiere-timer');
+
             const pScreen = document.getElementById('premiere-screen');
+
             const unboxing = document.getElementById('unboxing-container');
 
+
+
             if (dist < 0) {
+
                 if (!isAdmin) {
+
                     triggerPaperBlast();
+
                     setTimeout(() => {
+
                         if (window.isInvitationActive) return;
+
                         pScreen.style.opacity = '0';
+
                         setTimeout(() => {
+
                             pScreen.style.display = 'none';
+
                             unboxing.style.setProperty('display', 'flex', 'important');
+
                         }, 1200);
-                    }, 2000);
+
+                    }, 2500);
+
                 }
+
                 return true;
+
             }
+
             const d = Math.floor(dist / 86400000).toString().padStart(2, '0');
+
             const h = Math.floor((dist % 86400000) / 3600000).toString().padStart(2, '0');
+
             const m = Math.floor((dist % 3600000) / 60000).toString().padStart(2, '0');
+
             const s = Math.floor((dist % 60000) / 1000).toString().padStart(2, '0');
+
             if (timerEl) timerEl.innerText = `${d}d : ${h}h : ${m}m : ${s}s`;
+
             return false;
+
         }
+
+
 
         setInterval(updatePremiere, 1000);
 
+
+
         onValue(maintenanceRef, (snapshot) => {
+
             if (window.isInvitationActive) return; 
 
+
+
             const isLocked = snapshot.val();
+
             const mOverlay = document.getElementById('maintenance-overlay');
+
             const pScreen = document.getElementById('premiere-screen');
+
             const unboxing = document.getElementById('unboxing-container');
 
+
+
             if (isAdmin) {
+
                 mOverlay.style.setProperty('display', 'flex', 'important');
+
                 document.getElementById('admin-controls').classList.remove('hidden');
+
                 return;
+
             }
+
+
 
             if (isLocked) {
+
                 mOverlay.style.display = 'flex';
+
                 pScreen.style.display = 'none';
+
                 unboxing.style.display = 'none';
+
             } else {
+
                 mOverlay.style.display = 'none';
+
                 const finished = updatePremiere();
+
                 if (!finished) { 
+
                     pScreen.style.display = 'flex'; 
+
                     unboxing.style.display = 'none'; 
+
                 } else {
+
                     pScreen.style.display = 'none';
+
                     unboxing.style.setProperty('display', 'flex', 'important');
+
                 }
+
             }
+
         });
 
+
+
         window.openPrivatePreview = () => {
+
             localStorage.setItem('admin_vip_pass', 'active');
+
             document.getElementById('maintenance-overlay').style.display = 'none';
+
             document.getElementById('premiere-screen').style.display = 'none';
+
             document.getElementById('unboxing-container').style.setProperty('display', 'flex', 'important');
+
         };
+
         window.updateGlobalMaintenance = (s) => set(maintenanceRef, s);
 
+
+
         window.openInvitation = () => {
+
             window.isInvitationActive = true; 
+
             initPetals();
+
             document.getElementById('seal-group').style.opacity = '0';
+
             document.getElementById('flap').classList.add('flap-open');
+
             setTimeout(() => {
+
                 const env = document.getElementById('envelope-main');
-                env.style.transition = '1.6s cubic-bezier(0.25, 1, 0.5, 1)';
-                env.style.transform = 'scale(2.5)';
+
+                env.style.transition = '1.6s ease-in-out';
+
+                env.style.transform = 'scale(4)';
+
                 env.style.opacity = '0';
+
                 setTimeout(() => {
-                    document.getElementById('unboxing-container').style.setProperty('display', 'none', 'important');
+
+                    document.getElementById('unboxing-container').style.display = 'none';
+
                     document.getElementById('main-page-wrapper').style.display = 'block';
+
                     document.getElementById('main-page-wrapper').classList.add('scroll-revealed');
+
                     document.getElementById('fixed-sig').style.display = 'block';
+
                 }, 800);
+
             }, 600);
+
         };
 
-        function initPetals() {
-            const container = document.getElementById('petal-container');
-            container.innerHTML = ''; 
-            const petalCount = window.innerWidth < 768 ? 40 : 85;
-            for (let i = 0; i < petalCount; i++) {
-                const petal = document.createElement('div');
-                petal.className = 'petal';
-                const size = 6 + Math.random() * 10;
-                petal.style.width = size + 'px'; petal.style.height = size + 'px';
-                petal.style.left = Math.random() * 100 + '%';
-                petal.style.backgroundColor = Math.random() > 0.5 ? '#fae1e6' : '#f2c4ce';
-                petal.style.animation = `shower ${7 + Math.random() * 8}s linear infinite`;
-                petal.style.animationDelay = `${Math.random() * 6}s`;
-                container.appendChild(petal);
-            }
-        }
-    </script>
-</head>
-<body class="font-montserrat text-stone-700 dark:text-stone-300 selection:bg-[#d4af37]/30 select-none dark:bg-[#1c1613] bg-[#fbf9f6]">
 
-    <!-- Watermark Frame Component -->
-    <img src="jaaz logo (3).png" class="watermark-bg" alt="Jaaz Brand Watermark">
+
+        function initPetals() {
+
+            const container = document.getElementById('petal-container');
+
+            container.innerHTML = ''; 
+
+            const petalCount = window.innerWidth < 768 ? 50 : 100;
+
+            for (let i = 0; i < petalCount; i++) {
+
+                const petal = document.createElement('div');
+
+                petal.className = 'petal';
+
+                const size = 8 + Math.random() * 12;
+
+                petal.style.width = size + 'px'; petal.style.height = size + 'px';
+
+                petal.style.left = Math.random() * 100 + '%';
+
+                petal.style.backgroundColor = Math.random() > 0.5 ? '#fce4ec' : '#ffb7c5';
+
+                petal.style.animation = `shower ${6 + Math.random() * 10}s linear infinite`;
+
+                petal.style.animationDelay = `${Math.random() * 10}s`;
+
+                container.appendChild(petal);
+
+            }
+
+        }
+// PLACE THIS INSIDE YOUR BOTTOM STYLE APP WINDOW RUNTIME ACTIONS:
+function toggleDisplayTheme() {
+    const htmlElement = document.documentElement;
+    if (htmlElement.classList.contains('dark')) {
+        htmlElement.classList.remove('dark');
+        localStorage.setItem('invitation-theme', 'light');
+    } else {
+        htmlElement.classList.add('dark');
+        localStorage.setItem('invitation-theme', 'dark');
+    }
+}
+
+// Self-executing initialization routine to maintain state and handle default styling
+(function initDisplayTheme() {
+    const savedTheme = localStorage.getItem('invitation-theme');
+    // Defaulting smoothly to Dark mode on initial load for optimal invitation visual drama
+    if (savedTheme === 'light') {
+        document.documentElement.classList.remove('dark');
+    } else {
+        document.documentElement.classList.add('dark');
+    }
+})();
+
+
+    </script>
+
+</head>
+
+<body class="montserrat">
+
+
+
+    <img src="jaaz logo (3).png" class="watermark-bg" alt="Watermark">
+
     <div id="petal-container"></div>
 
-    <!-- 1. System Maintenance Architecture Layer -->
-    <div id="maintenance-overlay" class="fixed inset-0 z-[1000] bg-stone-950/95 backdrop-blur-xl hidden flex-col items-center justify-center p-4">
-        <div class="max-w-md w-full bg-stone-900/40 border border-stone-800 p-8 sm:p-10 rounded-[2.5rem] text-center shadow-2xl relative overflow-hidden backdrop-blur-md">
-            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#d4af37] to-transparent"></div>
-            <div class="w-16 h-16 bg-stone-800/80 rounded-full flex items-center justify-center mx-auto mb-6 border border-stone-700 text-[#d4af37]">
-                <i data-lucide="sliders" class="w-6 h-6"></i>
-            </div>
-            <h1 class="font-playfair text-2xl sm:text-3xl font-bold mb-3 text-stone-100">Refining Experience</h1>
-            <p class="font-montserrat text-xs sm:text-sm text-stone-400 leading-relaxed mb-8">We are crafting the digital gateway for Jawad & Shabistha's grand wedding. Please stand by as the final alignment wraps up.</p>
 
-            <div id="admin-controls" class="hidden mt-6 space-y-3 border-t border-stone-800 pt-6">
-                <button onclick="window.openPrivatePreview()" class="w-full py-3.5 rounded-full bg-[#d4af37] hover:bg-[#c29d2c] text-stone-950 text-xs font-semibold uppercase tracking-wider transition-colors shadow-lg shadow-[#d4af37]/10">
-                    Bypass Portal (Admin Access)
-                </button>
+
+    <div id="maintenance-overlay">
+
+        <div class="max-w-md w-full bg-white p-10 rounded-[3rem] text-center border-2 border-[#d4af37] mx-4 shadow-2xl">
+
+        <div class="text-5xl mb-6">🛠️</div>
+
+            <h1 class="playfair text-3xl font-bold mb-4 text-stone-800">Under Maintenance</h1>
+
+            <p class="montserrat text-sm text-stone-600 mb-8">We are currently refining the royal experience for Jawad & Shabistha's wedding. Please be patient as we prepare the grand reveal...</p>
+
+
+
+            <div id="admin-controls" class="hidden mt-6 space-y-4 border-t pt-6">
+
+                <button onclick="window.openPrivatePreview()" class="w-full py-4 rounded-full bg-stone-800 text-white text-[10px] font-bold uppercase tracking-widest shadow-lg">Preview Site (Admin)</button>
+
                 <div class="grid grid-cols-2 gap-2">
-                    <button onclick="window.updateGlobalMaintenance(true)" class="py-2.5 rounded-full bg-red-950/40 border border-red-800 text-red-400 text-[10px] font-medium uppercase tracking-wider transition-colors hover:bg-red-900/20">Lock System</button>
-                    <button onclick="window.updateGlobalMaintenance(false)" class="py-2.5 rounded-full bg-emerald-950/40 border border-emerald-800 text-emerald-400 text-[10px] font-medium uppercase tracking-wider transition-colors hover:bg-emerald-900/20">Go Public</button>
+
+                    <button onclick="window.updateGlobalMaintenance(true)" class="py-3 rounded-full bg-red-600 text-white text-[9px] font-bold uppercase">Turn on Maintenance Mode </button>
+
+                    <button onclick="window.updateGlobalMaintenance(false)" class="py-3 rounded-full bg-green-600 text-white text-[9px] font-bold uppercase">Turn off Maintenance Mode</button>
+
                 </div>
+
             </div>
-            
-            <div class="h-px w-16 bg-stone-800 mx-auto my-6"></div>
-            <p class="text-[10px] uppercase text-stone-500 font-semibold tracking-widest mb-2">Concierge & Technical Desk</p>
-            <a href="tel:+919550791538" class="text-[#d4af37] hover:underline text-sm font-semibold tracking-wider flex items-center justify-center gap-1.5">
-                <i data-lucide="phone" class="w-3.5 h-3.5"></i> +91 9550791538
-            </a>
+
+            <div class="h-px w-20 bg-rose-100 mx-auto my-8"></div>
+
+            <p class="montserrat text-[10px] uppercase text-stone-400 font-bold mb-2">For Any Assistance Support</p>
+
+            <a href="tel:+919550791538" class="montserrat text-rose-400 font-bold text-sm">+91 9550791538</a>
+
         </div>
+
     </div>
 
-    <!-- 2. Interactive Grand Premiere Countdown Module -->
-    <div id="premiere-screen" class="fixed inset-0 z-[800] bg-[#14100e] flex flex-col items-center justify-center text-center p-6 transition-opacity duration-1000 ease-out">
-        <div class="relative border border-[#d4af37]/20 px-6 py-12 sm:p-12 rounded-[3.5rem] bg-stone-900/30 backdrop-blur-md max-w-lg w-full shadow-2xl">
-            <img src="jaaz logo (3).png" class="w-20 h-20 mx-auto mb-6 floating-logo" alt="Main Event Emblem">
-            
-            <p class="text-[10px] uppercase font-bold tracking-[0.25em] text-stone-500 mb-1">A Royal Gathering Approaches</p>
-            <p class="font-playfair text-3xl text-[#d4af37] mb-6 italic font-medium">Jawad & Shabistha</p>
 
-            <div class="h-px bg-gradient-to-r from-transparent via-[#d4af37]/30 to-transparent my-6"></div>
-            <h1 class="font-playfair text-2xl sm:text-3xl tracking-wide text-stone-200 mb-1">Digital Broadcast</h1>
-            <p class="text-[9px] uppercase tracking-[0.4em] text-stone-500 mb-3">Live Presentation Inside</p>
+
+    <div id="premiere-screen">
+
+        <div class="premiere-frame">
+
+            <img src="jaaz logo (3).png" class="w-20 h-20 mx-auto mb-4 floating">
+
             
-            <div id="premiere-timer" class="text-2xl sm:text-3xl font-bold tracking-widest text-[#d4af37] font-mono bg-stone-950/40 py-3 px-6 rounded-full inline-block border border-stone-800/60 shadow-inner mb-6">00d : 00h : 00m : 00s</div>
+
+            <p class="text-[11px] uppercase font-bold tracking-[0.2em] text-stone-400">Prepare to witness a beautiful journey of</p>
+
+            <p class="playfair text-2xl text-[#d4af37] mt-1 mb-6 italic">Jawad & Shabistha</p>
+
+
+
+            <div class="gold-divider"></div>
+
+            <h1 class="playfair text-2xl md:text-4xl italic mb-2">Grand Premiere</h1>
+
             
-            <div class="h-px bg-gradient-to-r from-transparent via-[#d4af37]/30 to-transparent my-6"></div>
-            <div class="font-playfair text-sm text-stone-400 italic flex items-center justify-center gap-2">
-                <span>May 12, 2026</span>
-                <span class="opacity-20">|</span>
-                <span>12:05 PM IST</span>
-            </div>
+
+            <p class="text-[10px] uppercase tracking-[0.5em] text-stone-400">Revealing In</p>
+
+            <div id="premiere-timer" class="timer-box montserrat">00d : 00h : 00m : 00s</div>
+
+            
+
+            <div class="gold-divider"></div>
+
+            <div class="launch-text playfair italic">May 12, 2026 <span class="mx-2 opacity-40">|</span> 12:05 PM</div>
+
+            <div class="gold-divider"></div>
+
         </div>
+
     </div>
 
-    <!-- 3. Physical Box/Unboxing Interactive Layer -->
-    <div id="unboxing-container" class="fixed inset-0 z-[200] bg-[#1c1613] flex flex-col items-center justify-center p-4">
-        <p class="text-[10px] tracking-[0.4em] uppercase text-stone-500 font-bold mb-1 text-center">The Royal Chronicle Of</p>
-        <h2 class="font-playfair text-2xl text-stone-200 italic mb-8 text-center font-semibold">Jawad & Shabistha</h2>
-        
-        <div id="envelope-main" class="relative w-full max-w-[350px] h-[240px] bg-[#fdfbf7] rounded-[2rem] shadow-2xl border border-stone-300/40 transition-transform duration-700">
+
+
+    <div id="unboxing-container">
+
+        <p class="montserrat text-[10px] tracking-[0.5em] uppercase text-stone-400 font-bold mb-4 text-center">Jawad & Shabistha</p>
+
+        <h2 class="playfair text-lg md:text-2xl text-stone-500 italic mt-2 text-center">Wedding Invitation</h2>
+
+        <div id="envelope-main" class="envelope-wrapper mx-auto">
+
             <div id="flap" class="envelope-flap"></div>
-            
-            <div id="seal-group" class="luxury-seal-group absolute top-[110px] left-1/2 transform -translate-x-1/2 z-45 flex flex-col items-center w-full transition-opacity duration-300">
-                <div class="relative w-20 h-20 bg-white border-2 border-[#d4af37] rounded-full flex items-center justify-center cursor-pointer shadow-lg hover:scale-105 transition-transform group" onclick="window.openInvitation()">
-                    <div class="absolute inset-0 rounded-full border border-[#d4af37] animate-ping opacity-25"></div>
-                    <img src="jaaz logo (3).png" class="w-12 h-12 object-contain" alt="Gold Crown Emblem">
+
+            <div id="seal-group" class="luxury-seal-group">
+
+                <div class="luxury-seal" onclick="openInvitation()">
+
+                    <div class="pulse-effect"></div>
+
+                    <img src="jaaz logo (3).png">
+
                 </div>
-                <p class="text-[10px] font-bold uppercase text-[#d4af37] mt-4 tracking-[0.25em] animate-pulse">Break Wax Seal</p>
+
+                <p class="montserrat text-[10px] font-bold uppercase text-[#d4af37] mt-4 tracking-widest">Open Invitation</p>
+
             </div>
-            
-            <div class="absolute inset-0 bg-[#fbf8f3] shadow-inner rounded-[2rem]" style="z-index: 5;"></div>
+
+            <div class="absolute inset-0 bg-[#fdfbf7] shadow-inner rounded-[30px]" style="z-index: 5;"></div>
+
         </div>
-        
-        <p class="font-playfair text-base text-stone-400 italic mt-10 tracking-wide text-center">A personalized message is ready for your arrival...</p>
+
+        <p class="playfair text-xl text-stone-400 italic mt-4 text-center">A Royal Message Awaits For You...</p>
+
     </div>
 
-    <!-- 4. Unified Desktop/Mobile Main Invitation Experience -->
-    <div id="main-page-wrapper" class="theme-transition fixed inset-0 md:inset-6 dark:bg-[#161210] bg-[#fdfbf7] border-0 md:border md:dark:border-[#d4af37]/30 md:border-[#ab8e2e]/30 rounded-none md:rounded-[3rem] z-40 hidden overflow-hidden shadow-2xl">
-        <div id="scroll-content" class="h-full overflow-y-auto overflow-x-hidden pb-24">
-            
-            <!-- Sticky Seamless Architectural Header Navigation Stack -->
-            <header class="theme-transition sticky top-0 z-50 dark:bg-[#161210]/95 bg-[#fdfbf7]/95 backdrop-blur-md px-4 py-6 md:py-8 dark:border-stone-900 border-stone-200/80 max-w-6xl mx-auto flex flex-col items-center">
+
+
+    <div id="main-page-wrapper" class="theme-transition fixed inset-15 border-3 z-40 hidden transform-origin-top overflow-hidden">
+        <div id="scroll-content" class="theme-transition">
+            <div class="sticky-header theme-transition text-center px-4 relative">
                 
-                <!-- Premium Dynamic Light/Dark Mode Switcher Assembly -->
-                <div class="absolute right-4 top-6 md:right-8 flex items-center gap-2">
-                    <button id="theme-toggle-btn" onclick="toggleDisplayTheme()" class="theme-transition relative p-2.5 rounded-full dark:bg-stone-900 bg-stone-100 border dark:border-stone-800 border-stone-200 hover:scale-105 active:scale-95 text-amber-600 dark:text-amber-400 shadow-sm" aria-label="Toggle display palette mode">
-                        <!-- Sun Icon for switching to light theme -->
-                        <i data-lucide="sun" id="theme-icon-sun" class="w-4 h-4 absolute inset-0 m-auto transition-transform duration-500 scale-0 dark:scale-100 opacity-0 dark:opacity-100"></i>
-                        <!-- Moon Icon for switching to dark theme -->
-                        <i data-lucide="moon" id="theme-icon-moon" class="w-4 h-4 absolute inset-0 m-auto transition-transform duration-500 scale-100 dark:scale-0 opacity-100 dark:opacity-0"></i>
-                        <span class="block w-4 h-4 invisible"></span>
+                <!-- Elegant Light/Dark Mode Toggle Button -->
+                <div class="absolute right-4 top-4 md:right-8 flex items-center" style="z-index: 150;">
+                    <button onclick="toggleDisplayTheme()" class="theme-transition relative p-2 rounded-full dark:bg-stone-900 bg-stone-100 border dark:border-stone-800 border-stone-200 text-amber-600 dark:text-amber-400 shadow-sm hover:scale-105 active:scale-95 flex items-center justify-center" style="width: 36px; height: 36px;">
+                        <!-- Sun Icon (Visible in Dark Mode) -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 absolute inset-0 m-auto transition-all duration-300 transform scale-0 opacity-0 dark:scale-100 dark:opacity-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>
+                        <!-- Moon Icon (Visible in Light Mode) -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 absolute inset-0 m-auto transition-all duration-300 transform scale-100 opacity-100 dark:scale-0 dark:opacity-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>
                     </button>
                 </div>
 
-                <p class="font-playfair text-xl sm:text-2xl dark:text-stone-400 text-stone-600 tracking-wide">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
-                <p class="text-[8px] sm:text-[9px] tracking-[0.2em] uppercase mt-1.5 dark:text-stone-500 text-stone-400 font-semibold italic">In the name of Allah, the Most Gracious, the Most Merciful</p>
-                
-                <h1 class="font-playfair text-3xl sm:text-5xl md:text-6xl italic font-bold dark:text-[#d4af37] text-[#99791b] mt-5 tracking-tight text-center">Jawad & Shabistha</h1>
-                <h2 class="text-[11px] uppercase tracking-[0.35em] dark:text-stone-400 text-stone-500 mt-2 font-medium">Grand Wedding Assembly</h2>
+                <p class="playfair text-2xl text-stone-800">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
 
-                <nav class="flex justify-center gap-6 sm:gap-8 mt-6 text-[10px] font-bold uppercase tracking-[0.2em] w-full max-w-sm mx-auto pt-3 border-t dark:border-stone-900 border-stone-200">
-                    <a href="index.html" class="dark:text-[#d4af37] text-[#99791b] border-b dark:border-[#d4af37] border-[#99791b] pb-1">Event</a>
-                    <a href="location.html" class="dark:text-stone-400 text-stone-500 hover:text-stone-800 dark:hover:text-stone-200 transition-colors pb-1">Location</a>
-                    <a href="contact.html" class="dark:text-stone-400 text-stone-500 hover:text-stone-800 dark:hover:text-stone-200 transition-colors pb-1">Contact</a>
-                    <a href="gallery.html" class="dark:text-stone-400 text-stone-500 hover:text-stone-800 dark:hover:text-stone-200 transition-colors pb-1">Gallery</a>
+                  <p class="text-[9px] tracking-[0.3em] uppercase mt-2 text-stone-500 font-bold italic">In the name of Allah, the Most Gracious, the Most Merciful</p>
+
+               <h1 class="playfair text-4xl md:text-7xl italic font-semibold text-stone-800 dark:text-[#d4af37] mt-6 whitespace-nowrap theme-transition">Jawad & Shabistha</h1>
+               <h2 class="playfair text-xl md:text-3xl italic text-stone-600 dark:text-stone-400 mt-2 theme-transition">Wedding Invitation</h2>
+
+
+                <nav class="flex justify-center gap-6 mt-6 text-[10px] font-bold uppercase tracking-widest border-b pb-4 max-w-xs mx-auto">
+
+                    <a href="index.html" class="text-[#d4af37] border-b border-[#d4af37]">Event</a>
+
+                    <a href="location.html">Location</a>
+
+                    <a href="contact.html">Contact</a>
+
+                    <a href="gallery.html">Gallery</a>
+
                 </nav>
-            </header>
 
-            <!-- Layout Core Body Viewport Wrapper -->
-            <main class="max-w-6xl mx-auto px-4 sm:px-6 md:px-8 text-center mt-6">
-                
-                <!-- Main Portfolio Feature Image Graphic Container -->
-                <div class="my-8 md:my-12 flex justify-center">
-                    <div class="theme-transition relative p-2 dark:bg-stone-900/60 bg-stone-100 border dark:border-stone-800 border-stone-200/80 rounded-[2.5rem] shadow-xl max-w-3xl w-full group overflow-hidden">
-                        <img src="main page poster.png" class="rounded-[2.2rem] w-full object-cover aspect-[16/10] sm:aspect-[16/9] opacity-90 group-hover:scale-[1.01] transition-transform duration-700" alt="Jawad and Shabistha Wedding Event Feature Banner">
-                        <div class="absolute inset-0 rounded-[2.2rem] bg-gradient-to-t from-stone-950/20 via-transparent to-transparent"></div>
-                    </div>
+            </div>
+
+            <div class="max-w-6xl mx-auto px-6 text-center">
+
+                <div class="my-12 flex justify-center">
+
+                    <img src="main page poster.png" class="rounded-[3rem] shadow-2xl border-8 border-white w-full max-w-2xl object-cover">
+
                 </div>
 
-                <!-- Modern Segmented Grid Scheduling Layout Frame -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5 mb-12">
-                    
-                    <!-- Real-Time Dynamic Timeline Timer Widget Card -->
-                    <div class="theme-transition dark:bg-stone-900/40 bg-stone-50 border dark:border-stone-800/80 border-stone-200/80 p-6 rounded-[2rem] flex flex-col justify-center items-center backdrop-blur-sm lg:col-span-1 sm:col-span-2 shadow-sm">
-                        <span class="dark:text-amber-500/80 text-amber-700 text-[10px] font-bold uppercase tracking-widest mb-3 flex items-center gap-1.5">
-                            <i data-lucide="clock" class="w-3.5 h-3.5"></i> Launch Sequence
-                        </span>
-                        <div id="countdown" class="text-3xl sm:text-4xl font-bold tracking-tight dark:text-stone-100 text-stone-800 font-mono my-1">00:00:00:00</div>
-                        <span class="text-[10px] dark:text-stone-500 text-stone-400 font-medium tracking-wide mt-2">Opening — August 22, 2026</span>
+
+
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+
+                    <div class="theme-transition bg-white dark:bg-stone-900/60 p-8 rounded-[2rem] shadow-sm border dark:border-stone-800 text-stone-800 dark:text-stone-100">
+
+                        <h3 class="text-rose-400 text-[10px] uppercase font-bold mb-4">Celebration Begins In</h3>
+
+                        <div id="countdown" class="text-3xl font-bold tabular-nums">00:00:00:00</div>
+
+                        <span class="text-[9px] text-stone-400">⏳ August 22, 2026</span>
+
                     </div>
 
-                    <!-- Stage 1 Event Detail Component -->
-                    <div class="theme-transition dark:bg-stone-900/20 bg-white border dark:border-stone-900 border-stone-200/60 p-6 rounded-[2rem] text-center shadow-sm hover:border-stone-300 dark:hover:border-stone-800 transition-colors">
-                        <div class="text-3xl mb-3 floating-logo">🌻</div>
-                        <h3 class="font-playfair text-lg font-bold dark:text-stone-200 text-stone-800">Sanchak</h3>
-                        <p class="dark:text-[#d4af37] text-[#99791b] text-xs font-medium tracking-wider mt-0.5">August 22, 2026</p>
-                        <div class="w-8 h-px dark:bg-stone-800 bg-stone-200 mx-auto my-3"></div>
-                        <p class="text-[11px] dark:text-stone-400 text-stone-500 tracking-wide leading-relaxed">The pre-wedding radiance & inherited custom celebrations.</p>
+                   <div class="theme-transition bg-white/80 dark:bg-stone-900/30 rounded-[2rem] p-6 text-center border dark:border-stone-900 shadow-sm text-stone-800 dark:text-stone-300">
+
+                        <div class="text-4xl mb-2 floating">🌻</div>
+
+                        <h2 class="playfair text-xl font-bold">Sanchak</h2>
+
+                        <p class="text-rose-400 text-sm">August 22, 2026</p>
+
+                        <p class="text-[10px] text-stone-400 tracking-widest leading-loose">The Pre-wedding glow & Traditions</p>
+
+
+
                     </div>
 
-                    <!-- Stage 2 Event Detail Component -->
-                    <div class="theme-transition dark:bg-stone-900/20 bg-white border dark:border-stone-900 border-stone-200/60 p-6 rounded-[2rem] text-center shadow-sm hover:border-stone-300 dark:hover:border-stone-800 transition-colors">
-                        <div class="text-3xl mb-3 floating-logo" style="animation-delay: 0.6s">🕌</div>
-                        <h3 class="font-playfair text-lg font-bold dark:text-stone-200 text-stone-800">Nikkah</h3>
-                        <p class="dark:text-[#d4af37] text-[#99791b] text-xs font-medium tracking-wider mt-0.5">August 23, 2026</p>
-                        <div class="w-8 h-px dark:bg-stone-800 bg-stone-200 mx-auto my-3"></div>
-                        <p class="text-[11px] dark:text-stone-400 text-stone-500 tracking-wide leading-relaxed">The sacred foundational covenant of eternal unity.</p>
+                    <div class="bg-white/80 rounded-[2rem] p-6 text-center border shadow-sm">
+
+                        <div class="text-4xl mb-2 floating" style="animation-delay: 0.5s">🕌</div>
+
+                        <h2 class="playfair text-xl font-bold">Nikkah</h2>
+
+                        <p class="text-rose-400 text-sm">August 23, 2026</p>
+
+                        <p class="text-[10px] text-stone-400 tracking-widest leading-loose">The Sacred Bond of Marriage</p>
+
+
+
                     </div>
 
-                    <!-- Stage 3 Event Detail Component -->
-                    <div class="theme-transition dark:bg-stone-900/20 bg-white border dark:border-stone-900 border-stone-200/60 p-6 rounded-[2rem] text-center shadow-sm hover:border-stone-300 dark:hover:border-stone-800 transition-colors">
-                        <div class="text-3xl mb-3 floating-logo" style="animation-delay: 1.2s">🤵👰</div>
-                        <h3 class="font-playfair text-lg font-bold dark:text-stone-200 text-stone-800">Valima</h3>
-                        <p class="dark:text-[#d4af37] text-[#99791b] text-xs font-medium tracking-wider mt-0.5">August 24, 2026</p>
-                        <div class="w-8 h-px dark:bg-stone-800 bg-stone-200 mx-auto my-3"></div>
-                        <p class="text-[11px] dark:text-stone-400 text-stone-500 tracking-wide leading-relaxed">The grand reception feast celebrating royal love.</p>
+                    <div class="bg-white/80 rounded-[2rem] p-6 text-center border shadow-sm">
+
+                        <div class="text-4xl mb-2 floating" style="animation-delay: 1s">🤵👰</div>
+
+                        <h2 class="playfair text-xl font-bold">Valima</h2>
+
+                        <p class="text-rose-400 text-sm">August 24, 2026</p>
+
+                        <p class="text-[10px] text-stone-400 tracking-widest leading-loose">Celebration & Grand Reception</p>
+
+
+
                     </div>
+
                 </div>
 
-                <!-- Strategic Bottom Call To Action Component Frame alignment -->
-                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
-                    <a href="location.html" class="theme-transition w-full sm:w-auto dark:bg-[#d4af37] bg-[#99791b] hover:bg-[#856916] dark:hover:bg-[#c29d2c] dark:text-stone-950 text-white font-bold text-xs uppercase tracking-[0.2em] px-10 py-4.5 rounded-full shadow-lg transition-all duration-300 flex items-center justify-center gap-2">
-                        <i data-lucide="map-pin" class="w-4 h-4"></i> Coordinate Navigation Map
-                    </a>
-                </div>
-            </main>
+                <a href="location.html" class="inline-block bg-stone-900 text-white px-16 py-5 rounded-full text-[10px] font-bold uppercase tracking-[0.3em] mb-20 shadow-xl">View Event Locations</a>
+
+            </div>
+
         </div>
+
     </div>
 
-    <!-- 5. Global Architectural Author Signature Tag Line Footer -->
-    <div id="fixed-sig" class="theme-transition fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[150] dark:bg-stone-900/80 bg-white/90 backdrop-blur-md border dark:border-stone-800 border-stone-200 px-4 py-2 rounded-full hidden shadow-sm">
-        <p class="dark:text-stone-400 text-stone-600 text-[9px] font-semibold uppercase tracking-[0.2em] whitespace-nowrap">
-            <span class="opacity-40 font-normal">Produced by</span> Tauseef Shaik
+
+
+    <div id="fixed-sig" class="dev-signature">
+
+        <p class="text-stone-500 text-[8px] md:text-[10px] font-bold uppercase tracking-[0.25em] whitespace-nowrap text-center">
+
+            <span class="opacity-60 font-medium">Created by</span> Tauseef Shaik
+
         </p>
+
     </div>
 
-    <!-- Runtime Engine Initializations and Layout Controls Mapping Script -->
+
+
     <script>
-        // Structural Countdown Calculation Engine Framework Execution
+
         const weddingDate = new Date("August 22, 2026 00:00:00").getTime();
+
         setInterval(() => {
+
             const dist = weddingDate - new Date().getTime();
+
             const d = Math.floor(dist / 86400000).toString().padStart(2, '0');
+
             const h = Math.floor((dist % 86400000) / 3600000).toString().padStart(2, '0');
+
             const m = Math.floor((dist % 3600000) / 60000).toString().padStart(2, '0');
+
             const s = Math.floor((dist % 60000) / 1000).toString().padStart(2, '0');
+
             const cd = document.getElementById("countdown");
+
             if(cd) cd.innerText = dist < 0 ? "00:00:00:00" : `${d}:${h}:${m}:${s}`;
+
         }, 1000);
 
-        // Core Theme Control Engine
-        function toggleDisplayTheme() {
-            const htmlElement = document.documentElement;
-            if (htmlElement.classList.contains('dark')) {
-                htmlElement.classList.remove('dark');
-                localStorage.setItem('invitation-theme', 'light');
-            } else {
-                htmlElement.classList.add('dark');
-                localStorage.setItem('invitation-theme', 'dark');
-            }
-        }
-
-        // Apply dark mode immediately by default on system check or saved key preference
-        (function initDisplayTheme() {
-            const savedTheme = localStorage.getItem('invitation-theme');
-            if (savedTheme === 'light') {
-                document.documentElement.classList.remove('dark');
-            } else {
-                document.documentElement.classList.add('dark');
-            }
-        })();
-
-        // Vector Rendering Dynamic Execution Hook
-        lucide.createIcons();
     </script>
+
 </body>
+
 </html>
