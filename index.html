@@ -28,21 +28,6 @@
     <title>Jawad & Shabistha's Wedding</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
-<!-- PLACE THIS DIRECTLY BELOW THE TAILWIND CDN SCRIPT: -->
-<script>
-    tailwind.config = {
-        darkMode: 'class',
-        theme: {
-            extend: {
-                fontFamily: {
-                    playfair: ['"Playfair Display"', 'serif'],
-                    montserrat: ['"Montserrat"', 'sans-serif'],
-                }
-            }
-        }
-    }
-</script>
-
 
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400;1,700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
 
@@ -58,32 +43,7 @@
 
         .montserrat { font-family: 'Montserrat', sans-serif; }
 
-        body { 
-    margin: 0; 
-    padding: 0; 
-    overflow: hidden;
-    transition: background-color 0.4s ease;
-        }
-html.dark body { background-color: #1c1613; }
-html:not(.dark) body { background-color: #fbf9f6; }
-
-.theme-transition {
-    transition: background-color 0.4s ease, border-color 0.4s ease, color 0.4s ease, box-shadow 0.4s ease;
-}
-
-/* Custom internal container theme styles */
-html.dark #main-page-wrapper {
-    background-color: #161210;
-    border-color: rgba(212, 175, 55, 0.3);
-}
-html:not(.dark) #main-page-wrapper {
-    background-color: #fdfbf7;
-    border-color: rgba(171, 142, 46, 0.3);
-}
-
-html.dark .sticky-header { background: linear-gradient(to bottom, #161210 85%, transparent); }
-html:not(.dark) .sticky-header { background: linear-gradient(to bottom, #fdfbf7 85%, transparent); }
-
+        body { background-color: #2d241e; margin: 0; padding: 0; overflow: hidden; }
 
 
 
@@ -508,29 +468,6 @@ html:not(.dark) .sticky-header { background: linear-gradient(to bottom, #fdfbf7 
             }
 
         }
-// PLACE THIS INSIDE YOUR BOTTOM STYLE APP WINDOW RUNTIME ACTIONS:
-function toggleDisplayTheme() {
-    const htmlElement = document.documentElement;
-    if (htmlElement.classList.contains('dark')) {
-        htmlElement.classList.remove('dark');
-        localStorage.setItem('invitation-theme', 'light');
-    } else {
-        htmlElement.classList.add('dark');
-        localStorage.setItem('invitation-theme', 'dark');
-    }
-}
-
-// Self-executing initialization routine to maintain state and handle default styling
-(function initDisplayTheme() {
-    const savedTheme = localStorage.getItem('invitation-theme');
-    // Defaulting smoothly to Dark mode on initial load for optimal invitation visual drama
-    if (savedTheme === 'light') {
-        document.documentElement.classList.remove('dark');
-    } else {
-        document.documentElement.classList.add('dark');
-    }
-})();
-
 
     </script>
 
@@ -656,26 +593,20 @@ function toggleDisplayTheme() {
 
 
 
-    <div id="main-page-wrapper" class="theme-transition fixed inset-15 border-3 z-40 hidden transform-origin-top overflow-hidden">
-        <div id="scroll-content" class="theme-transition">
-            <div class="sticky-header theme-transition text-center px-4 relative">
-                
-                <!-- Elegant Light/Dark Mode Toggle Button -->
-                <div class="absolute right-4 top-4 md:right-8 flex items-center" style="z-index: 150;">
-                    <button onclick="toggleDisplayTheme()" class="theme-transition relative p-2 rounded-full dark:bg-stone-900 bg-stone-100 border dark:border-stone-800 border-stone-200 text-amber-600 dark:text-amber-400 shadow-sm hover:scale-105 active:scale-95 flex items-center justify-center" style="width: 36px; height: 36px;">
-                        <!-- Sun Icon (Visible in Dark Mode) -->
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 absolute inset-0 m-auto transition-all duration-300 transform scale-0 opacity-0 dark:scale-100 dark:opacity-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>
-                        <!-- Moon Icon (Visible in Light Mode) -->
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 absolute inset-0 m-auto transition-all duration-300 transform scale-100 opacity-100 dark:scale-0 dark:opacity-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>
-                    </button>
-                </div>
+    <div id="main-page-wrapper">
+
+        <div id="scroll-content">
+
+            <div class="sticky-header text-center px-4">
 
                 <p class="playfair text-2xl text-stone-800">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
 
                   <p class="text-[9px] tracking-[0.3em] uppercase mt-2 text-stone-500 font-bold italic">In the name of Allah, the Most Gracious, the Most Merciful</p>
 
-               <h1 class="playfair text-4xl md:text-7xl italic font-semibold text-stone-800 dark:text-[#d4af37] mt-6 whitespace-nowrap theme-transition">Jawad & Shabistha</h1>
-               <h2 class="playfair text-xl md:text-3xl italic text-stone-600 dark:text-stone-400 mt-2 theme-transition">Wedding Invitation</h2>
+                <h1 class="playfair text-4xl md:text-7xl italic font-semibold text-stone-800 mt-6 whitespace-nowrap">Jawad & Shabistha</h1>
+
+                  <h2 class="playfair text-xl md:text-3xl italic text-stone-600 mt-2">Wedding Invitation</h2>
+
 
 
                 <nav class="flex justify-center gap-6 mt-6 text-[10px] font-bold uppercase tracking-widest border-b pb-4 max-w-xs mx-auto">
@@ -704,7 +635,7 @@ function toggleDisplayTheme() {
 
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
 
-                    <div class="theme-transition bg-white dark:bg-stone-900/60 p-8 rounded-[2rem] shadow-sm border dark:border-stone-800 text-stone-800 dark:text-stone-100">
+                    <div class="bg-white p-8 rounded-[2rem] shadow-sm border">
 
                         <h3 class="text-rose-400 text-[10px] uppercase font-bold mb-4">Celebration Begins In</h3>
 
@@ -714,7 +645,7 @@ function toggleDisplayTheme() {
 
                     </div>
 
-                   <div class="theme-transition bg-white/80 dark:bg-stone-900/30 rounded-[2rem] p-6 text-center border dark:border-stone-900 shadow-sm text-stone-800 dark:text-stone-300">
+                    <div class="bg-white/80 rounded-[2rem] p-6 text-center border shadow-sm">
 
                         <div class="text-4xl mb-2 floating">🌻</div>
 
