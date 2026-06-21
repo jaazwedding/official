@@ -165,7 +165,14 @@
 
         #scroll-content { height: 100%; overflow-y: auto; overflow-x: hidden; padding-bottom: 100px; }
 
-        .sticky-header { position: sticky; top: 0; z-index: 100; background: linear-gradient(to bottom, #fdfbf7 85%, transparent); padding: 40px 20px 20px; }
+        .sticky-header { 
+            position: sticky; 
+            top: 0; 
+            z-index: 100; 
+            background: linear-gradient(to bottom, rgba(253, 251, 247, 0.95) 75%, transparent); 
+            backdrop-filter: blur(8px);
+            padding: 20px 20px 10px; 
+        }
 
         .scroll-revealed { animation: unfurl 1.8s cubic-bezier(0.19, 1, 0.22, 1) forwards; }
 
@@ -597,41 +604,30 @@
 
         <div id="scroll-content">
 
-            <div class="sticky-header text-center px-4">
+      <div class="sticky-header text-center px-4">
+                <p class="playfair text-xl md:text-2xl text-stone-800">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
+                <p class="text-[8px] md:text-[9px] tracking-[0.3em] uppercase mt-1 text-stone-500 font-bold italic">In the name of Allah, the Most Gracious, the Most Merciful</p>
+                <h1 class="playfair text-4xl md:text-6xl italic font-semibold text-stone-800 mt-3 whitespace-nowrap">Jawad & Shabistha</h1>
+                <h2 class="playfair text-lg md:text-2xl italic text-stone-600 mt-1">Wedding Invitation</h2>
 
-                <p class="playfair text-2xl text-stone-800">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
-
-                  <p class="text-[9px] tracking-[0.3em] uppercase mt-2 text-stone-500 font-bold italic">In the name of Allah, the Most Gracious, the Most Merciful</p>
-
-                <h1 class="playfair text-4xl md:text-7xl italic font-semibold text-stone-800 mt-6 whitespace-nowrap">Jawad & Shabistha</h1>
-
-                  <h2 class="playfair text-xl md:text-3xl italic text-stone-600 mt-2">Wedding Invitation</h2>
-
-
-
-                <nav class="flex justify-center gap-6 mt-6 text-[10px] font-bold uppercase tracking-widest border-b pb-4 max-w-xs mx-auto">
-
+                <nav class="flex justify-center gap-6 mt-4 text-[10px] font-bold uppercase tracking-widest border-b pb-3 max-w-xs mx-auto">
                     <a href="index.html" class="text-[#d4af37] border-b border-[#d4af37]">Event</a>
-
                     <a href="location.html">Location</a>
-
                     <a href="contact.html">Contact</a>
-
                     <a href="gallery.html">Gallery</a>
-
                 </nav>
-
-            </div>
+      </div>
 
             <div class="max-w-6xl mx-auto px-6 text-center">
 
-                <div class="my-12 flex justify-center">
-
-                    <img src="main page poster.png" class="rounded-[3rem] shadow-2xl border-8 border-white w-full max-w-2xl object-cover">
-
-                </div>
-
-
+              <div class="my-6 flex justify-center px-2 md:px-0">
+                    <div class="rounded-[2.5rem] shadow-2xl border-8 border-white w-full max-w-3xl overflow-hidden relative" style="aspect-ratio: 16/9;">
+                        <video autoplay loop muted playsinline class="w-full h-full object-cover pointer-events-none">
+                            <source src="your-wedding-video.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+              </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
 
