@@ -774,6 +774,70 @@
         95: { desc: "Thunderstorm", icon: "⛈️" },
         96: { desc: "Thunderstorm with Hail", icon: "⛈️" }
     };
+// --- CALENDAR PROMPT LOGIC ---
+        
+        function showCalendarPrompt() {
+            // Check if the user has already made a choice
+            if (!localStorage.getItem('calendarPromptDismissed')) {
+                const overlay = document.getElementById('calendar-prompt-overlay');
+                overlay.style.display = 'flex';
+                // Slight delay to allow CSS display:flex to apply before fading in
+                setTimeout(() => {
+                    overlay.style.opacity = '1';
+                }, 100);
+            }
+        }
+
+        function dismissCalendarPrompt() {
+            const overlay = document.getElementById('calendar-prompt-overlay');
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 500);
+            // Save their choice so they aren't bothered again
+            localStorage.setItem('calendarPromptDismissed', 'true');
+        }
+
+        function downloadCalendarInvite() {
+            // Creating a dynamic .ics (iCalendar) file
+            // Note: Dates in .ics format must be YYYYMMDDTHHMMSSZ (UTC time)
+            // Adjust these exact times to your specific timezone requirements if needed
+            const icsData = `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Jaaz Wedding//EN
+BEGIN:VEVENT
+UID:jaaz-wedding-2026
+DTSTAMP:20260822T000000Z
+DTSTART:20260822T060000Z
+DTEND:20260824T180000Z
+SUMMARY:Jawad & Shabistha's Wedding
+DESCRIPTION:Join us to celebrate the wedding of Jawad & Shabistha! Sanchak on Aug 22, Nikkah on Aug 23, Valima on Aug 24.
+LOCATION:Hyderabad, India
+BEGIN:VALARM
+TRIGGER:-P1D
+ACTION:DISPLAY
+DESCRIPTION:Reminder: Jawad & Shabistha's Wedding is tomorrow!
+END:VALARM
+END:VEVENT
+END:VCALENDAR`;
+
+            const blob = new Blob([icsData], { type: 'text/calendar;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.setAttribute('download', 'Jawad_Shabistha_Wedding.ics');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            // Dismiss the prompt after downloading
+            dismissCalendarPrompt();
+        }
+
+        // Trigger the prompt a few seconds after the page loads so it doesn't interrupt the initial animation
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(showCalendarPrompt, 5000); // Prompts after 5 seconds
+        });
+
 
     async function fetchWeather() {
         try {
@@ -864,6 +928,28 @@
         }, 1000);
 
     </script>
+<div id="calendar-prompt-overlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[900] hidden flex-col items-center justify-center p-4 opacity-0 transition-opacity duration-500">
+        <div class="bg-[#fdfbf7] p-8 rounded-[2.5rem] border-2 border-[#d4af37] shadow-2xl max-w-sm w-full text-center relative bg-[url('https://www.transparenttextures.com/patterns/parchment.png')]">
+            
+            <button onclick="dismissCalendarPrompt()" class="absolute top-4 right-5 text-stone-400 hover:text-stone-800 text-2xl">&times;</button>
+            
+            <div class="text-4xl mb-4 floating">🗓️</div>
+            <h3 class="playfair text-2xl font-bold text-stone-800 mb-1">Save the Date</h3>
+            <p class="text-[10px] uppercase tracking-widest text-stone-500 mb-6">Jawad & Shabistha's Wedding</p>
+            
+            <p class="montserrat text-sm text-stone-600 mb-8 leading-relaxed">Would you like to add our wedding dates to your device's calendar to receive native reminders?</p>
+            
+            <div class="flex flex-col gap-3">
+                <button onclick="downloadCalendarInvite()" class="w-full py-4 bg-stone-900 text-white rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-[#d4af37] transition-all shadow-lg">
+                    Allow & Add to Calendar
+                </button>
+                <button onclick="dismissCalendarPrompt()" class="w-full py-3 text-stone-500 text-[10px] font-bold uppercase tracking-widest hover:text-stone-800 transition-all">
+                    Maybe Later
+                </button>
+            </div>
+        </div>
+</div>
+
 
 </body>
 
