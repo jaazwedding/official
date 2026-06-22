@@ -35,7 +35,22 @@
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
-    
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script>
+      window.OneSignalDeferred = window.OneSignalDeferred || [];
+      OneSignalDeferred.push(function(OneSignal) {
+        OneSignal.init({
+          appId: "b6a757f0-68cc-416c-b835-43f61b0c51d0", /* Be sure to paste your full copied ID here! */
+          notifyButton: {
+            enable: false, 
+          },
+        });
+      });
+    </script>
+
+    <style>
 
     <style>
 
