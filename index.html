@@ -33,16 +33,14 @@
 
     <link rel="icon" type="image/png" href="jaaz logo (3).png">
 
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
     <script>
       window.OneSignalDeferred = window.OneSignalDeferred || [];
       OneSignalDeferred.push(function(OneSignal) {
         OneSignal.init({
-          appId: "b6a757f0-68cc-416c-b835-43f61b0c51d0", /* Be sure to paste your full copied ID here! */
+          appId: "b6a757f0-68cc-416c-b835-43f61b0c51d0", 
           notifyButton: {
             enable: false, 
           },
@@ -51,9 +49,6 @@
     </script>
 
     <style>
-
-    <style>
-
         .playfair { font-family: 'Playfair Display', serif; }
 
         .montserrat { font-family: 'Montserrat', sans-serif; }
@@ -789,68 +784,38 @@
         95: { desc: "Thunderstorm", icon: "⛈️" },
         96: { desc: "Thunderstorm with Hail", icon: "⛈️" }
     };
-// --- CALENDAR PROMPT LOGIC ---
+// --- PUSH NOTIFICATION PROMPT LOGIC ---
         
-        function showCalendarPrompt() {
-            // Check if the user has already made a choice
-            if (!localStorage.getItem('calendarPromptDismissed')) {
-                const overlay = document.getElementById('calendar-prompt-overlay');
-                overlay.style.display = 'flex';
-                // Slight delay to allow CSS display:flex to apply before fading in
-                setTimeout(() => {
-                    overlay.style.opacity = '1';
-                }, 100);
+        function showNotificationPrompt() {
+            if (!localStorage.getItem('notificationPromptDismissed')) {
+                window.OneSignalDeferred.push(function(OneSignal) {
+                    // Check if user is already opted in
+                    const isOptedIn = OneSignal.User.PushSubscription.optedIn;
+                    if (!isOptedIn) {
+                        const overlay = document.getElementById('notification-prompt-overlay');
+                        overlay.style.display = 'flex';
+                        setTimeout(() => { overlay.style.opacity = '1'; }, 100);
+                    }
+                });
             }
         }
 
-        function dismissCalendarPrompt() {
-            const overlay = document.getElementById('calendar-prompt-overlay');
+        function dismissNotificationPrompt() {
+            const overlay = document.getElementById('notification-prompt-overlay');
             overlay.style.opacity = '0';
-            setTimeout(() => {
-                overlay.style.display = 'none';
-            }, 500);
-            // Save their choice so they aren't bothered again
-            localStorage.setItem('calendarPromptDismissed', 'true');
+            setTimeout(() => { overlay.style.display = 'none'; }, 500);
+            localStorage.setItem('notificationPromptDismissed', 'true');
         }
 
-        function downloadCalendarInvite() {
-            // Creating a dynamic .ics (iCalendar) file
-            // Note: Dates in .ics format must be YYYYMMDDTHHMMSSZ (UTC time)
-            // Adjust these exact times to your specific timezone requirements if needed
-            const icsData = `BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//Jaaz Wedding//EN
-BEGIN:VEVENT
-UID:jaaz-wedding-2026
-DTSTAMP:20260822T000000Z
-DTSTART:20260822T060000Z
-DTEND:20260824T180000Z
-SUMMARY:Jawad & Shabistha's Wedding
-DESCRIPTION:Join us to celebrate the wedding of Jawad & Shabistha! Sanchak on Aug 22, Nikkah on Aug 23, Valima on Aug 24.
-LOCATION:Hyderabad, India
-BEGIN:VALARM
-TRIGGER:-P1D
-ACTION:DISPLAY
-DESCRIPTION:Reminder: Jawad & Shabistha's Wedding is tomorrow!
-END:VALARM
-END:VEVENT
-END:VCALENDAR`;
-
-            const blob = new Blob([icsData], { type: 'text/calendar;charset=utf-8' });
-            const link = document.createElement('a');
-            link.href = window.URL.createObjectURL(blob);
-            link.setAttribute('download', 'Jawad_Shabistha_Wedding.ics');
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            
-            // Dismiss the prompt after downloading
-            dismissCalendarPrompt();
+        function allowNotifications() {
+            window.OneSignalDeferred.push(function(OneSignal) {
+                OneSignal.Notifications.requestPermission();
+            });
+            dismissNotificationPrompt();
         }
 
-        // Trigger the prompt a few seconds after the page loads so it doesn't interrupt the initial animation
         window.addEventListener('DOMContentLoaded', () => {
-            setTimeout(showCalendarPrompt, 5000); // Prompts after 5 seconds
+            setTimeout(showNotificationPrompt, 4000); 
         });
 
 
@@ -943,22 +908,22 @@ END:VCALENDAR`;
         }, 1000);
 
     </script>
-<div id="calendar-prompt-overlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[900] hidden flex-col items-center justify-center p-4 opacity-0 transition-opacity duration-500">
+<div id="notification-prompt-overlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[900] hidden flex-col items-center justify-center p-4 opacity-0 transition-opacity duration-500">
         <div class="bg-[#fdfbf7] p-8 rounded-[2.5rem] border-2 border-[#d4af37] shadow-2xl max-w-sm w-full text-center relative bg-[url('https://www.transparenttextures.com/patterns/parchment.png')]">
             
-            <button onclick="dismissCalendarPrompt()" class="absolute top-4 right-5 text-stone-400 hover:text-stone-800 text-2xl">&times;</button>
+            <button onclick="dismissNotificationPrompt()" class="absolute top-4 right-5 text-stone-400 hover:text-stone-800 text-2xl">&times;</button>
             
-            <div class="text-4xl mb-4 floating">🗓️</div>
-            <h3 class="playfair text-2xl font-bold text-stone-800 mb-1">Save the Date</h3>
+            <div class="text-4xl mb-4 floating">💍</div>
+            <h3 class="playfair text-2xl font-bold text-stone-800 mb-1">Live Countdown</h3>
             <p class="text-[10px] uppercase tracking-widest text-stone-500 mb-6">Jawad & Shabistha's Wedding</p>
             
-            <p class="montserrat text-sm text-stone-600 mb-8 leading-relaxed">Would you like to add our wedding dates to your device's calendar to receive native reminders?</p>
+            <p class="montserrat text-sm text-stone-600 mb-8 leading-relaxed">Would you like to receive beautiful daily updates and a live countdown to our special day right on your device?</p>
             
             <div class="flex flex-col gap-3">
-                <button onclick="downloadCalendarInvite()" class="w-full py-4 bg-stone-900 text-white rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-[#d4af37] transition-all shadow-lg">
-                    Allow & Add to Calendar
+                <button onclick="allowNotifications()" class="w-full py-4 bg-stone-900 text-white rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-[#d4af37] transition-all shadow-lg">
+                    Allow Daily Updates
                 </button>
-                <button onclick="dismissCalendarPrompt()" class="w-full py-3 text-stone-500 text-[10px] font-bold uppercase tracking-widest hover:text-stone-800 transition-all">
+                <button onclick="dismissNotificationPrompt()" class="w-full py-3 text-stone-500 text-[10px] font-bold uppercase tracking-widest hover:text-stone-800 transition-all">
                     Maybe Later
                 </button>
             </div>
