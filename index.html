@@ -267,10 +267,16 @@ const urlParams = new URLSearchParams(window.location.search);
         const isAdmin = urlParams.get('admin') === 'true';
         const premiereDate = new Date("May 12, 2026 12:05:00").getTime();
 
-        // 🔥 FIX 1: Force Admin Panel to load instantly (Bypass Firebase delays)
-        if (isAdmin && localStorage.getItem('admin_vip_pass') !== 'active') {
-            document.getElementById('maintenance-overlay').style.setProperty('display', 'flex', 'important');
-            document.getElementById('admin-controls').classList.remove('hidden');
+        // 🔥 BULLETPROOF ADMIN ROUTING
+        if (isAdmin) {
+            if (localStorage.getItem('admin_vip_pass') === 'active') {
+                // If you already clicked Preview, automatically load the envelope
+                document.getElementById('unboxing-container').style.setProperty('display', 'flex', 'important');
+            } else {
+                // Otherwise, show the Admin Maintenance Panel
+                document.getElementById('maintenance-overlay').style.setProperty('display', 'flex', 'important');
+                document.getElementById('admin-controls').classList.remove('hidden');
+            }
         }
 
         let blastTriggered = false;
