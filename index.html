@@ -263,20 +263,18 @@
         const maintenanceRef = ref(db, 'isMaintenance');
 
 
-
-        const urlParams = new URLSearchParams(window.location.search);
-
+const urlParams = new URLSearchParams(window.location.search);
         const isAdmin = urlParams.get('admin') === 'true';
-
         const premiereDate = new Date("May 12, 2026 12:05:00").getTime();
 
-        
+        // 🔥 FIX 1: Force Admin Panel to load instantly (Bypass Firebase delays)
+        if (isAdmin && localStorage.getItem('admin_vip_pass') !== 'active') {
+            document.getElementById('maintenance-overlay').style.setProperty('display', 'flex', 'important');
+            document.getElementById('admin-controls').classList.remove('hidden');
+        }
 
         let blastTriggered = false;
-
-        window.isInvitationActive = false; 
-
-
+        window.isInvitationActive = false;
 
         function triggerPaperBlast() {
 
@@ -371,17 +369,14 @@
             const unboxing = document.getElementById('unboxing-container');
 
 
-
+// 🔥 FIX 2: Prevent Firebase from re-locking the admin after clicking "Preview"
             if (isAdmin) {
-
-                mOverlay.style.setProperty('display', 'flex', 'important');
-
-                document.getElementById('admin-controls').classList.remove('hidden');
-
-                return;
-
+                if (localStorage.getItem('admin_vip_pass') !== 'active') {
+                    mOverlay.style.setProperty('display', 'flex', 'important');
+                    document.getElementById('admin-controls').classList.remove('hidden');
+                }
+                return; 
             }
-
 
 
             if (isLocked) {
