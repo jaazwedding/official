@@ -176,12 +176,26 @@
         </div>
     </div>
 
-    <script>
-        // Password Logic
-        function checkPassword() {
+  <script>
+        // 1. A function to securely scramble the input using the browser's built-in Web Crypto API
+        async function hashPassword(password) {
+            const msgBuffer = new TextEncoder().encode(password);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        // 2. The SECURE Password Logic
+        async function checkPassword() {
             const input = document.getElementById('passCode').value;
-            const secretCode = "1014"; 
-            if (input === secretCode) {
+            
+            
+            // Anyone looking at the code will only see this hash, not your actual password!
+            const hashedSecret = "93e1afb13ccba99ecffddf737ff0c82236a2824bc306c59bd02ea12da9f92582"; 
+            
+            const hashedInput = await hashPassword(input);
+
+            if (hashedInput === hashedSecret) {
                 document.getElementById('gallery-overlay').style.display = 'none';
                 initPetals(); // Start petals after entry
             } else {
@@ -190,7 +204,7 @@
             }
         }
 
-        // Petal Logic
+        // 3. Petal Logic (Unchanged)
         function initPetals() {
             const container = document.getElementById('petal-container');
             const petalCount = window.innerWidth < 768 ? 40 : 80;
@@ -208,12 +222,12 @@
             }
         }
 
-        // Allow "Enter" key for password
+        // 4. Allow "Enter" key for password (Unchanged)
         document.getElementById('passCode').addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
                 checkPassword();
             }
         });
-    </script>
+  </script>
 </body>
 </html>     
