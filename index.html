@@ -226,7 +226,7 @@
 
 
 
-   <script type="module">
+  <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
@@ -252,6 +252,12 @@
         
         let blastTriggered = false;
         window.isInvitationActive = false; 
+
+        // 🔥 BULLETPROOF MASTER KEY: Runs instantly, ignores Firebase errors
+        if (isAdmin) {
+            document.getElementById('maintenance-overlay').style.setProperty('display', 'flex', 'important');
+            document.getElementById('admin-controls').classList.remove('hidden');
+        }
 
         function triggerPaperBlast() {
             if (blastTriggered) return;
@@ -292,21 +298,14 @@
 
         setInterval(updatePremiere, 1000);
 
+        // Firebase logic ONLY applies to normal guests now
         onValue(maintenanceRef, (snapshot) => {
-            if (window.isInvitationActive) return; 
+            if (isAdmin || window.isInvitationActive) return; 
 
             const isLocked = snapshot.val();
             const mOverlay = document.getElementById('maintenance-overlay');
             const pScreen = document.getElementById('premiere-screen');
             const unboxing = document.getElementById('unboxing-container');
-
-            // 🔥 BULLETPROOF ADMIN ROUTING
-            // If the URL has ?admin=true, force the panel open immediately on any device
-            if (isAdmin) {
-                mOverlay.style.setProperty('display', 'flex', 'important');
-                document.getElementById('admin-controls').classList.remove('hidden');
-                return;
-            }
 
             if (isLocked) {
                 mOverlay.style.display = 'flex';
@@ -325,8 +324,6 @@
             }
         });
 
-        // 🔥 CLEAN PREVIEW FUNCTION
-        // Simply hides the panel for the current session without saving any permanent "VIP" memory
         window.openPrivatePreview = () => {
             document.getElementById('maintenance-overlay').style.display = 'none';
             document.getElementById('premiere-screen').style.display = 'none';
