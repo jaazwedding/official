@@ -163,16 +163,25 @@
 
         }
 
-        #scroll-content { height: 100%; overflow-y: auto; overflow-x: hidden; padding-bottom: 100px; }
-
-        .sticky-header { 
+          #scroll-content { 
+            height: 100%; 
+            overflow-y: auto; 
+            overflow-x: hidden; 
+            padding-bottom: 100px; 
+            scroll-behavior: smooth; 
+            -webkit-overflow-scrolling: touch; /* Enables buttery momentum scrolling on iPhones */
+            overscroll-behavior-y: contain; /* Prevents the whole browser window from bouncing */
+          }
+       .sticky-header { 
             position: sticky; 
             top: 0; 
             z-index: 100; 
             background: linear-gradient(to bottom, rgba(253, 251, 247, 0.95) 75%, transparent); 
             backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px); /* Safari support */
             padding: 20px 20px 10px; 
-        }
+            transform: translateZ(0); /* Stops blurring from lagging the scroll */
+       }
 
         .scroll-revealed { animation: unfurl 1.8s cubic-bezier(0.19, 1, 0.22, 1) forwards; }
 
@@ -182,7 +191,16 @@
 
         #petal-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 60; overflow: hidden; }
 
-        .petal { position: absolute; background-color: #ffb7c5; border-radius: 150% 0 150% 0; opacity: 0; will-change: transform; filter: drop-shadow(0 0 5px rgba(255,183,197,0.5)); }
+        .petal { 
+            position: absolute; 
+            background-color: #ffb7c5; 
+            border-radius: 150% 0 150% 0; 
+            opacity: 0; 
+            will-change: transform, opacity; 
+            box-shadow: 0 0 5px rgba(255,183,197,0.5); /* Much faster than filter: drop-shadow */
+            transform: translateZ(0); /* Forces GPU Hardware Acceleration to stop lag */
+            backface-visibility: hidden;
+        }
 
         @keyframes shower { 0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; } 10% { opacity: 0.8; } 90% { opacity: 0.8; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
 
